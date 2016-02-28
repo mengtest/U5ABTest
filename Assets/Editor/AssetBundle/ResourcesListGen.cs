@@ -6,8 +6,6 @@ using System.IO;
 
 public class ResourcesListGen {
 
-    private static readonly string resourceListDocPath = Application.dataPath + "/Resources/Data/Common/ResourcesList.xml";
-    private static readonly string resourcePath = Application.dataPath + "/Resources";
     private static readonly string[] ignoreFliter = new string[] { ".meta", ".unity", ".shader", ".xml"};
 
 	[MenuItem("AssetBundle/生成本地资源列表")]
@@ -17,7 +15,7 @@ public class ResourcesListGen {
             new XElement("Root")
             );
         XElement rootEl = resourceListDoc.Element("Root");
-        DirectoryInfo resourceFolder = new DirectoryInfo(resourcePath);
+        DirectoryInfo resourceFolder = new DirectoryInfo(PathConfig.resourcePath);
         FileInfo[] fileInfos = resourceFolder.GetFiles("*", SearchOption.AllDirectories);
 
         foreach (FileInfo info in fileInfos)
@@ -35,7 +33,7 @@ public class ResourcesListGen {
             
         }
 
-        resourceListDoc.Save(resourceListDocPath);
+        resourceListDoc.Save(PathConfig.resourceListDocPath);
     }
 
     private static bool IsResource(string path)
@@ -55,7 +53,7 @@ public class ResourcesListGen {
     {
         string filePath = path;
         filePath = filePath.Replace("\\", "/");
-        filePath = filePath.Replace(resourcePath + "/", "");
+        filePath = filePath.Replace(PathConfig.resourcePath + "/", "");
         filePath = filePath.Replace(Path.GetExtension(path), "");
         return filePath;
     }
