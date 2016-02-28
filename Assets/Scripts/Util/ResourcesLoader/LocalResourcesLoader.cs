@@ -4,26 +4,64 @@ using System.Collections;
 public class LocalResourcesLoader : IResourcesLoad {
 
     private ResourcesLoaderHelper LoadHelper;
-    private ResourcesLoaderHelper loadHelper { get { return LoadHelper; } }
+    public ResourcesLoaderHelper loadHelper { get { return LoadHelper; } }
 
     public LocalResourcesLoader(ResourcesLoaderHelper helper)
     {
         LoadHelper = helper;
     }
 
-    public Object IResourcesLoad.LoadResource(string objectName, System.Action afterLoadAct, System.Action<int> progressAct = null)
+    Object IResourcesLoad.LoadResource(string objectName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
     {
-        throw new System.NotImplementedException();
+        if (progressAct != null)
+            progressAct(0);
+
+        Object obj = Resources.Load(loadHelper.resourcesList[objectName]);
+
+        if(progressAct != null)
+            progressAct(1);
+
+        if (afterLoadAct != null)
+            afterLoadAct();
+        return obj;
         
     }
 
-    public Object[] IResourcesLoad.LoadResources(string[] objectName, System.Action afterLoadAct, System.Action<int> progressAct = null)
+    Object[] IResourcesLoad.LoadResources(string[] objectsName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
     {
-        throw new System.NotImplementedException();
+        if (progressAct != null)
+            progressAct(0);
+
+        int count = objectsName.Length;
+        Object[] objs = new Object[count];
+        for (int i = 0; i < count; i ++)
+        {
+            objs[i] = Resources.Load(objectsName[i]);
+
+            if (progressAct != null)
+                progressAct((float)i/(float)count);
+
+        }
+        if (progressAct != null)
+            progressAct(1);
+
+        return objs;
     }
 
-    public Object IResourcesLoad.LoadAndGetInstance(string[] objectName, System.Action afterLoadAct, System.Action<int> progressAct = null)
+    GameObject IResourcesLoad.LoadAndGetInstance(string objectName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
     {
-        throw new System.NotImplementedException();
+        if (progressAct != null)
+            progressAct(0);
+
+        Object obj = Resources.Load(loadHelper.resourcesList[objectName]);
+        GameObject go = GameObject.Instantiate(obj) as GameObject;
+
+        if (progressAct != null)
+            progressAct(1);
+
+        if (afterLoadAct != null)
+            afterLoadAct();
+        
+        return go;
     }
 }

@@ -6,6 +6,14 @@ using System.Xml.Linq;
 public class ResourcesLoaderHelper{
 
     public Dictionary<string, string> resourcesList { get; private set; }
+
+    private LocalResourcesLoader localLoader;
+    private BundleResourcesLoader bundleLoader;
+    public IResourcesLoad loader
+    {
+        get;
+        protected set;
+    }
     //单例模式
     public static ResourcesLoaderHelper Instance;
     public static ResourcesLoaderHelper instance
@@ -22,6 +30,9 @@ public class ResourcesLoaderHelper{
 
     public ResourcesLoaderHelper()
     {
+        localLoader = new LocalResourcesLoader(this);
+        bundleLoader = new BundleResourcesLoader(this);
+        loader = bundleLoader;//默认设置为Bundle，当Bundle中无法找到时则切换为本地
         resourcesList = new Dictionary<string, string>();
         XDocument resourcesListDoc = XDocument.Load(PathConfig.resourceListDocPath);
         int i = 1;

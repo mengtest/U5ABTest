@@ -9,6 +9,7 @@ public class Driver : MonoBehaviour {
         get { return Instance; }
     }
 
+
     void Awake()
     {
         Instance = this;
@@ -17,7 +18,7 @@ public class Driver : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
+        ResourcesLoaderHelper.instance.loader.LoadResource("heihei", null);
 	}
 
     private void Init()
