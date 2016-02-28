@@ -4,6 +4,8 @@ using System;
 
 interface IResourcesLoad {
 
+    ResourcesLoaderHelper loadHelper { get; }
+
     //加载资源
     UnityEngine.Object LoadResource(string objectName, Action afterLoadAct, Action<int> progressAct = null);
     //加载资源们

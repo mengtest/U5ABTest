@@ -3,18 +3,25 @@ using System.Collections;
 
 public class BundleResourcesLoader : IResourcesLoad {
 
+    private ResourcesLoaderHelper LoadHelper;
+    private ResourcesLoaderHelper loadHelper { get { return LoadHelper; } }
 
-    Object IResourcesLoad.LoadResource(string objectName, System.Action afterLoadAct, System.Action<int> progressAct)
+    public BundleResourcesLoader(ResourcesLoaderHelper helper)
+    {
+        LoadHelper = helper;
+    }
+
+    public Object IResourcesLoad.LoadResource(string objectName, System.Action afterLoadAct, System.Action<int> progressAct = null)
     {
         throw new System.NotImplementedException();
     }
 
-    Object[] IResourcesLoad.LoadResources(string[] objectName, System.Action afterLoadAct, System.Action<int> progressAct)
+    public Object[] IResourcesLoad.LoadResources(string[] objectName, System.Action afterLoadAct, System.Action<int> progressAct = null)
     {
         throw new System.NotImplementedException();
     }
 
-    Object IResourcesLoad.LoadAndGetInstance(string[] objectName, System.Action afterLoadAct, System.Action<int> progressAct)
+    public Object IResourcesLoad.LoadAndGetInstance(string[] objectName, System.Action afterLoadAct, System.Action<int> progressAct = null)
     {
         throw new System.NotImplementedException();
     }
