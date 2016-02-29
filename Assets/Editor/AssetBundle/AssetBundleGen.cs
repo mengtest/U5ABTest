@@ -37,7 +37,7 @@ public class AssetBundleGen  {
     {
         get
         {
-            return BuildAssetBundleOptions.UncompressedAssetBundle;
+            return BuildAssetBundleOptions.None;
         }
     }
    
@@ -53,18 +53,43 @@ public class AssetBundleGen  {
                      let path = AssetDatabase.GetAssetPath(s)
                      where File.Exists(path)
                      select path).ToArray();
-        foreach (string item in paths)
-        {
-            Debug.Log("ex " + item);
-            //ExportBundle(new string[] { item }, targetPath, true);
-        }
+
+        ExportBundle(paths, bundlePath, true);
+        //foreach (string item in paths)
+        //{
+        //    Debug.Log("ex " + item);
+        //    ExportBundle(item, bundlePath, true);
+        //}
 
         Debug.Log(bundlePath);
     }
 
-    private static void ExportBundle(string objName, string targetPath, bool withMeta)
+    private static void ExportBundle(string objPath, string targetPath, bool withMeta)
     {
+        AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
+        buildMap[0].assetBundleName = objPath + ".ab";
+        string[] buildAssetNames = new string[1];
+        buildAssetNames[0] = objPath;
+        buildMap[0].assetNames = buildAssetNames;
+        BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
+        AssetBundleManifest manifest;
+    }
+
+    private static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
+    {
+        AssetBundleBuild[] buildMap = new AssetBundleBuild[objPaths.Length];
+        int i = 0;
+        foreach (string path in objPaths)
+        {
+            buildMap[i].assetBundleName = path + ".ab";
+            string[] buildAssetNames = new string[] { path };
+            //buildAssetNames = objPath;
+            buildMap[i].assetNames = buildAssetNames;
+            BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
+            i++;
+        }
         
+        //AssetBundleManifest manifest;
     }
 
     private static void GenTargetFolder()

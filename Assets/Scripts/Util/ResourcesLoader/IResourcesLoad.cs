@@ -1,16 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 
 public interface IResourcesLoad {
 
     ResourcesLoaderHelper loadHelper { get; }
 
     //加载资源
-    UnityEngine.Object LoadResource(string objectName, Action afterLoadAct = null, Action<float> progressAct = null);
+    void LoadResource(string objectName, System.Action<Object> afterLoadAct = null, System.Action<float> progressAct = null);
     //加载资源们
-    UnityEngine.Object[] LoadResources(string[] objectName, Action afterLoadAct = null, Action<float> progressAct = null);
+    void LoadResources(string[] objectName, System.Action<Object[]> afterLoadAct = null, System.Action<float> progressAct = null);
     //加载资源并实例化
-    UnityEngine.GameObject LoadAndGetInstance(string objectName, Action afterLoadAct = null, Action<float> progressAct = null);
+    void LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null, System.Action<float> progressAct = null);
 
 }

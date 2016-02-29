@@ -12,20 +12,19 @@ public class BundleResourcesLoader : IResourcesLoad {
         LoadHelper = helper;
     }
 
-    Object IResourcesLoad.LoadResource(string objectName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
+    void IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null, System.Action<float> progressAct = null)
     {
         string url = Path.Combine(PathConfig.bundlePath, ResourcesLoaderHelper.instance.resourcesList[objectName].Replace("\\", "/"));
-        WWW www = new WWW(url);
-        
-        throw new System.NotImplementedException();
+        //loadHelper.LoadWWWAsset(url, afterLoadAct, progressAct);
+        Driver.instance.StartCoroutine(loadHelper.LoadWWWAsset(url, afterLoadAct, progressAct));
     }
 
-    Object[] IResourcesLoad.LoadResources(string[] objectsName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
+    void IResourcesLoad.LoadResources(string[] objectsNames, System.Action<Object[]> afterLoadAct = null, System.Action<float> progressAct = null)
     {
         throw new System.NotImplementedException();
     }
 
-    GameObject IResourcesLoad.LoadAndGetInstance(string objectName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
+    void IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null, System.Action<float> progressAct = null)
     {
         throw new System.NotImplementedException();
     }

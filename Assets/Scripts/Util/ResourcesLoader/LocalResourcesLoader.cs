@@ -11,7 +11,7 @@ public class LocalResourcesLoader : IResourcesLoad {
         LoadHelper = helper;
     }
 
-    Object IResourcesLoad.LoadResource(string objectName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
+    void IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null, System.Action<float> progressAct = null)
     {
         if (progressAct != null)
             progressAct(0);
@@ -22,12 +22,11 @@ public class LocalResourcesLoader : IResourcesLoad {
             progressAct(1);
 
         if (afterLoadAct != null)
-            afterLoadAct();
-        return obj;
+            afterLoadAct(obj);
         
     }
 
-    Object[] IResourcesLoad.LoadResources(string[] objectsName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
+    void IResourcesLoad.LoadResources(string[] objectsName, System.Action<Object[]> afterLoadAct = null, System.Action<float> progressAct = null)
     {
         if (progressAct != null)
             progressAct(0);
@@ -45,10 +44,11 @@ public class LocalResourcesLoader : IResourcesLoad {
         if (progressAct != null)
             progressAct(1);
 
-        return objs;
+        if (afterLoadAct != null)
+            afterLoadAct(objs);
     }
 
-    GameObject IResourcesLoad.LoadAndGetInstance(string objectName, System.Action afterLoadAct = null, System.Action<float> progressAct = null)
+    void IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null, System.Action<float> progressAct = null)
     {
         if (progressAct != null)
             progressAct(0);
@@ -60,8 +60,8 @@ public class LocalResourcesLoader : IResourcesLoad {
             progressAct(1);
 
         if (afterLoadAct != null)
-            afterLoadAct();
-        
-        return go;
+            afterLoadAct(go);
     }
+
+   
 }

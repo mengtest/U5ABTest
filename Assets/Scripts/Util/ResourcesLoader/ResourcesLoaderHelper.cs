@@ -54,5 +54,23 @@ public class ResourcesLoaderHelper{
             i++;
         }
     }
+
+    public IEnumerator LoadWWWAsset(string url, System.Action<Object> afterLoadAct, System.Action<float> processAct)
+    {
+        WWW www = new WWW(url);
+        while (!www.isDone)
+        {
+            yield return www;
+        }
+        AssetBundle ab = www.assetBundle;
+        if(ab != null)
+        {
+
+            //afterLoadAct(ab.LoadAsset());
+        }
+        
+        
+        
+    }
 	
 }
