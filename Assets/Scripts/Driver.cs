@@ -23,7 +23,8 @@ public class Driver : MonoBehaviour {
 
     private void Init()
     {
-
+        ProtoData<m.TestData> testData = new ProtoData<m.TestData>();
+        Debug.Log(testData[1].id);
     }
 
 

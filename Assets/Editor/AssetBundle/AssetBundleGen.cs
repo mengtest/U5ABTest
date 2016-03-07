@@ -46,7 +46,7 @@ public class AssetBundleGen  {
     public static void GenAssetBundle()
     {
         ResourcesListGen.UpdateResourcesList();
-        GenTargetFolder();
+        CreateTargetFolder();
 
         var selection = Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.DeepAssets);
         var paths = (from s in selection
@@ -64,16 +64,16 @@ public class AssetBundleGen  {
         Debug.Log(bundlePath);
     }
 
-    private static void ExportBundle(string objPath, string targetPath, bool withMeta)
-    {
-        AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
-        buildMap[0].assetBundleName = objPath + ".ab";
-        string[] buildAssetNames = new string[1];
-        buildAssetNames[0] = objPath;
-        buildMap[0].assetNames = buildAssetNames;
-        BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
-        AssetBundleManifest manifest;
-    }
+    //private static void ExportBundle(string objPath, string targetPath, bool withMeta)
+    //{
+    //    AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
+    //    buildMap[0].assetBundleName = objPath + ".ab";
+    //    string[] buildAssetNames = new string[1];
+    //    buildAssetNames[0] = objPath;
+    //    buildMap[0].assetNames = buildAssetNames;
+    //    BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
+    //    AssetBundleManifest manifest;
+    //}
 
     private static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
     {
@@ -81,7 +81,7 @@ public class AssetBundleGen  {
         int i = 0;
         foreach (string path in objPaths)
         {
-            buildMap[i].assetBundleName = path + ".ab";
+            buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.'));
             string[] buildAssetNames = new string[] { path };
             //buildAssetNames = objPath;
             buildMap[i].assetNames = buildAssetNames;
@@ -92,7 +92,7 @@ public class AssetBundleGen  {
         //AssetBundleManifest manifest;
     }
 
-    private static void GenTargetFolder()
+    private static void CreateTargetFolder()
     {
         if (!Directory.Exists(bundlePath))
         {

@@ -33,6 +33,11 @@ public class ResourcesLoaderHelper{
         localLoader = new LocalResourcesLoader(this);
         bundleLoader = new BundleResourcesLoader(this);
         loader = bundleLoader;//默认设置为Bundle，当Bundle中无法找到时则切换为本地
+        LoadResourcesListFile();
+    }
+    //加载资源列表
+    private void LoadResourcesListFile()
+    {
         resourcesList = new Dictionary<string, string>();
         XDocument resourcesListDoc = XDocument.Load(PathConfig.resourceListDocPath);
         int i = 1;
@@ -66,7 +71,7 @@ public class ResourcesLoaderHelper{
         if(ab != null)
         {
 
-            //afterLoadAct(ab.LoadAsset());
+            AssetBundleManifest manifest = (AssetBundleManifest)ab.LoadAsset("AssetBundleManifest");
         }
         
         
