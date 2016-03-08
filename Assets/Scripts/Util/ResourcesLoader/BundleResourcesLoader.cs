@@ -1,39 +1,90 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.IO;
+using System.Collections.Generic;
 
 public class BundleResourcesLoader : IResourcesLoad {
 
     private ResourcesLoaderHelper LoadHelper;
     public ResourcesLoaderHelper loadHelper { get { return LoadHelper; } }
 
+    //键为Bundle名，值为Bundle
+    public Dictionary<string, AssetInfo> assetInfoList { get; private set; }
+
     public BundleResourcesLoader(ResourcesLoaderHelper helper)
     {
         LoadHelper = helper;
+        assetInfoList = new Dictionary<string, AssetInfo>();
     }
 
-    void IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null, System.Action<float> progressAct = null)
+    Object IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
     {
-        //string url = Path.Combine(PathConfig.bundlePath, ResourcesLoaderHelper.instance.resourcesList[objectName].Replace("\\", "/"));
-        //loadHelper.LoadWWWAsset(url, afterLoadAct, progressAct);
-        //Driver.instance.StartCoroutine(loadHelper.LoadWWWAsset(url, afterLoadAct, progressAct));
-        string filePath = PathConfig.bundlePath + loadHelper.resourcesList[objectName];
-        AssetBundle manifestBundle = AssetBundle.LoadFromFile(filePath);
+
+        string bundleName = ResourcesLoaderHelper.GetResourcesBundleNameByObjectName(objectName);
+        AssetInfo assetInfo = LoadFromFileOrCache(bundleName);
+        AssetBundle assetBundle = assetInfo.assetbundle;
+
+        Object obj = null;
+        if (assetBundle != null)
+        {
+
+            string[] dependenciesNames = loadHelper.manifest.GetAllDependencies(bundleName);
+
+            foreach (string depBundleName in dependenciesNames)
+            {
+                Debug.logger.Log("depName" + depBundleName);
+                LoadFromFileOrCache(depBundleName);
+            }
+
+            obj = assetBundle.LoadAsset(objectName);
+        }
+
+        if (afterLoadAct != null)
+            afterLoadAct(obj);
+
+        if (obj == null) Debug.logger.LogError("加载错误", "加载失败！");
+
+        return obj;
+
         
-        //if (manifestBundle != null)
-        //{
-        //    AssetBundleManifest manifest = (AssetBundleManifest)manifestBundle.LoadAsset(filePath + ".manifest");
-        //    string[] manifest.GetAllDependencies(manifestBundle.name);
-        //}
     }
 
-    void IResourcesLoad.LoadResources(string[] objectsNames, System.Action<Object[]> afterLoadAct = null, System.Action<float> progressAct = null)
+    Object[] IResourcesLoad.LoadResources(string[] objectsNames, System.Action<Object[]> afterLoadAct = null)
     {
-        throw new System.NotImplementedException();
+        Object[] objs = new Object[objectsNames.Length];
+        for (int i = 0; i < objs.Length; i++)
+        {
+            objs[i] = ResourcesLoaderHelper.Instance.loader.LoadResource(objectsNames[i]);
+        }
+
+        if (afterLoadAct != null)
+            afterLoadAct(objs);
+
+        return objs;
     }
 
-    void IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null, System.Action<float> progressAct = null)
+    GameObject IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
     {
-        throw new System.NotImplementedException();
+        Object obj = ResourcesLoaderHelper.Instance.loader.LoadResource(objectName);
+        GameObject go = GameObject.Instantiate(obj) as GameObject;
+
+        if (afterLoadAct != null)
+            afterLoadAct(go);
+
+        return go;
+    }
+
+    private AssetInfo LoadFromFileOrCache(string bundleName)
+    {
+        if (assetInfoList.ContainsKey(bundleName))
+        {
+            return assetInfoList[bundleName];
+        }
+        else
+        {
+            AssetInfo newInfo = new AssetInfo(bundleName);
+            assetInfoList.Add(bundleName, newInfo);
+            return newInfo;
+        }
     }
 }

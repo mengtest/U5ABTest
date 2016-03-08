@@ -11,25 +11,20 @@ public class LocalResourcesLoader : IResourcesLoad {
         LoadHelper = helper;
     }
 
-    void IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null, System.Action<float> progressAct = null)
+    Object IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
     {
-        if (progressAct != null)
-            progressAct(0);
 
         Object obj = Resources.Load(loadHelper.resourcesList[objectName]);
 
-        if(progressAct != null)
-            progressAct(1);
 
         if (afterLoadAct != null)
             afterLoadAct(obj);
-        
+
+        return obj;
     }
 
-    void IResourcesLoad.LoadResources(string[] objectsName, System.Action<Object[]> afterLoadAct = null, System.Action<float> progressAct = null)
+    Object[] IResourcesLoad.LoadResources(string[] objectsName, System.Action<Object[]> afterLoadAct = null)
     {
-        if (progressAct != null)
-            progressAct(0);
 
         int count = objectsName.Length;
         Object[] objs = new Object[count];
@@ -37,31 +32,25 @@ public class LocalResourcesLoader : IResourcesLoad {
         {
             objs[i] = Resources.Load(objectsName[i]);
 
-            if (progressAct != null)
-                progressAct((float)i/(float)count);
 
         }
-        if (progressAct != null)
-            progressAct(1);
 
         if (afterLoadAct != null)
             afterLoadAct(objs);
+        return objs;
     }
 
-    void IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null, System.Action<float> progressAct = null)
+    GameObject IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
     {
-        if (progressAct != null)
-            progressAct(0);
 
         Object obj = Resources.Load(loadHelper.resourcesList[objectName]);
         GameObject go = GameObject.Instantiate(obj) as GameObject;
 
-        if (progressAct != null)
-            progressAct(1);
 
         if (afterLoadAct != null)
             afterLoadAct(go);
-    }
 
+        return go;
+    }
    
 }

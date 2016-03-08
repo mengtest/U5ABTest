@@ -25,13 +25,6 @@ public class AssetBundleGen  {
             }
         }
     }
-    private static string bundlePath
-    {
-        get
-        {
-            return Path.Combine(PathConfig.exportBundlePath, buildTarget.ToString()).Replace("\\", "/");
-        }
-    }
 
     private static BuildAssetBundleOptions options
     {
@@ -54,14 +47,13 @@ public class AssetBundleGen  {
                      where File.Exists(path)
                      select path).ToArray();
 
-        ExportBundle(paths, bundlePath, true);
+        ExportBundle(paths, PathConfig.bundleRootPath, true);
         //foreach (string item in paths)
         //{
         //    Debug.Log("ex " + item);
         //    ExportBundle(item, bundlePath, true);
         //}
 
-        Debug.Log(bundlePath);
     }
 
     //private static void ExportBundle(string objPath, string targetPath, bool withMeta)
@@ -94,9 +86,9 @@ public class AssetBundleGen  {
 
     private static void CreateTargetFolder()
     {
-        if (!Directory.Exists(bundlePath))
+        if (!Directory.Exists(PathConfig.bundleRootPath))
         {
-            Directory.CreateDirectory(bundlePath); 
+            Directory.CreateDirectory(PathConfig.bundleRootPath); 
         }
     }
 
