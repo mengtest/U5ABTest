@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AssetBundleManager : MonoBehaviour {
+public class DownloadManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

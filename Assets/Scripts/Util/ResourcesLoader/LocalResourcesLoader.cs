@@ -11,11 +11,10 @@ public class LocalResourcesLoader : IResourcesLoad {
         LoadHelper = helper;
     }
 
-    Object IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
+    public Object LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
     {
 
         Object obj = Resources.Load(loadHelper.resourcesList[objectName]);
-
 
         if (afterLoadAct != null)
             afterLoadAct(obj);
@@ -23,7 +22,7 @@ public class LocalResourcesLoader : IResourcesLoad {
         return obj;
     }
 
-    Object[] IResourcesLoad.LoadResources(string[] objectsName, System.Action<Object[]> afterLoadAct = null)
+    public Object[] LoadResources(string[] objectsName, System.Action<Object[]> afterLoadAct = null)
     {
 
         int count = objectsName.Length;
@@ -40,7 +39,7 @@ public class LocalResourcesLoader : IResourcesLoad {
         return objs;
     }
 
-    GameObject IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
+    public GameObject LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
     {
 
         Object obj = Resources.Load(loadHelper.resourcesList[objectName]);

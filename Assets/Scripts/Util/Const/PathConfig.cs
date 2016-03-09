@@ -21,9 +21,16 @@ public class PathConfig {
         }
     }
 
-    
-
-
+    public static readonly string bundleExportFolderName = "AssetBundleExport";
+    public static string bundlePkgExportPath
+    {
+        get
+        {
+            DirectoryInfo root = new DirectoryInfo(Application.dataPath);
+            string rootPath = Path.Combine(root.Parent.FullName, bundleExportFolderName);
+            return rootPath.Replace("\\", "/");
+        }
+    }
     
 	
 }

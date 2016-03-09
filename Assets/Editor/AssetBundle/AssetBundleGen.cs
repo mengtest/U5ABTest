@@ -6,6 +6,7 @@ using System.Linq;
 
 public class AssetBundleGen  {
 
+
     private static BuildTarget buildTarget
     {
         get
@@ -48,24 +49,9 @@ public class AssetBundleGen  {
                      select path).ToArray();
 
         ExportBundle(paths, PathConfig.bundleRootPath, true);
-        //foreach (string item in paths)
-        //{
-        //    Debug.Log("ex " + item);
-        //    ExportBundle(item, bundlePath, true);
-        //}
 
     }
 
-    //private static void ExportBundle(string objPath, string targetPath, bool withMeta)
-    //{
-    //    AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
-    //    buildMap[0].assetBundleName = objPath + ".ab";
-    //    string[] buildAssetNames = new string[1];
-    //    buildAssetNames[0] = objPath;
-    //    buildMap[0].assetNames = buildAssetNames;
-    //    BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
-    //    AssetBundleManifest manifest;
-    //}
 
     private static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
     {
@@ -73,7 +59,7 @@ public class AssetBundleGen  {
         int i = 0;
         foreach (string path in objPaths)
         {
-            buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.'));
+            buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.')) + ResourcesLoaderHelper.ExName;
             string[] buildAssetNames = new string[] { path };
             //buildAssetNames = objPath;
             buildMap[i].assetNames = buildAssetNames;

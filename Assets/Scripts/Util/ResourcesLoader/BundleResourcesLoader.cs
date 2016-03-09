@@ -2,6 +2,7 @@
 using System.Collections;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BundleResourcesLoader : IResourcesLoad {
 
@@ -17,7 +18,7 @@ public class BundleResourcesLoader : IResourcesLoad {
         assetInfoList = new Dictionary<string, AssetInfo>();
     }
 
-    Object IResourcesLoad.LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
+    public Object LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
     {
 
         string bundleName = ResourcesLoaderHelper.GetResourcesBundleNameByObjectName(objectName);
@@ -28,11 +29,8 @@ public class BundleResourcesLoader : IResourcesLoad {
         if (assetBundle != null)
         {
 
-            string[] dependenciesNames = loadHelper.manifest.GetAllDependencies(bundleName);
-
-            foreach (string depBundleName in dependenciesNames)
+            foreach (string depBundleName in assetInfo.dependenciesNames)
             {
-                Debug.logger.Log("depName" + depBundleName);
                 LoadFromFileOrCache(depBundleName);
             }
 
@@ -49,12 +47,12 @@ public class BundleResourcesLoader : IResourcesLoad {
         
     }
 
-    Object[] IResourcesLoad.LoadResources(string[] objectsNames, System.Action<Object[]> afterLoadAct = null)
+    public Object[] LoadResources(string[] objectsNames, System.Action<Object[]> afterLoadAct = null)
     {
         Object[] objs = new Object[objectsNames.Length];
         for (int i = 0; i < objs.Length; i++)
         {
-            objs[i] = ResourcesLoaderHelper.Instance.loader.LoadResource(objectsNames[i]);
+            objs[i] = ResourcesLoaderHelper.Instance.LoadResource(objectsNames[i]);
         }
 
         if (afterLoadAct != null)
@@ -63,9 +61,9 @@ public class BundleResourcesLoader : IResourcesLoad {
         return objs;
     }
 
-    GameObject IResourcesLoad.LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
+    public GameObject LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
     {
-        Object obj = ResourcesLoaderHelper.Instance.loader.LoadResource(objectName);
+        Object obj = ResourcesLoaderHelper.Instance.LoadResource(objectName);
         GameObject go = GameObject.Instantiate(obj) as GameObject;
 
         if (afterLoadAct != null)
@@ -84,7 +82,25 @@ public class BundleResourcesLoader : IResourcesLoad {
         {
             AssetInfo newInfo = new AssetInfo(bundleName);
             assetInfoList.Add(bundleName, newInfo);
+            UnloadBundles();
             return newInfo;
+        }
+    }
+
+    //释放Bundle
+    private void UnloadBundles()
+    {
+        if (assetInfoList.Count > 50)
+        {
+            //上次调用时间超过1分钟的全部卸载
+            var unloadResources = from list in assetInfoList orderby list.Value.getTimeLastTime
+                                  where (System.DateTime.Now - list.Value.getTimeLastTime).Minutes > 1
+                                  select new {Key = list.Key};
+            foreach (var item in unloadResources)
+            {
+                assetInfoList[item.Key].assetbundle.Unload(false);
+                assetInfoList.Remove(item.Key);
+            }
         }
     }
 }

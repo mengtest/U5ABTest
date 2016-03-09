@@ -28,8 +28,10 @@ public class Driver : MonoBehaviour {
         //    });
         //});
 
-        GameObject go = ResourcesLoaderHelper.Instance.loader.LoadAndGetInstance("Cube.prefab");
+        GameObject go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
         go.transform.position = Vector3.zero;
+        go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
+        go.transform.position = new Vector3(1, 1, 1);
 	}
 
     private void Init()

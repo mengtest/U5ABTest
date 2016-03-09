@@ -7,7 +7,7 @@ public class ResourcesLoaderHelper : MonoSingleton<ResourcesLoaderHelper>{
 
     //键为物体名，值为相对于Resources路径
     public Dictionary<string, string> resourcesList { get; private set; }
-
+    public static readonly string ExName = ".ab"; 
 
     //根AssetBundle文件
     private AssetBundle MainBundle;
@@ -38,20 +38,62 @@ public class ResourcesLoaderHelper : MonoSingleton<ResourcesLoaderHelper>{
 
     private LocalResourcesLoader localLoader;
     private BundleResourcesLoader bundleLoader;
-    public IResourcesLoad loader
-    {
-        get;
-        protected set;
-    }
 
     public override void Init()
     {
         base.Init();
         localLoader = new LocalResourcesLoader(this);
         bundleLoader = new BundleResourcesLoader(this);
-        loader = bundleLoader;//默认设置为Bundle，当Bundle中无法找到时则切换为本地
         LoadResourcesListFile();
     }
+
+    /// <summary>
+    /// 加载资源
+    /// </summary>
+    /// <param name="objectName"></param>
+    /// <param name="afterLoadAct"></param>
+    /// <returns></returns>
+    public Object LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
+    {
+        Object obj = bundleLoader.LoadResource(objectName, afterLoadAct);
+        if (obj == null)
+        {
+            obj = localLoader.LoadResource(objectName, afterLoadAct);
+        }
+            
+        return obj;
+    }
+    /// <summary>
+    /// 加载多个资源
+    /// </summary>
+    /// <param name="objectNames"></param>
+    /// <param name="afterLoadAct"></param>
+    /// <returns></returns>
+    public Object[] LoadResources(string[] objectNames, System.Action<Object[]> afterLoadAct = null)
+    {
+        Object[] objs = bundleLoader.LoadResources(objectNames, afterLoadAct);
+        if (objs == null)
+        {
+            objs = localLoader.LoadResources(objectNames, afterLoadAct);
+        }
+        return objs;
+    }
+    /// <summary>
+    /// 加载游戏资源
+    /// </summary>
+    /// <param name="objectName"></param>
+    /// <param name="afterLoadAct"></param>
+    /// <returns></returns>
+    public GameObject LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
+    {
+        GameObject go = bundleLoader.LoadAndGetInstance(objectName, afterLoadAct);
+        if (go == null)
+        {
+            go = localLoader.LoadAndGetInstance(objectName, afterLoadAct);
+        }
+        return go;
+    }
+
 
     //加载资源列表
     private void LoadResourcesListFile()
@@ -95,7 +137,7 @@ public class ResourcesLoaderHelper : MonoSingleton<ResourcesLoaderHelper>{
     /// <returns></returns>
     public static string GetResourcesBundleNameByObjectName(string objName)
     {
-        return ("assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName]).ToLower();
+        return ("assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName]).ToLower() + ExName;
     }
 
     /// <summary>
