@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using System.IO;
 using System.Linq;
+using System.Collections.Generic;
 
 public class AssetBundleGen  {
 
@@ -34,26 +35,9 @@ public class AssetBundleGen  {
             return BuildAssetBundleOptions.None;
         }
     }
-   
-
-	[MenuItem("Assets/AssetBundle/生成AssetBundle")]
-    public static void GenAssetBundle()
-    {
-        ResourcesListGen.UpdateResourcesList();
-        CreateTargetFolder();
-
-        var selection = Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.DeepAssets);
-        var paths = (from s in selection
-                     let path = AssetDatabase.GetAssetPath(s)
-                     where File.Exists(path)
-                     select path).ToArray();
-
-        ExportBundle(paths, PathConfig.bundleRootPath, true);
-
-    }
 
 
-    private static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
+    public static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
     {
         AssetBundleBuild[] buildMap = new AssetBundleBuild[objPaths.Length];
         int i = 0;
@@ -64,13 +48,14 @@ public class AssetBundleGen  {
             //buildAssetNames = objPath;
             buildMap[i].assetNames = buildAssetNames;
             BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
+            Debug.logger.Log("AssetBundleGen", "导出成功：" + path);
             i++;
         }
         
         //AssetBundleManifest manifest;
     }
 
-    private static void CreateTargetFolder()
+    public static void CreateTargetFolder()
     {
         if (!Directory.Exists(PathConfig.bundleRootPath))
         {

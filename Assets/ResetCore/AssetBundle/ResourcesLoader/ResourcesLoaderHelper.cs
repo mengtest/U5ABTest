@@ -127,7 +127,12 @@ public class ResourcesLoaderHelper : MonoSingleton<ResourcesLoaderHelper>{
     /// <returns></returns>
     public static string GetResourcesBundlePathByObjectName(string objName)
     {
-        return PathConfig.bundleRootPath + "/assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName];
+        return PathConfig.bundleRootPath + "/assets/resources/" + StringEx.GetFilePathWithoutExtention(ResourcesLoaderHelper.Instance.resourcesList[objName]) + ExName;
+    }
+
+    public static string GetResourcesBundleManifestPathByObjectName(string objName)
+    {
+        return PathConfig.bundleRootPath + "/assets/resources/" + StringEx.GetFilePathWithoutExtention(ResourcesLoaderHelper.Instance.resourcesList[objName]) + ExName + ".manifest";
     }
 
     /// <summary>

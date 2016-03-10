@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Text.RegularExpressions;
 
 public static class StringEx {
 
@@ -22,7 +23,9 @@ public static class StringEx {
 
     public static string GetFilePathWithoutExtention(string fileName)
     {
-        return fileName.Substring(0, fileName.LastIndexOf('.'));
+        if(fileName.Contains("."))
+            return fileName.Substring(0, fileName.LastIndexOf('.'));
+        return fileName;
     }
 
     public static string GetStreamPath(string fileName)
@@ -272,5 +275,15 @@ public static class StringEx {
             return input;
         }
         return (input.Substring(0, index) + newValue + input.Substring(index + oldValue.Length));
+    }
+
+    public static bool HasChinese(this string input)
+    {
+        return Regex.IsMatch(input, @"[\u4e00-\u9fa5]");
+    }
+
+    public static bool HasSpace(this string input)
+    {
+        return input.Contains(" ");
     }
 }
