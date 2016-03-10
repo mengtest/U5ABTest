@@ -6,6 +6,7 @@ using System.Linq;
 
 public class AssetBundleGen  {
 
+
     private static BuildTarget buildTarget
     {
         get
@@ -23,13 +24,6 @@ public class AssetBundleGen  {
                 default:
                     return BuildTarget.StandaloneWindows;
             }
-        }
-    }
-    private static string bundlePath
-    {
-        get
-        {
-            return Path.Combine(PathConfig.exportBundlePath, buildTarget.ToString()).Replace("\\", "/");
         }
     }
 
@@ -54,26 +48,10 @@ public class AssetBundleGen  {
                      where File.Exists(path)
                      select path).ToArray();
 
-        ExportBundle(paths, bundlePath, true);
-        //foreach (string item in paths)
-        //{
-        //    Debug.Log("ex " + item);
-        //    ExportBundle(item, bundlePath, true);
-        //}
+        ExportBundle(paths, PathConfig.bundleRootPath, true);
 
-        Debug.Log(bundlePath);
     }
 
-    //private static void ExportBundle(string objPath, string targetPath, bool withMeta)
-    //{
-    //    AssetBundleBuild[] buildMap = new AssetBundleBuild[1];
-    //    buildMap[0].assetBundleName = objPath + ".ab";
-    //    string[] buildAssetNames = new string[1];
-    //    buildAssetNames[0] = objPath;
-    //    buildMap[0].assetNames = buildAssetNames;
-    //    BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
-    //    AssetBundleManifest manifest;
-    //}
 
     private static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
     {
@@ -81,7 +59,7 @@ public class AssetBundleGen  {
         int i = 0;
         foreach (string path in objPaths)
         {
-            buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.'));
+            buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.')) + ResourcesLoaderHelper.ExName;
             string[] buildAssetNames = new string[] { path };
             //buildAssetNames = objPath;
             buildMap[i].assetNames = buildAssetNames;
@@ -94,9 +72,9 @@ public class AssetBundleGen  {
 
     private static void CreateTargetFolder()
     {
-        if (!Directory.Exists(bundlePath))
+        if (!Directory.Exists(PathConfig.bundleRootPath))
         {
-            Directory.CreateDirectory(bundlePath); 
+            Directory.CreateDirectory(PathConfig.bundleRootPath); 
         }
     }
 
