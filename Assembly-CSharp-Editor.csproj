@@ -38,61 +38,62 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="UnityEngine">
-      <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/Managed/UnityEngine.dll</HintPath>
+      <HintPath>F:/Program Files/Unity5_31/Editor/Data/Managed/UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor">
-      <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/Managed/UnityEditor.dll</HintPath>
+      <HintPath>F:/Program Files/Unity5_31/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\AssetBundle\AssetBundleGen.cs" />
+     <Compile Include="Assets\Editor\AssetBundle\BundleBuildWindow.cs" />
      <Compile Include="Assets\Editor\AssetBundle\PackageGen.cs" />
      <Compile Include="Assets\Editor\AssetBundle\ResourcesListGen.cs" />
      <None Include="Assets\Resources\Data\Common\ResourcesList.xml" />
  <Reference Include="UnityEditor.Advertisements">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
  <Reference Include="nunit.framework">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/nunit.framework.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/nunit.framework.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.EditorTestsRunner">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/UnityEditor.EditorTestsRunner.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/UnityEditor.EditorTestsRunner.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.UI">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Networking">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.TreeEditor">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="m-client-proto">
- <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/m-client-proto.dll</HintPath>
+ <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Libs/m-client-proto.dll</HintPath>
  </Reference>
  <Reference Include="protobuf-net">
- <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/protobuf-net.dll</HintPath>
+ <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Libs/protobuf-net.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Android.Extensions">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.iOS.Extensions">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.WindowsStandalone.Extensions">
- <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ <HintPath>F:/Program Files/Unity5_31/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
  </Reference>
   </ItemGroup>
   <ItemGroup>
