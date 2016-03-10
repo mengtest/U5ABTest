@@ -14,19 +14,19 @@ public class ResourcesLoaderHelper{
         get;
         protected set;
     }
-    //单例模式
-    public static ResourcesLoaderHelper Instance;
-    public static ResourcesLoaderHelper instance
-    {
-        get
-        {
-            if (Instance == null)
-            {
-                Instance = new ResourcesLoaderHelper();
-            }
-            return Instance;
-        }
-    }
+    ////单例模式
+    //public static ResourcesLoaderHelper Instance;
+    //public static ResourcesLoaderHelper instance
+    //{
+    //    get
+    //    {
+    //        if (Instance == null)
+    //        {
+    //            Instance = new ResourcesLoaderHelper();
+    //        }
+    //        return Instance;
+    //    }
+    //}
 
     public ResourcesLoaderHelper()
     {
@@ -45,16 +45,16 @@ public class ResourcesLoaderHelper{
         string path = "";
         foreach (XElement el in resourcesListDoc.Element("Root").Elements())
         {
-            if (i % 2 == 0)
+            if (i % 2 == 1)
             {
                 name = el.Value;
-                Debug.Log(name);
+                //Debug.Log("Name:" + name);
             }
             else
             {
                 path = el.Value;
                 resourcesList.Add(name, path);
-                Debug.Log(path);
+                //Debug.Log("Path:" + path);
             }
             i++;
         }

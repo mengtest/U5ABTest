@@ -24,8 +24,8 @@ public class PathConfig {
         {
             DirectoryInfo root = new DirectoryInfo(Application.dataPath);
             string rootPath = Path.Combine(root.Parent.FullName, bundleFolderName);
-            rootPath = Path.Combine(rootPath, @"assets\resources").Replace("\\", "/");
-            return rootPath;
+            //rootPath = Path.Combine(rootPath, @"assets\resources").Replace("\\", "/");
+            return rootPath.Replace("\\", "/");
         }
     }
     

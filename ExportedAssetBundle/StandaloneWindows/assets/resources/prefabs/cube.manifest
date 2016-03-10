@@ -26,5 +26,5 @@ ClassTypes:
 Assets:
 - Assets/Resources/Prefabs/Cube.prefab
 Dependencies:
-- D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/ExportedAssetBundle/StandaloneWindows/assets/resources/new
+- E:/Unity5Project/U5ABTest/ExportedAssetBundle/StandaloneWindows/assets/resources/new
   material

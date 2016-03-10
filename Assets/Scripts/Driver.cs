@@ -9,7 +9,7 @@ public class Driver : MonoBehaviour {
         get { return Instance; }
     }
 
-
+    public ResourcesLoaderHelper resourcesLoaderHelper;
     void Awake()
     {
         Instance = this;
@@ -18,13 +18,24 @@ public class Driver : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        ResourcesLoaderHelper.instance.loader.LoadResource("heihei", null);
+        //Resources.Load("Cube");
+        resourcesLoaderHelper.loader.LoadResource("New Material.mat", (ob) =>
+        {
+            resourcesLoaderHelper.loader.LoadResource("Cube.prefab", (obj) =>
+            {
+                GameObject go = GameObject.Instantiate(obj) as GameObject;
+                go.transform.position = Vector3.zero;
+
+            });
+        });
+        
 	}
 
     private void Init()
     {
-        ProtoData<m.TestData> testData = new ProtoData<m.TestData>();
-        Debug.Log(testData[1].id);
+        resourcesLoaderHelper = new ResourcesLoaderHelper();
+        //ProtoData<m.TestData> testData = new ProtoData<m.TestData>();
+        //Debug.Log(testData[1].id);
     }
 
 
