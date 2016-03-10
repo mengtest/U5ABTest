@@ -47,20 +47,26 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Driver.cs" />
      <Compile Include="Assets\Scripts\Util\Const\PathConfig.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\AssetBundleManager.cs" />
+     <Compile Include="Assets\Scripts\Util\DownloadManager\DownloadManager.cs" />
+     <Compile Include="Assets\Scripts\Util\MonoSingleton.cs" />
+     <Compile Include="Assets\Scripts\Util\ResourcesLoader\AssetInfo.cs" />
      <Compile Include="Assets\Scripts\Util\ResourcesLoader\BundleResourcesLoader.cs" />
      <Compile Include="Assets\Scripts\Util\ResourcesLoader\IResourcesLoad.cs" />
      <Compile Include="Assets\Scripts\Util\ResourcesLoader\LocalResourcesLoader.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\ResourceManager.cs" />
      <Compile Include="Assets\Scripts\Util\ResourcesLoader\ResourcesLoaderHelper.cs" />
      <Compile Include="Assets\Scripts\Util\Tools\ActionQueue.cs" />
+     <Compile Include="Assets\Scripts\Util\Tools\CompressHelper.cs" />
      <Compile Include="Assets\Scripts\Util\Tools\ProtoData.cs" />
+     <Compile Include="Assets\Scripts\Util\Tools\StringEx.cs" />
      <None Include="Assets\Resources\Data\Common\ResourcesList.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="ICSharpCode.SharpZipLib">
+ <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="m-client-proto">
  <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/m-client-proto.dll</HintPath>

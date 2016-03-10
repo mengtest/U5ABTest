@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Editor\AssetBundle\AssetBundleGen.cs" />
+     <Compile Include="Assets\Editor\AssetBundle\PackageGen.cs" />
      <Compile Include="Assets\Editor\AssetBundle\ResourcesListGen.cs" />
      <None Include="Assets\Resources\Data\Common\ResourcesList.xml" />
  <Reference Include="UnityEditor.Advertisements">
@@ -71,6 +72,9 @@
  </Reference>
  <Reference Include="UnityEditor.TreeEditor">
  <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
+ </Reference>
+ <Reference Include="ICSharpCode.SharpZipLib">
+ <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="m-client-proto">
  <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/m-client-proto.dll</HintPath>
