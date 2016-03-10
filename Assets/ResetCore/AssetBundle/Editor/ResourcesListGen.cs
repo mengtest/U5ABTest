@@ -8,7 +8,6 @@ public class ResourcesListGen {
 
     private static readonly string[] ignoreFliter = new string[] { ".meta", ".unity", ".shader", ".xml"};
 
-	[MenuItem("AssetBundle/生成本地资源列表")]
     public static void UpdateResourcesList()
     {
         XDocument resourceListDoc = new XDocument(

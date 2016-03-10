@@ -9,7 +9,7 @@ public class BundleBuildWindow : EditorWindow
 {
 
     //显示窗口的函数
-    [MenuItem("Assets/打开AssetBundle压缩包生成器")]
+    [MenuItem("Window/AssetBundle生成器")]
     static void ShowMainWindow()
     {
         Rect wr = new Rect(0, 0, 800, 300);
@@ -79,6 +79,10 @@ public class BundleBuildWindow : EditorWindow
     {
         GUILayout.Label("文件添加工具");
         GUILayout.Label("当前文件数量为" + pathList.Count);
+        if (GUILayout.Button("更新本地资源列表", GUILayout.Width(200)))
+        {
+            ResourcesListGen.UpdateResourcesList();
+        }
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("添加文件", GUILayout.Width(200)))
         {
