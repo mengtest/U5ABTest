@@ -2,8 +2,10 @@
 using System.Collections;
 using System.IO;
 
-public class PathConfig {
+public class PathConfig
+{
 
+    #region AssetBundle 相关
     public static readonly string resourceListDocPath = Application.dataPath + "/ResetCore/AssetBundle/Data/ResourcesList.xml";
     public static readonly string resourcePath = Application.dataPath + "/Resources";
 
@@ -31,6 +33,12 @@ public class PathConfig {
             return rootPath.Replace("\\", "/");
         }
     }
-    
-	
+    #endregion
+
+    #region GameData相关
+
+    public static readonly string localGameDataPath = Application.dataPath + "/ResetCore/DataGener/GameDatas";
+
+    #endregion
+
 }
