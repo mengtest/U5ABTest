@@ -5,62 +5,67 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 
-public class AssetBundleGen  {
+namespace ResetCore.Asset
+{
 
-
-    private static BuildTarget buildTarget
+    public class AssetBundleGen
     {
-        get
+
+        private static BuildTarget buildTarget
         {
-            switch (EditorUserBuildSettings.activeBuildTarget)
+            get
             {
-                case BuildTarget.Android:
-                    return BuildTarget.Android;
-                case BuildTarget.StandaloneWindows:
-                    return BuildTarget.StandaloneWindows;
-                case BuildTarget.StandaloneWindows64:
-                    return BuildTarget.StandaloneWindows64;
-                case BuildTarget.iOS:
-                    return BuildTarget.iOS;
-                default:
-                    return BuildTarget.StandaloneWindows;
+                switch (EditorUserBuildSettings.activeBuildTarget)
+                {
+                    case BuildTarget.Android:
+                        return BuildTarget.Android;
+                    case BuildTarget.StandaloneWindows:
+                        return BuildTarget.StandaloneWindows;
+                    case BuildTarget.StandaloneWindows64:
+                        return BuildTarget.StandaloneWindows64;
+                    case BuildTarget.iOS:
+                        return BuildTarget.iOS;
+                    default:
+                        return BuildTarget.StandaloneWindows;
+                }
             }
         }
-    }
 
-    private static BuildAssetBundleOptions options
-    {
-        get
+        private static BuildAssetBundleOptions options
         {
-            return BuildAssetBundleOptions.None;
+            get
+            {
+                return BuildAssetBundleOptions.None;
+            }
         }
-    }
 
 
-    public static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
-    {
-        AssetBundleBuild[] buildMap = new AssetBundleBuild[objPaths.Length];
-        int i = 0;
-        foreach (string path in objPaths)
+        public static void ExportBundle(string[] objPaths, string targetPath, bool withMeta)
         {
-            buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.')) + ResourcesLoaderHelper.ExName;
-            string[] buildAssetNames = new string[] { path };
-            //buildAssetNames = objPath;
-            buildMap[i].assetNames = buildAssetNames;
-            BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
-            Debug.logger.Log("AssetBundleGen", "导出成功：" + path);
-            i++;
-        }
-        
-        //AssetBundleManifest manifest;
-    }
+            AssetBundleBuild[] buildMap = new AssetBundleBuild[objPaths.Length];
+            int i = 0;
+            foreach (string path in objPaths)
+            {
+                buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.')) + ResourcesLoaderHelper.ExName;
+                string[] buildAssetNames = new string[] { path };
+                //buildAssetNames = objPath;
+                buildMap[i].assetNames = buildAssetNames;
+                BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
+                Debug.logger.Log("AssetBundleGen", "导出成功：" + path);
+                i++;
+            }
 
-    public static void CreateTargetFolder()
-    {
-        if (!Directory.Exists(PathConfig.bundleRootPath))
-        {
-            Directory.CreateDirectory(PathConfig.bundleRootPath); 
+            //AssetBundleManifest manifest;
         }
+
+        public static void CreateTargetFolder()
+        {
+            if (!Directory.Exists(PathConfig.bundleRootPath))
+            {
+                Directory.CreateDirectory(PathConfig.bundleRootPath);
+            }
+        }
+
     }
 
 }

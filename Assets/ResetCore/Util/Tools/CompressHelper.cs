@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System;
 using System.Linq;
 using ICSharpCode.SharpZipLib.Zip;
+using ResetCore.Util;
 
 public static class CompressHelper
 {

@@ -36,8 +36,10 @@ public class PathConfig
     #endregion
 
     #region GameData相关
-
-    public static readonly string localGameDataPath = Application.dataPath + "/ResetCore/DataGener/GameDatas";
+    //存放Xml的地址
+    public static readonly string localGameDataXmlPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/xml";
+    //存放GameData类的地址
+    public static readonly string localGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses";
 
     #endregion
 

@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class Events {
+namespace ResetCore.Event
+{
+    public static class Events
+    {
 
-    
+
+    }
+
 }
