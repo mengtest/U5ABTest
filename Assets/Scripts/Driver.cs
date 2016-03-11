@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ResetCore.Asset;
 
 public class Driver : MonoBehaviour {
 
@@ -17,17 +18,6 @@ public class Driver : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        //Resources.Load("Cube");
-        //resourcesLoaderHelper.loader.LoadResource("New Material.mat", (ob) =>
-        //{
-        //    resourcesLoaderHelper.loader.LoadResource("Cube.prefab", (obj) =>
-        //    {
-        //        GameObject go = GameObject.Instantiate(obj) as GameObject;
-        //        go.transform.position = Vector3.zero;
-
-        //    });
-        //});
-
         GameObject go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
         go.transform.position = Vector3.zero;
         go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");

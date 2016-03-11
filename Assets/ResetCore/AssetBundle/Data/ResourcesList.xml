@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <n>NewMaterial.mat</n>
+  <p>NewMaterial</p>
+  <n>TestData.protodata.bytes</n>
+  <p>Data/ProtoBuf/TestData.protodata</p>
+  <n>TestData1.protodata.bytes</n>
+  <p>Data/ProtoBuf/TestData1.protodata</p>
+  <n>Cube.prefab</n>
+  <p>Prefabs/Cube</p>
+</Root>

@@ -1,9 +1,17 @@
 ManifestFileVersion: 0
+<<<<<<< HEAD:AssetBundle/assets/resources/prefabs/cube.ab.manifest
 CRC: 1324372205
 Hashes:
   AssetFileHash:
     serializedVersion: 2
     Hash: ead7ec962f56a7673fa9ffe2f1db399f
+=======
+CRC: 1900106136
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: b7070ab03304e04da8547572f6015680
+>>>>>>> 77ae93cae96ab0b1b9db92b957be2be1fc75e5af:AssetBundle/assets/resources/prefabs/cube.ab.manifest
   TypeTreeHash:
     serializedVersion: 2
     Hash: 67e99222a1589ff9377ee6366f65dd7a
@@ -26,5 +34,9 @@ ClassTypes:
 Assets:
 - Assets/Resources/Prefabs/Cube.prefab
 Dependencies:
+<<<<<<< HEAD:AssetBundle/assets/resources/prefabs/cube.ab.manifest
 - D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/AssetBundle/assets/resources/new
   material.ab
+=======
+- E:/Unity5Project/U5ABTest/AssetBundle/assets/resources/newmaterial.ab
+>>>>>>> 77ae93cae96ab0b1b9db92b957be2be1fc75e5af:AssetBundle/assets/resources/prefabs/cube.ab.manifest
