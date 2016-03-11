@@ -45,20 +45,30 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ResetCore\AssetBundle\DownloadManager\DownloadManager.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\DownloadManager\VersionManager.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\AssetInfo.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\BundleResourcesLoader.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\IResourcesLoad.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\LocalResourcesLoader.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\ResourcesLoaderHelper.cs" />
+     <Compile Include="Assets\ResetCore\DataGener\GameData.cs" />
+     <Compile Include="Assets\ResetCore\DataGener\GameDatas\DataClasses\ItemData.cs" />
+     <Compile Include="Assets\ResetCore\Events\EventController.cs" />
+     <Compile Include="Assets\ResetCore\Events\EventDispatcher.cs" />
+     <Compile Include="Assets\ResetCore\Events\Events.cs" />
+     <Compile Include="Assets\ResetCore\ProtoData\ProtoData.cs" />
+     <Compile Include="Assets\ResetCore\Util\ActionQueue.cs" />
+     <Compile Include="Assets\ResetCore\Util\Const\EditorPrefNames.cs" />
+     <Compile Include="Assets\ResetCore\Util\Const\PathConfig.cs" />
+     <Compile Include="Assets\ResetCore\Util\MonoSingleton.cs" />
+     <Compile Include="Assets\ResetCore\Util\MyXMLParser.cs" />
+     <Compile Include="Assets\ResetCore\Util\StringEx.cs" />
+     <Compile Include="Assets\ResetCore\Util\Tools\CompressHelper.cs" />
+     <Compile Include="Assets\ResetCore\Util\UIEventListener.cs" />
      <Compile Include="Assets\Scripts\Driver.cs" />
-     <Compile Include="Assets\Scripts\Util\Const\PathConfig.cs" />
-     <Compile Include="Assets\Scripts\Util\DownloadManager\DownloadManager.cs" />
-     <Compile Include="Assets\Scripts\Util\MonoSingleton.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\AssetInfo.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\BundleResourcesLoader.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\IResourcesLoad.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\LocalResourcesLoader.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\ResourcesLoaderHelper.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\ActionQueue.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\CompressHelper.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\ProtoData.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\StringEx.cs" />
-     <None Include="Assets\Resources\Data\Common\ResourcesList.xml" />
+     <None Include="Assets\ResetCore\AssetBundle\Data\ResourcesList.xml" />
+     <None Include="Assets\ResetCore\DataGener\GameDatas\xml\ItemData.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -66,16 +76,13 @@
  <HintPath>F:/Program Files/Unity5.3.1/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
- </Reference>
- <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>E:/Unity5Project/U5ABTest/Assets/ResetCore/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="m-client-proto">
- <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/m-client-proto.dll</HintPath>
+ <HintPath>E:/Unity5Project/U5ABTest/Assets/ResetCore/ProtoData/Lib/m-client-proto.dll</HintPath>
  </Reference>
  <Reference Include="protobuf-net">
- <HintPath>E:/Unity5Project/U5ABTest/Assets/Libs/protobuf-net.dll</HintPath>
+ <HintPath>E:/Unity5Project/U5ABTest/Assets/ResetCore/ProtoData/Lib/protobuf-net.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,0 +1,24 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\ResetCore\DataGener\GameData.cs">
+    <Files>
+      <File FileName="Assets\ResetCore\DataGener\GameData.cs" Line="100" Column="41" />
+      <File FileName="Assets\Scripts\Driver.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>Click here to add a new watch</Value>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="E:\Unity5Project\U5ABTest\Assets\ResetCore\DataGener\GameData.cs" line="105" column="1" />
+      <Breakpoint file="E:\Unity5Project\U5ABTest\Assets\ResetCore\DataGener\GameData.cs" line="109" column="1" />
+      <Breakpoint file="E:\Unity5Project\U5ABTest\Assets\Scripts\Driver.cs" line="20" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

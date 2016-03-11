@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1324372205
+CRC: 1900106136
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ead7ec962f56a7673fa9ffe2f1db399f
+    Hash: b7070ab03304e04da8547572f6015680
   TypeTreeHash:
     serializedVersion: 2
     Hash: 67e99222a1589ff9377ee6366f65dd7a
@@ -26,5 +26,4 @@ ClassTypes:
 Assets:
 - Assets/Resources/Prefabs/Cube.prefab
 Dependencies:
-- D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/AssetBundle/assets/resources/new
-  material.ab
+- E:/Unity5Project/U5ABTest/AssetBundle/assets/resources/newmaterial.ab
