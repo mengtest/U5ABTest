@@ -43,4 +43,7 @@ public class PathConfig
 
     #endregion
 
+    #region NetPost
+    public static readonly string NetPostURL = "";
+    #endregion
 }
