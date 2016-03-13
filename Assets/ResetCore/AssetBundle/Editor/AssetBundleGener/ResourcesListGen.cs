@@ -11,8 +11,9 @@ namespace ResetCore.Asset
     public class ResourcesListGen
     {
 
-        private static readonly string[] ignoreFliter = new string[] { ".meta", ".unity", ".shader", ".xml" };
+        private static readonly string[] ignoreFliter = new string[] { ".meta", ".unity", ".shader" };
 
+        [MenuItem("Tools/更新资源列表")]
         public static void UpdateResourcesList()
         {
             XDocument resourceListDoc = new XDocument(
@@ -31,13 +32,15 @@ namespace ResetCore.Asset
 
                 if (IsResource(name))
                 {
+                    Debug.logger.Log("添加" + name);
                     rootEl.Add(new XElement("n", name));
                     rootEl.Add(new XElement("p", path));
                 }
 
             }
 
-            resourceListDoc.Save(PathConfig.resourceListDocPath);
+            resourceListDoc.Save(PathConfig.resourcePath + PathConfig.resourceListDocPath + ".xml");
+            AssetDatabase.Refresh();
         }
 
         private static bool IsResource(string path)
@@ -57,7 +60,7 @@ namespace ResetCore.Asset
         {
             string filePath = path;
             filePath = filePath.Replace("\\", "/");
-            filePath = filePath.Replace(PathConfig.resourcePath + "/", "");
+            filePath = filePath.Replace(PathConfig.resourcePath, "");
             filePath = filePath.Replace(Path.GetExtension(path), "");
             return filePath;
         }

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <n>NewMaterial.mat</n>
+  <p>NewMaterial</p>
+  <n>ResourcesList.xml</n>
+  <p>Data/BundleData/ResourcesList</p>
+  <n>DynamicTestLoadScene.xml</n>
+  <p>Data/BundleData/SceneData/DynamicTestLoadScene</p>
+  <n>StaticTestLoadScene.xml</n>
+  <p>Data/BundleData/SceneData/StaticTestLoadScene</p>
+  <n>TestData.protodata.bytes</n>
+  <p>Data/ProtoBufData/TestData.protodata</p>
+  <n>TestData1.protodata.bytes</n>
+  <p>Data/ProtoBufData/TestData1.protodata</p>
+  <n>Cube.prefab</n>
+  <p>Prefabs/Cube</p>
+</Root>

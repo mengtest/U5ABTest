@@ -7,6 +7,9 @@ using ResetCore.Util;
 
 namespace ResetCore.Asset
 {
+#if UNITY_EDITOR
+    [ExecuteInEditMode]
+#endif
     public class ResourcesLoaderHelper : MonoSingleton<ResourcesLoaderHelper>
     {
 
@@ -41,8 +44,8 @@ namespace ResetCore.Asset
             }
         }
 
-        private LocalResourcesLoader localLoader;
-        private BundleResourcesLoader bundleLoader;
+        private IResourcesLoad localLoader;
+        private IResourcesLoad bundleLoader;
 
         public override void Init()
         {
@@ -98,13 +101,31 @@ namespace ResetCore.Asset
             }
             return go;
         }
+        /// <summary>
+        /// 加载文本资源
+        /// </summary>
+        /// <param name="objectName"></param>
+        /// <param name="afterLoadAct"></param>
+        /// <returns></returns>
+        public TextAsset LoadTextAsset(string objectName, System.Action<Object> afterLoadAct = null)
+        {
+            TextAsset go = bundleLoader.LoadResource(objectName, afterLoadAct) as TextAsset;
+            if (go == null)
+            {
+                go = bundleLoader.LoadResource(objectName, afterLoadAct) as TextAsset;
+            }
+            return go;
+        }
 
 
         //加载资源列表
         private void LoadResourcesListFile()
         {
             resourcesList = new Dictionary<string, string>();
-            XDocument resourcesListDoc = XDocument.Load(PathConfig.resourceListDocPath);
+            TextAsset textAsset = Resources.Load(PathConfig.resourceListDocPath) as TextAsset;
+            Debug.logger.Log(textAsset);
+            string listData = textAsset.text;
+            XDocument resourcesListDoc = XDocument.Parse(listData);
             int i = 1;
             string name = "";
             string path = "";
@@ -132,12 +153,12 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public static string GetResourcesBundlePathByObjectName(string objName)
         {
-            return PathConfig.bundleRootPath + "/assets/resources/" + StringEx.GetFilePathWithoutExtention(ResourcesLoaderHelper.Instance.resourcesList[objName]) + ExName;
+            return PathConfig.bundleRootPath + "/assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName] + ExName;
         }
 
         public static string GetResourcesBundleManifestPathByObjectName(string objName)
         {
-            return PathConfig.bundleRootPath + "/assets/resources/" + StringEx.GetFilePathWithoutExtention(ResourcesLoaderHelper.Instance.resourcesList[objName]) + ExName + ".manifest";
+            return PathConfig.bundleRootPath + "/assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName] + ExName + ".manifest";
         }
 
         /// <summary>

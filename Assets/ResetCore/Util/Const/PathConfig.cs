@@ -6,10 +6,10 @@ public class PathConfig
 {
 
     #region AssetBundle 相关
-    public static readonly string resourceListDocPath = Application.dataPath + "/ResetCore/AssetBundle/Data/ResourcesList.xml";
-    public static readonly string resourcePath = Application.dataPath + "/Resources";
+    public static readonly string resourcePath = Application.dataPath + "/Resources/";
 
-
+    public static readonly string resourceListDocPath = "Data/BundleData/ResourcesList";
+    public static readonly string sceneXmlRootPath = "Data/BundleData/SceneData/";
     
     public static readonly string bundleFolderName = "AssetBundle";
     public static readonly string AssetRootBundlePath = PathConfig.bundleRootPath + "/" + bundleFolderName;
@@ -37,9 +37,9 @@ public class PathConfig
 
     #region GameData相关
     //存放Xml的地址
-    public static readonly string localGameDataXmlPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/xml";
+    public static readonly string localGameDataXmlPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/xml/";
     //存放GameData类的地址
-    public static readonly string localGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses";
+    public static readonly string localGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/";
 
     #endregion
 

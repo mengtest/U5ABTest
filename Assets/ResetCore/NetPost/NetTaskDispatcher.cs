@@ -6,6 +6,9 @@ using System;
 
 namespace ResetCore.NetPost
 {
+    /// <summary>
+    /// 网络任务分发器，负责分发网络任务
+    /// </summary>
     public class NetTaskDispatcher : Singleton<NetTaskDispatcher>
     {
 
