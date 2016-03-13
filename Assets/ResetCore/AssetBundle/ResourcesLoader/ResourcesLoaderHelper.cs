@@ -7,9 +7,7 @@ using ResetCore.Util;
 
 namespace ResetCore.Asset
 {
-#if UNITY_EDITOR
     [ExecuteInEditMode]
-#endif
     public class ResourcesLoaderHelper : MonoSingleton<ResourcesLoaderHelper>
     {
 
