@@ -11,7 +11,7 @@ namespace ResetCore.Asset
     public class PackageGen
     {
 
-        [MenuItem("Assets/AssetBundle/生成整包")]
+        //[MenuItem("Assets/AssetBundle/生成整包")]
         public static void CompressZipPackage()
         {
             //if (EditorPrefs.HasKey("Version"))
@@ -22,7 +22,7 @@ namespace ResetCore.Asset
             Debug.logger.Log("压缩完成");
         }
 
-        [MenuItem("Assets/AssetBundle/解压整包")]
+        //[MenuItem("Assets/AssetBundle/解压整包")]
         public static void DecompressZipPackage()
         {
             CompressHelper.DecompressToDirectory(PathConfig.bundleRootPath, PathConfig.bundlePkgExportPath + "/test");
