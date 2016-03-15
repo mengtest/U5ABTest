@@ -59,9 +59,10 @@ namespace ResetCore.Asset
         private static string GetPathWithoutEx(string path)
         {
             string filePath = path;
-            filePath = filePath.Replace("\\", "/");
-            filePath = filePath.Replace(PathConfig.resourcePath, "");
+            DirectoryInfo dirInfo = new DirectoryInfo(Application.dataPath);
+            filePath = filePath.Replace(dirInfo.Parent.FullName + "\\", "");
             filePath = filePath.Replace(Path.GetExtension(path), "");
+            filePath = filePath.Replace("\\", "/");
             return filePath;
         }
 

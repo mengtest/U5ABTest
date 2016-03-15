@@ -3,6 +3,9 @@ using System.Collections;
 using ResetCore.Asset;
 using ResetCore.Util;
 using System.Collections.Generic;
+using ResetCore.Data;
+using ResetCore.Data.GameDatas;
+//using ResetCore.Data.GameDatas;
 
 public class Driver : MonoSingleton<Driver> {
 
@@ -22,6 +25,7 @@ public class Driver : MonoSingleton<Driver> {
         //NetTaskDispatcher.instance.AddNetPostTask(new ExampleNetTask(null));
 
         XmlSceneBuilder.Instance.SceneBuilder("TestLoadScene", (bo) => { });
+        Debug.Log(ItemData.dataMap[1].description);
 	}
 
     public override void Init()

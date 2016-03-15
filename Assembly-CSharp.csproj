@@ -45,20 +45,52 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\ResetCore\AssetBundle\Decoder\CodeBundle\ComponentLoader.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\Decoder\SceneBundle\XmlSceneBuilder.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\DownloadManager\DownloadManager.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\DownloadManager\VersionManager.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\AssetInfo.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\BundleResourcesLoader.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\IResourcesLoad.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\LocalResourcesLoader.cs" />
+     <Compile Include="Assets\ResetCore\AssetBundle\ResourcesLoader\ResourcesLoaderHelper.cs" />
+     <Compile Include="Assets\ResetCore\DataGener\GameData.cs" />
+     <Compile Include="Assets\ResetCore\DataGener\GameDatas\DataClasses\ItemData.cs" />
+     <Compile Include="Assets\ResetCore\Events\EventController.cs" />
+     <Compile Include="Assets\ResetCore\Events\EventDispatcher.cs" />
+     <Compile Include="Assets\ResetCore\Events\Events.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\IJsonWrapper.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\JsonData.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\JsonException.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\JsonMapper.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\JsonMockWrapper.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\JsonReader.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\JsonWriter.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\Lexer.cs" />
+     <Compile Include="Assets\ResetCore\Libs\LitJson\ParserToken.cs" />
+     <Compile Include="Assets\ResetCore\NetPost\HttpProxy.cs" />
+     <Compile Include="Assets\ResetCore\NetPost\NetPostTask.cs" />
+     <Compile Include="Assets\ResetCore\NetPost\NetTaskDispatcher.cs" />
+     <Compile Include="Assets\ResetCore\NetPost\TaskId.cs" />
+     <Compile Include="Assets\ResetCore\NetPost\Taskes\ExampleNetTask.cs" />
+     <Compile Include="Assets\ResetCore\ProtoData\ProtoData.cs" />
+     <Compile Include="Assets\ResetCore\Util\ActionQueue.cs" />
+     <Compile Include="Assets\ResetCore\Util\Const\EditorPrefNames.cs" />
+     <Compile Include="Assets\ResetCore\Util\Const\PathConfig.cs" />
+     <Compile Include="Assets\ResetCore\Util\MonoSingleton.cs" />
+     <Compile Include="Assets\ResetCore\Util\MyXMLParser.cs" />
+     <Compile Include="Assets\ResetCore\Util\Singleton.cs" />
+     <Compile Include="Assets\ResetCore\Util\StringEx.cs" />
+     <Compile Include="Assets\ResetCore\Util\Tools\CompressHelper.cs" />
+     <Compile Include="Assets\ResetCore\Util\UIEventListener.cs" />
      <Compile Include="Assets\Scripts\Driver.cs" />
-     <Compile Include="Assets\Scripts\Util\Const\PathConfig.cs" />
-     <Compile Include="Assets\Scripts\Util\DownloadManager\DownloadManager.cs" />
-     <Compile Include="Assets\Scripts\Util\MonoSingleton.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\AssetInfo.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\BundleResourcesLoader.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\IResourcesLoad.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\LocalResourcesLoader.cs" />
-     <Compile Include="Assets\Scripts\Util\ResourcesLoader\ResourcesLoaderHelper.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\ActionQueue.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\CompressHelper.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\ProtoData.cs" />
-     <Compile Include="Assets\Scripts\Util\Tools\StringEx.cs" />
-     <None Include="Assets\Resources\Data\Common\ResourcesList.xml" />
+     <None Include="Assets\Resources\Data\BundleData\SceneData\StaticTestLoadScene.xml" />
+     <None Include="Assets\Resources\Data\BundleData\ResourcesList.xml" />
+     <None Include="Assets\Resources\Data\BundleData\SceneData\StaticMain.xml" />
+     <None Include="Assets\Resources\Data\BundleData\PrefabCompData\Cube.xml" />
+     <None Include="Assets\Resources\Data\BundleData\SceneData\DynamicMain.xml" />
+     <None Include="Assets\Resources\Data\GameData\ItemData.xml" />
+     <None Include="Assets\Resources\Data\BundleData\SceneData\DynamicTestLoadScene.xml" />
  <Reference Include="UnityEngine.UI">
  <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -66,13 +98,13 @@
  <HintPath>F:/Program Files/Unity5_31/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
  <Reference Include="ICSharpCode.SharpZipLib">
- <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Libs/ICSharpCode.SharpZipLib.dll</HintPath>
+ <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Plugins/ICSharpCode.SharpZipLib.dll</HintPath>
  </Reference>
  <Reference Include="m-client-proto">
- <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Libs/m-client-proto.dll</HintPath>
+ <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/ResetCore/ProtoData/Lib/m-client-proto.dll</HintPath>
  </Reference>
  <Reference Include="protobuf-net">
- <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/Libs/protobuf-net.dll</HintPath>
+ <HintPath>D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/Assets/ResetCore/ProtoData/Lib/protobuf-net.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

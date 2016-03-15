@@ -46,7 +46,7 @@ namespace ResetCore.Asset
             int i = 0;
             foreach (string path in objPaths)
             {
-                buildMap[i].assetBundleName = path.Substring(0, path.LastIndexOf('.')) + ResourcesLoaderHelper.ExName;
+                buildMap[i].assetBundleName = path + ResourcesLoaderHelper.ExName;
                 string[] buildAssetNames = new string[] { path };
                 //buildAssetNames = objPath;
                 buildMap[i].assetNames = buildAssetNames;

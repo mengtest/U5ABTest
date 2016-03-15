@@ -3,16 +3,30 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using ResetCore.Util;
+using System.IO;
 
 
 namespace ResetCore.Asset
 {
-    [ExecuteInEditMode]
     public class ResourcesLoaderHelper : MonoSingleton<ResourcesLoaderHelper>
     {
-
+        private static Dictionary<string, string> ResourcesList;
         //键为物体名，值为相对于Resources路径
-        public Dictionary<string, string> resourcesList { get; private set; }
+        public static Dictionary<string, string> resourcesList 
+        {
+            get
+            {
+                if (ResourcesList == null)
+                {
+                    ResourcesList = LoadResourcesListFile();
+                }
+                return ResourcesList;
+            }
+            private set
+            {
+                ResourcesList = value;
+            } 
+        }
         public static readonly string ExName = ".ab";
 
         //根AssetBundle文件
@@ -50,7 +64,7 @@ namespace ResetCore.Asset
             base.Init();
             localLoader = new LocalResourcesLoader(this);
             bundleLoader = new BundleResourcesLoader(this);
-            LoadResourcesListFile();
+            
         }
 
         /// <summary>
@@ -117,11 +131,10 @@ namespace ResetCore.Asset
 
 
         //加载资源列表
-        private void LoadResourcesListFile()
+        public static Dictionary<string, string> LoadResourcesListFile()
         {
-            resourcesList = new Dictionary<string, string>();
+            Dictionary<string, string> resList = new Dictionary<string, string>();
             TextAsset textAsset = Resources.Load(PathConfig.resourceListDocPath) as TextAsset;
-            Debug.logger.Log(textAsset);
             string listData = textAsset.text;
             XDocument resourcesListDoc = XDocument.Parse(listData);
             int i = 1;
@@ -137,11 +150,12 @@ namespace ResetCore.Asset
                 else
                 {
                     path = el.Value;
-                    resourcesList.Add(name, path);
+                    resList.Add(name, path);
                     //Debug.Log("Path:" + path);
                 }
                 i++;
             }
+            return resList;
         }
 
         /// <summary>
@@ -151,12 +165,16 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public static string GetResourcesBundlePathByObjectName(string objName)
         {
-            return PathConfig.bundleRootPath + "/assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName] + ExName;
+            return PathConfig.bundleRootPath + "/" + ResourcesLoaderHelper.resourcesList[objName] + Path.GetExtension(objName) + ExName;
         }
-
+        /// <summary>
+        /// 获取Resources文件夹下资源所生成的AssetBundle配置文件的路径（即可以直接加载的物体）
+        /// </summary>
+        /// <param name="objName"></param>
+        /// <returns></returns>
         public static string GetResourcesBundleManifestPathByObjectName(string objName)
         {
-            return PathConfig.bundleRootPath + "/assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName] + ExName + ".manifest";
+            return GetResourcesBundlePathByObjectName(objName) + ".manifest";
         }
 
         /// <summary>
@@ -166,7 +184,7 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public static string GetResourcesBundleNameByObjectName(string objName)
         {
-            return ("assets/resources/" + ResourcesLoaderHelper.Instance.resourcesList[objName]).ToLower() + ExName;
+            return (ResourcesLoaderHelper.resourcesList[objName]).ToLower() + Path.GetExtension(objName) + ExName;
         }
 
         /// <summary>
@@ -179,6 +197,15 @@ namespace ResetCore.Asset
             return PathConfig.bundleRootPath + "/" + bundleName;
         }
 
+        /// <summary>
+        /// 相对于Resources文件夹的路径转换为根目录于Assets文件夹的路径
+        /// </summary>
+        /// <param name="dataPath"></param>
+        /// <returns></returns>
+        public static string GetResourcesPath(string dataPath)
+        {
+            return dataPath.Replace("Asset/Resources", "");
+        }
 
     }
 

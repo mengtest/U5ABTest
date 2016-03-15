@@ -14,7 +14,10 @@ using System.Xml.Linq;
 using System.Reflection;
 using UnityEngine.SceneManagement;
 using UnityEditor.SceneManagement;
-public class SceneXmlBuilder : MonoBehaviour
+
+using ResetCore.Util;
+
+public class SceneXmlBuilder
 {
     //最深搜索Prefab子物体深度
     private const int prefabChildDeepestNum = 3;
@@ -29,16 +32,6 @@ public class SceneXmlBuilder : MonoBehaviour
     {
         get { return PathConfig.resourcePath + PathConfig.sceneXmlRootPath; }
     }
-    //Meta表记录了所有xml表的地址，这个为其路径
-    static string dataPathMeta = dataRoot + "DataMeta.xml";
-
-    static SceneXmlBuilder instance = null;
-
-    //记录名字/Resource路径键值对
-    private static Dictionary<String, String> filesDic = new Dictionary<string, string>();
-
-    private SceneXmlBuilder() { }
-
 
     [MenuItem("Tools/XmlHelper/场景Xml/导出场景Xml")]
     public static void ExportScene()
@@ -62,8 +55,11 @@ public class SceneXmlBuilder : MonoBehaviour
         foreach (string item in paths)
         {
             EditorUtility.DisplayCancelableProgressBar("导出中", "这会要一些时间，请耐心等待 " + num + "/" + paths.Length, (float)num / (float)paths.Length);
-            if (!SceneManager.GetSceneByPath(item).isLoaded)
-                SceneManager.LoadScene(item);
+            if (!EditorSceneManager.GetSceneByPath(item).isLoaded)
+            {
+                EditorSceneManager.OpenScene(item);
+            }
+                
             WriteXml();
             num++;
             Debug.Log("导出场景为" + item);
@@ -74,7 +70,7 @@ public class SceneXmlBuilder : MonoBehaviour
     private static void WriteXml()
     {
         //获取当前场景完整路径
-        scenePath = EditorApplication.currentScene;
+        scenePath = SceneManager.GetAllScenes()[0].path;
         //Debug.logger.Log(scenePath);
         //获取当前场景名称
         sceneName = scenePath.Substring(scenePath.LastIndexOf("/") + 1, scenePath.Length - scenePath.LastIndexOf("/") - 1);
@@ -84,57 +80,13 @@ public class SceneXmlBuilder : MonoBehaviour
         string staticDataPath = dataRoot + staticSceneEx + sceneName + ".xml";
         Debug.logger.Log("导出路径为" + dynamicDataPath + "和" + staticDataPath);
 
-
-
-
-        if (instance == null) instance = new SceneXmlBuilder();
-
-        instance.WriteDynamicData(dynamicDataPath);
-        instance.WriteStaticData(staticDataPath);
-        //WriteDataMeta(dataPathMeta, dynamicDataPath, staticDataPath);
+        WriteDynamicData(dynamicDataPath);
+        WriteStaticData(staticDataPath);
     }
-
-    //public static void WriteDataMeta(string path, string dynamicDataName, string staticDataName)
-    //{
-    //    XDocument xmlDoc;
-    //    if (!File.Exists(path))
-    //    {
-    //        xmlDoc = new XDocument();
-    //        xmlDoc.Add(new XElement("Root"));
-    //        xmlDoc.Save(path);
-    //    }
-    //    xmlDoc = XDocument.Load(path);
-
-    //    //加载其他关卡
-    //    foreach (MapStageData item in MapStageData.dataMap.Values)
-    //    {
-    //        XElement ele = xmlDoc.Root.Element("el" + item.id);
-    //        if (ele != null)
-    //        {
-    //            ele.Element("DynamicData").Attribute("Name").SetValue(item.sceneName + " DynamicData");
-    //            ele.Element("StaticData").Attribute("Name").SetValue(item.sceneName + " StaticData");
-    //        }
-    //        else
-    //        {
-    //            ele = new XElement("el" + item.id);
-    //            XElement dynamicEle = new XElement("DynamicData");
-    //            XElement staticEle = new XElement("StaticData");
-
-    //            dynamicEle.SetAttributeValue("Name", item.sceneName + " DynamicData");
-    //            staticEle.SetAttributeValue("Name", item.sceneName + " StaticData");
-
-    //            ele.Add(dynamicEle);
-    //            ele.Add(staticEle);
-
-    //            xmlDoc.Root.Add(ele);
-    //        }
-    //    }
-    //    xmlDoc.Save(path);
-    //}
 
     private static Stack<string> currentTree = new Stack<string>();
     //写入动态物体
-    public void WriteDynamicData(string path)
+    private static void WriteDynamicData(string path)
     {
         GameObject dynamicDataRoot;
         dynamicDataRoot = GameObject.Find("DynamicData");
@@ -154,11 +106,10 @@ public class SceneXmlBuilder : MonoBehaviour
 
         //遍历写入各种类的动态物体
         xmlDoc.AppendChild(root);
-        //Debug.Log(xmlDoc.ToString());
         xmlDoc.Save(path);
     }
     //写入静态物体
-    public void WriteStaticData(string path)
+    private static void WriteStaticData(string path)
     {
         GameObject staticDataRoot;
         staticDataRoot = GameObject.Find("StaticData");
@@ -181,7 +132,7 @@ public class SceneXmlBuilder : MonoBehaviour
         xmlDoc.Save(path);
     }
 
-    private void WritePrefabObject(XmlDocument xmlDoc, XmlElement parent, GameObject obj)
+    private static void WritePrefabObject(XmlDocument xmlDoc, XmlElement parent, GameObject obj)
     {
         if (obj.activeSelf == false) return;
         currentTree.Push(obj.name);
@@ -235,14 +186,14 @@ public class SceneXmlBuilder : MonoBehaviour
             string prefabPath = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabParent(obj));
             if (string.IsNullOrEmpty(prefabPath))
             {
-                Debug.LogError(EditorApplication.currentScene + "中的物体" + obj.name + "丢失预设！！！！");
+                Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "丢失预设！！！！");
                 gameObjectRoot.SetAttribute("Name", obj.name + "'s Prefab has Error");
             }
             else
             {
                 gameObjectRoot.SetAttribute("Name", prefabPath);
             }
-            Debug.LogError(EditorApplication.currentScene + "中的物体" + obj.name + "的预设类型为" + prefabType.ToString());
+            Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的预设类型为" + prefabType.ToString());
         }
 
         bool willCheckChild = true;
@@ -288,7 +239,7 @@ public class SceneXmlBuilder : MonoBehaviour
         currentTree.Pop();
     }
     //写入位置
-    private void WriteTransform(XmlDocument xmlDoc, XmlElement propEle, GameObject obj)
+    private static void WriteTransform(XmlDocument xmlDoc, XmlElement propEle, GameObject obj)
     {
         XmlElement transformRoot = xmlDoc.CreateElement("Transform");
 
@@ -313,7 +264,7 @@ public class SceneXmlBuilder : MonoBehaviour
         propEle.AppendChild(transformRoot);
     }
 
-    private void WriteChangedValue(XmlDocument xmlDoc, XmlElement propEle, GameObject obj)
+    private static void WriteChangedValue(XmlDocument xmlDoc, XmlElement propEle, GameObject obj)
     {
         string prefabPath = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabParent(obj));
         GameObject prefabGo = AssetDatabase.LoadAssetAtPath(prefabPath, typeof(GameObject)) as GameObject;
@@ -322,16 +273,15 @@ public class SceneXmlBuilder : MonoBehaviour
         //（在这里不允许出现子物体重名！并且要求场景中子物体名与Prefab中的相同！）
         if (PrefabUtility.FindPrefabRoot(obj) != obj)
         {
-            //Debug.Log("开始寻找 prefabGo 的相对路径" + obj.name);
             GameObject tempObj = obj;
             List<string> objList = new List<string>();
+            //寻找场景中物体与Prefab根的相对路径
             while (PrefabUtility.FindPrefabRoot(tempObj) != tempObj)
             {
                 objList.Add(tempObj.name);
-                //Debug.Log(tempObj.name);
                 tempObj = tempObj.transform.parent.gameObject;
             }
-            //Debug.Log("prefabGo现在为" + prefabGo.name);
+            //寻找从AssetDatabase中加载出来的物体的相对路径相同的物体
             for (int i = objList.Count - 1; i >= 0; i--)
             {
                 string childName = objList[i];
@@ -339,7 +289,6 @@ public class SceneXmlBuilder : MonoBehaviour
                 if (finedChild != null)
                 {
                     prefabGo = finedChild.gameObject;
-                    //Debug.Log("prefabGo现在为" + prefabGo.name);
                 }
                 else
                 {
@@ -357,14 +306,14 @@ public class SceneXmlBuilder : MonoBehaviour
         //检查组件是否相同
         if (prefabComps.Length != objComps.Length)
         {
-            Debug.LogError(EditorApplication.currentScene + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
+            Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
             return;
         }
         for (int i = 0; i < prefabComps.Length; i++)
         {
             if (prefabComps.GetType() != objComps.GetType())
             {
-                Debug.LogError(EditorApplication.currentScene + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
+                Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
                 return;
             }
         }
@@ -387,45 +336,15 @@ public class SceneXmlBuilder : MonoBehaviour
 
                 object prefabValue = fieldInfo.GetValue(prefabComp);
                 object objValue = fieldInfo.GetValue(objComp);
-                //Debug.Log(obj.name + "组件名为 " + compType.Name + " 域名为 " + fieldInfo.Name + " 域类型为 " + fieldInfo.FieldType.Name + " 场景中值为 " + objValue.ToString() + " 预设值为 " + prefabValue.ToString());
-                if ((fieldInfo.FieldType.IsPrimitive || fieldInfo.FieldType == typeof(string) || fieldInfo.FieldType == typeof(UnityEngine.Object)) && //为基本类型或者字符类型
+
+                if ((fieldInfo.FieldType.IsPrimitive || fieldInfo.FieldType == typeof(string) 
+                    || fieldInfo.FieldType == typeof(UnityEngine.Object)) && //为基本类型或者字符类型
                     !fieldInfo.IsStatic && //不能为静态
                     fieldInfo.IsPublic == true &&
                     !prefabValue.Equals(objValue))//为公共类型并且与Prefab不一样了
                 {
-                    //Debug.Log(obj.name + "组件名为 " + compType.Name + " 域名为 " + fieldInfo.Name +" 域类型为 " + fieldInfo.FieldType.Name + " 场景中值为 " + objValue.ToString() + " 预设值为 " + prefabValue.ToString());
-                    compEle.SetAttribute(fieldInfo.Name, objValue.ToString());
-                    if (fieldInfo.FieldType == typeof(int))
-                    {
-                        compEle.SetAttribute(fieldInfo.Name, objValue.ToString());
-                    }
-                    else if (fieldInfo.FieldType == typeof(float))
-                    {
-                        compEle.SetAttribute(fieldInfo.Name, objValue.ToString());
-                    }
-                    else if (fieldInfo.FieldType == typeof(bool))
-                    {
-                        compEle.SetAttribute(fieldInfo.Name, objValue.ToString());
-                    }
-                    else if (fieldInfo.FieldType == typeof(double))
-                    {
-                        compEle.SetAttribute(fieldInfo.Name, objValue.ToString());
-                    }
-                    else if (fieldInfo.FieldType == typeof(string))
-                    {
-                        compEle.SetAttribute(fieldInfo.Name, objValue.ToString());
-                    }
-                    else if (fieldInfo.FieldType == typeof(UnityEngine.Object))
-                    {
-                        string objPath = AssetDatabase.GetAssetPath((UnityEngine.Object)objValue);
-                        objPath = objPath.Substring(objPath.LastIndexOf('/') + 1);
-                        compEle.SetAttribute(fieldInfo.Name, objPath);
-                        //Debug.LogError("objPath" + objPath);
-                    }
-                    else
-                    {
-                        Debug.LogError(EditorApplication.currentScene + "中的" + prefabGo.name + "的组件" + objComp.GetType().Name + "使用了不支持的类型！" + fieldInfo.FieldType.Name);
-                    }
+                    System.Type type = fieldInfo.FieldType;
+                    compEle.SetAttribute(fieldInfo.Name, StringEx.ConverToString(objValue, type));
                 }
             }
             if (compEle.HasAttributes)

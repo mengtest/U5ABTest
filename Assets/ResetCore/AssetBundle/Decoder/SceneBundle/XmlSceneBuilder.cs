@@ -36,20 +36,14 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
         StartCoroutine(CreateScene(dynamicScenePath, staticScenePath));
     }
 
-    static float startTime;
-    static float jiangeTime;
 
     private IEnumerator CreateScene(string dynamicSceneXmlName, string staticSceneXmlName)
     {
-        //RunningPrefabPathHelper.GetResourcePathMap();
         yield return null;
         string[] nameList = { dynamicSceneXmlName, staticSceneXmlName };
 
         yield return StartCoroutine(CreateObject(nameList));
         yield return new WaitForSeconds(0.1f);
-        //Debug.Log("加载完成！");
-        jiangeTime = Time.time - startTime;
-        //Debug.Log("执行时间为" + jiangeTime);
         loadedAction(true);
     }
 
@@ -59,7 +53,6 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
     private int createdObjectNum = 0;
     private IEnumerator CreateObject(string[] pathList)
     {
-        startTime = Time.time;
         int num = 0;
         objectNum = 0;
         createdObjectNum = 0;
@@ -67,7 +60,6 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
         //计数
         foreach (string path in pathList)
         {
-            //Debug.LogError("XML读取路径为" + path);
             string data = ResourcesLoaderHelper.Instance.LoadTextAsset(path).text;
             XDocument xDoc = XDocument.Parse(data);
             XElement root = xDoc.Root;
@@ -257,31 +249,7 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
             {
                 FieldInfo fieldInfo = compType.GetField(attr.Name.LocalName);
                 Debug.Log("变量名为 " + attr.Name.LocalName + " 变量类型为 " + fieldInfo.FieldType.Name);
-                if (fieldInfo.FieldType == typeof(int))
-                {
-                    fieldInfo.SetValue(comp, int.Parse(attr.Value));
-                }
-                else if (fieldInfo.FieldType == typeof(float))
-                {
-                    fieldInfo.SetValue(comp, float.Parse(attr.Value));
-                }
-                else if (fieldInfo.FieldType == typeof(bool))
-                {
-                    fieldInfo.SetValue(comp, bool.Parse(attr.Value));
-                }
-                else if (fieldInfo.FieldType == typeof(double))
-                {
-                    fieldInfo.SetValue(comp, double.Parse(attr.Value));
-                }
-                else if (fieldInfo.FieldType == typeof(string))
-                {
-                    fieldInfo.SetValue(comp, attr.Value.ToString());
-                }
-                else if (fieldInfo.FieldType == typeof(UnityEngine.Object))
-                {
-                    GameObject go = ResourcesLoaderHelper.Instance.LoadAndGetInstance(attr.Value);
-                    fieldInfo.SetValue(comp, go);
-                }
+                fieldInfo.SetValue(comp, StringEx.GetValue(attr.Value, fieldInfo.FieldType));
             }
         }
     }
