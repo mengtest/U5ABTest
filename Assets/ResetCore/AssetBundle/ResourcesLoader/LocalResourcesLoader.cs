@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ResetCore.Asset
 {
@@ -10,15 +11,18 @@ namespace ResetCore.Asset
         private ResourcesLoaderHelper LoadHelper;
         public ResourcesLoaderHelper loadHelper { get { return LoadHelper; } }
 
+        public static Dictionary<string, LocalResInfo> assetInfoList { get; private set; }
+
         public LocalResourcesLoader(ResourcesLoaderHelper helper)
         {
+            assetInfoList = new Dictionary<string, LocalResInfo>();
             LoadHelper = helper;
         }
 
         public Object LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
         {
-
-            Object obj = Resources.Load(ResourcesLoaderHelper.resourcesList[objectName].Replace("Asset/Resources", ""));
+            LocalResInfo resInfo = LoadFromFileOrCache(objectName);
+            Object obj = resInfo.localRes;
 
             if (afterLoadAct != null)
                 afterLoadAct(obj);
@@ -26,36 +30,46 @@ namespace ResetCore.Asset
             return obj;
         }
 
-        public Object[] LoadResources(string[] objectsName, System.Action<Object[]> afterLoadAct = null)
+        private LocalResInfo LoadFromFileOrCache(string prefabName)
         {
-
-            int count = objectsName.Length;
-            Object[] objs = new Object[count];
-            for (int i = 0; i < count; i++)
+            if (assetInfoList.ContainsKey(prefabName))
             {
-                objs[i] = Resources.Load(objectsName[i]);
-
-
+                return assetInfoList[prefabName];
             }
-
-            if (afterLoadAct != null)
-                afterLoadAct(objs);
-            return objs;
+            else
+            {
+                LocalResInfo newInfo = new LocalResInfo(prefabName);
+                assetInfoList.Add(prefabName, newInfo);
+                UnloadAsset();
+                return newInfo;
+            }
         }
-
-        public GameObject LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
+        //卸载资源
+        private void UnloadAsset()
         {
-
-            Object obj = Resources.Load(ResourcesLoaderHelper.resourcesList[objectName].Replace("Asset/Resources", ""));
-            GameObject go = GameObject.Instantiate(obj) as GameObject;
-
-
-            if (afterLoadAct != null)
-                afterLoadAct(go);
-
-            return go;
+            if (assetInfoList.Count > 50)
+            {
+                //上次调用时间超过1分钟的全部卸载
+                var unloadResources = from list in assetInfoList
+                                      orderby list.Value.getTimeLastTime
+                                      where (System.DateTime.Now - list.Value.getTimeLastTime).Minutes > 1
+                                      select new { Key = list.Key };
+                foreach (var item in unloadResources)
+                {
+                    assetInfoList[item.Key].Unload();
+                    assetInfoList.Remove(item.Key);
+                }
+            }
         }
-
+        //卸载全部资源
+        private void UnloadAll()
+        {
+            foreach (KeyValuePair<string, LocalResInfo> infoPair in assetInfoList)
+            {
+                infoPair.Value.Unload();
+                assetInfoList.Remove(infoPair.Key);
+            }
+        }
     }
 
 }

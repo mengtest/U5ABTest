@@ -14,7 +14,6 @@ namespace ResetCore.Util
     /// Override <code>Init()</code> method instead of using <code>Awake()</code>
     /// from this class.
     /// </summary>
-    [ExecuteInEditMode]
     public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         private static T m_Instance = null;

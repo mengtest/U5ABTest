@@ -104,10 +104,23 @@ namespace ResetCore.Util
                 {
                     return GetValue(value, Enum.GetUnderlyingType(type));
                 }
+                if (type == typeof(Vector2))
+                {
+                    Vector2 vector;
+                    ParseVector2(value, out vector);
+                    return vector;
+                }
                 if (type == typeof(Vector3))
                 {
                     Vector3 vector;
                     ParseVector3(value, out vector);
+                    //Debug.LogError(vector.ToString());
+                    return vector;
+                }
+                if (type == typeof(Vector4))
+                {
+                    Vector4 vector;
+                    ParseVector4(value, out vector);
                     return vector;
                 }
                 if (type == typeof(Quaternion))
@@ -148,6 +161,7 @@ namespace ResetCore.Util
                     return obj2;
                 }
             }
+            Debug.logger.LogWarning("字符转换", "没有适合的转换类型，返回默认值");
             return null;
         }
 
@@ -156,6 +170,35 @@ namespace ResetCore.Util
             if (type == null)
             {
                 return "";
+            }
+            if (type == typeof(Vector3))
+            {
+                return ((Vector3)value).x + "," + ((Vector3)value).y + "," + ((Vector3)value).z;
+            }
+            if (type == typeof(Vector2))
+            {
+                return ((Vector2)value).x + "," + ((Vector2)value).y;
+            }
+            if (type == typeof(Vector4))
+            {
+                return ((Vector4)value).x + "," + ((Vector4)value).y + "," + ((Vector4)value).z + "," + ((Vector4)value).w;
+            }
+            if (type == typeof(Quaternion))
+            {
+                return ((Quaternion)value).x + "," + ((Quaternion)value).y + "," + ((Quaternion)value).z + "," + ((Quaternion)value).w;
+            }
+            if (type == typeof(Color))
+            {
+                return ((Color)value).r + "," + ((Color)value).g + "," + ((Color)value).b;
+            }
+            //if (type == typeof(bool))
+            //{
+            //    return (((bool)value) ? 1 : 0).ToString();
+            //}
+            if (type.BaseType == typeof(Enum))
+            {
+
+                return Enum.GetName(type, value);
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Dictionary<,>)))
             {
@@ -167,7 +210,39 @@ namespace ResetCore.Util
             {
 
             }
+            Debug.logger.LogWarning("字符转换", "没有适合的转换类型，返回默认值");
             return value.ToString();
+        }
+
+        //可转换类型列表
+        public static readonly List<Type> convertableTypes = new List<Type>
+        {
+            typeof(int), 
+            typeof(string), 
+            typeof(float), 
+            typeof(double), 
+            typeof(byte), 
+            typeof(long), 
+            typeof(bool),
+            typeof(long), 
+            typeof(short), 
+            typeof(uint), 
+            typeof(ulong), 
+            typeof(ushort), 
+            typeof(sbyte), 
+            typeof(Vector3), 
+            typeof(Vector2), 
+            typeof(Vector4), 
+            typeof(Quaternion), 
+            typeof(Color),
+            typeof(Dictionary<,>),
+            typeof(List<>),
+            typeof(Enum)
+        };
+
+        public static bool IsConvertableType(Type type)
+        {
+            return convertableTypes.Contains(type);
         }
 
         public static bool ParseColor(string _inputString, out Color result)
@@ -237,14 +312,10 @@ namespace ResetCore.Util
             return dictionary;
         }
 
-        public static bool ParseQuaternion(string _inputString, out Quaternion result)
+        public static bool ParseVector4(string _inputString, out Vector4 result)
         {
             string str = _inputString.Trim();
-            result = new Quaternion();
-            if (str.Length < 9)
-            {
-                return false;
-            }
+            result = new Vector4();
             try
             {
                 string[] strArray = str.Split(new char[] { ',' });
@@ -258,20 +329,25 @@ namespace ResetCore.Util
                 result.w = float.Parse(strArray[3]);
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.logger.LogException(e);
                 return false;
             }
+        }
+
+        public static bool ParseQuaternion(string _inputString, out Quaternion result)
+        {
+            Vector4 vec = new Vector4();
+            bool flag = ParseVector4(_inputString, out vec);
+            result = new Quaternion(vec.x, vec.y, vec.z, vec.w);
+            return flag;
         }
 
         public static bool ParseVector3(string _inputString, out Vector3 result)
         {
             string str = _inputString.Trim();
             result = new Vector3();
-            if (str.Length < 7)
-            {
-                return false;
-            }
             try
             {
                 string[] strArray = str.Split(new char[] { ',' });
@@ -284,8 +360,31 @@ namespace ResetCore.Util
                 result.z = float.Parse(strArray[2]);
                 return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Debug.logger.LogException(e);
+                return false;
+            }
+        }
+
+        public static bool ParseVector2(string _inputString, out Vector2 result)
+        {
+            string str = _inputString.Trim();
+            result = new Vector2();
+            try
+            {
+                string[] strArray = str.Split(new char[] { ',' });
+                if (strArray.Length != 2)
+                {
+                    return false;
+                }
+                result.x = float.Parse(strArray[0]);
+                result.y = float.Parse(strArray[1]);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.logger.LogException(e);
                 return false;
             }
         }
