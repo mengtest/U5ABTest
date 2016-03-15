@@ -19,6 +19,12 @@ public class DataClassesGenWindow : EditorWindow{
     {
         DirectoryInfo dirInfo = new DirectoryInfo(PathConfig.localGameDataXmlPath);
         FileInfo[] fileInfos = dirInfo.GetFiles();
+        CreateEveryFilesClasses(fileInfos);
+        AssetDatabase.Refresh();
+    }
+
+    private static void CreateEveryFilesClasses(FileInfo[] fileInfos)
+    {
         foreach (FileInfo fileInfo in fileInfos)
         {
             if (fileInfo.Extension == ".xml")
@@ -26,38 +32,65 @@ public class DataClassesGenWindow : EditorWindow{
                 CreateNewClass(fileInfo.FullName.Replace("\\", "/"));
             }
         }
-        AssetDatabase.Refresh();
     }
+
+    //
+    private static string className;
+    private static string baseClassName;
+    private static string nameSpace;
+    private static string[] importNameSpaces;
+    private static string outputFile;
 
     private static void CreateNewClass(string filePath)
     {
-        string className = StringEx.GetFileNameWithoutExtention(filePath);
-        string baseClassName = "GameData<" + className + ">";
-        string nameSpace = "ResetCore.Data.GameDatas";
-        string[] importNameSpaces = new string[]{
+        GetPropString(filePath);
+
+        XDocument xDoc = LoadXml(filePath);
+
+        CodeCompileUnit unit;
+        CodeTypeDeclaration NewClass;
+        CreateNewClass(out unit, out NewClass);
+
+        AddProp(xDoc, NewClass);
+
+        GenCSharp(outputFile, unit);
+        
+    }
+    private static void GetPropString(string filePath)
+    {
+        className = StringEx.GetFileNameWithoutExtention(filePath);
+        baseClassName = "GameData<" + className + ">";
+        nameSpace = "ResetCore.Data.GameDatas";
+        importNameSpaces = new string[]{
             "System","System.Collections.Generic"
         };
-        string outputFile = PathConfig.localGameDataClassPath + "/" + className + ".cs";
-
+        outputFile = PathConfig.localGameDataClassPath + "/" + className + ".cs";
+    }
+    private static XDocument LoadXml(string filePath)
+    {
         XDocument xDoc = XDocument.Load(filePath);
         if (xDoc == null)
         {
             Debug.logger.LogError("创建GameData", "没有成功加载Xml");
         }
-
-        CodeCompileUnit unit = new CodeCompileUnit();
+        return xDoc;
+    }
+    private static void CreateNewClass(out CodeCompileUnit unit, out CodeTypeDeclaration NewClass)
+    {
+        unit = new CodeCompileUnit();
         CodeNamespace theNamespace = new CodeNamespace(nameSpace);
         unit.Namespaces.Add(theNamespace);
 
-        
-        CodeTypeDeclaration NewClass = new CodeTypeDeclaration(className);
+
+        NewClass = new CodeTypeDeclaration(className);
         theNamespace.Types.Add(NewClass);
 
-        foreach(string ns in importNameSpaces){
+        foreach (string ns in importNameSpaces)
+        {
             CodeNamespaceImport import = new CodeNamespaceImport(ns);
             theNamespace.Imports.Add(import);
         }
-        
+
 
         NewClass.TypeAttributes = TypeAttributes.Public;
         NewClass.BaseTypes.Add(baseClassName);
@@ -67,8 +100,9 @@ public class DataClassesGenWindow : EditorWindow{
         fileNameField.Attributes = MemberAttributes.Static | MemberAttributes.Public;
         fileNameField.InitExpression = new CodeSnippetExpression("\"" + className + "\"");
         NewClass.Members.Add(fileNameField);
-        
-
+    }
+    private static void AddProp(XDocument xDoc, CodeTypeDeclaration NewClass)
+    {
         foreach (XElement el in xDoc.Root.Element("item").Elements())
         {
             string[] propAttrs = el.Name.LocalName.Split('_');
@@ -77,7 +111,7 @@ public class DataClassesGenWindow : EditorWindow{
             string propComment = "";
             if (propAttrs.Length > 2)
             {
-                for(int i = 2; i < propAttrs.Length; i ++)
+                for (int i = 2; i < propAttrs.Length; i++)
                 {
                     propComment += propAttrs[i] + " ";
                 }
@@ -102,8 +136,9 @@ public class DataClassesGenWindow : EditorWindow{
 
             NewClass.Members.Add(property);
         }
-
-
+    }
+    private static void GenCSharp(string outputFile, CodeCompileUnit unit)
+    {
         //生成代码
         CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
 
@@ -119,9 +154,7 @@ public class DataClassesGenWindow : EditorWindow{
             provider.GenerateCodeFromCompileUnit(unit, sw, options);
 
         }
-        
     }
-
    
 	
 }

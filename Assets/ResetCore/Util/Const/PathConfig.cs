@@ -43,4 +43,8 @@ public class PathConfig
 
     #endregion
 
+    #region HttpProxy相关
+    private const string internalUrl = "";
+    private const string outUrl = "";
+    #endregion
 }
