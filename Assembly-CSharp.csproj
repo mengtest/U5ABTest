@@ -57,6 +57,7 @@
      <Compile Include="Assets\ResetCore\Events\EventController.cs" />
      <Compile Include="Assets\ResetCore\Events\EventDispatcher.cs" />
      <Compile Include="Assets\ResetCore\Events\Events.cs" />
+     <Compile Include="Assets\ResetCore\NetPost\HttpProxy.cs" />
      <Compile Include="Assets\ResetCore\ProtoData\ProtoData.cs" />
      <Compile Include="Assets\ResetCore\Util\ActionQueue.cs" />
      <Compile Include="Assets\ResetCore\Util\Const\EditorPrefNames.cs" />
