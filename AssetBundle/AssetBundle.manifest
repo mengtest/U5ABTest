@@ -2,9 +2,33 @@ ManifestFileVersion: 0
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: assets/resources/prefabs/cube.ab
-      Dependencies:
-        Dependency_0: assets/resources/newmaterial.ab
+      Name: assets/resources/data/bundledata/scenedata/dynamicmain.xml.ab
+      Dependencies: {}
     Info_1:
-      Name: assets/resources/newmaterial.ab
+      Name: assets/resources/data/gamedata/itemdata.xml.ab
+      Dependencies: {}
+    Info_2:
+      Name: assets/resources/newmaterial.mat.ab
+      Dependencies: {}
+    Info_3:
+      Name: assets/resources/data/bundledata/scenedata/dynamictestloadscene.xml.ab
+      Dependencies: {}
+    Info_4:
+      Name: assets/resources/data/bundledata/scenedata/staticmain.xml.ab
+      Dependencies: {}
+    Info_5:
+      Name: assets/resources/data/bundledata/resourceslist.xml.ab
+      Dependencies: {}
+    Info_6:
+      Name: assets/resources/prefabs/cube.prefab.ab
+      Dependencies:
+        Dependency_0: assets/resources/newmaterial.mat.ab
+    Info_7:
+      Name: assets/resources/data/protobufdata/testdata1.protodata.bytes.ab
+      Dependencies: {}
+    Info_8:
+      Name: assets/resources/data/protobufdata/testdata.protodata.bytes.ab
+      Dependencies: {}
+    Info_9:
+      Name: assets/resources/data/bundledata/scenedata/statictestloadscene.xml.ab
       Dependencies: {}

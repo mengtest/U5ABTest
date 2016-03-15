@@ -6,11 +6,15 @@ public class PathConfig
 {
 
     #region AssetBundle 相关
-    public static readonly string resourceListDocPath = Application.dataPath + "/ResetCore/AssetBundle/Data/ResourcesList.xml";
-    public static readonly string resourcePath = Application.dataPath + "/Resources";
-
-
+    public static readonly string resourcePath = Application.dataPath + "/Resources/";
+    //资源列表目录
+    public static readonly string resourceListDocPath = "Data/BundleData/ResourcesList";
+    //场景记录文件储存目录
+    public static readonly string sceneXmlRootPath = "Data/BundleData/SceneData/";
+    //预置组件信息文件储存目录
+    public static readonly string compInfoXmlRootPath = "Data/BundleData/PrefabCompData/";
     
+    //AssetBundle导出文件夹
     public static readonly string bundleFolderName = "AssetBundle";
     public static readonly string AssetRootBundlePath = PathConfig.bundleRootPath + "/" + bundleFolderName;
     public static string bundleRootPath
@@ -37,14 +41,13 @@ public class PathConfig
 
     #region GameData相关
     //存放Xml的地址
-    public static readonly string localGameDataXmlPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/xml";
+    public static readonly string localGameDataXmlPath = resourcePath + "Data/GameData/";
     //存放GameData类的地址
-    public static readonly string localGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses";
+    public static readonly string localGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/";
 
     #endregion
 
-    #region HttpProxy相关
-    private const string internalUrl = "";
-    private const string outUrl = "";
+    #region NetPost
+    public static readonly string NetPostURL = "";
     #endregion
 }

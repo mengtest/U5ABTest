@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root Name="Cube.prefab">
+  <Transform>
+    <position>(4.4, 0.2, -2.7)</position>
+    <localPosition>(4.4, 0.2, -2.7)</localPosition>
+    <eulerAngles>(0.0, 0.0, 0.0)</eulerAngles>
+    <localEulerAngles>(0.0, 0.0, 0.0)</localEulerAngles>
+    <right>(1.0, 0.0, 0.0)</right>
+    <up>(0.0, 1.0, 0.0)</up>
+    <forward>(0.0, 0.0, 1.0)</forward>
+    <rotation>(0.0, 0.0, 0.0, 1.0)</rotation>
+    <localRotation>(0.0, 0.0, 0.0, 1.0)</localRotation>
+    <localScale>(1.0, 1.0, 1.0)</localScale>
+    <parent />
+    <hasChanged>true</hasChanged>
+    <tag>Untagged</tag>
+    <name>Cube</name>
+    <hideFlags>HideInHierarchy</hideFlags>
+  </Transform>
+  <MeshFilter>
+    <mesh />
+    <sharedMesh>Cube (UnityEngine.Mesh)</sharedMesh>
+    <tag>Untagged</tag>
+    <name>Cube</name>
+    <hideFlags>HideInHierarchy</hideFlags>
+  </MeshFilter>
+  <BoxCollider>
+    <center>(0.0, 0.0, 0.0)</center>
+    <size>(1.0, 1.0, 1.0)</size>
+    <extents>(0.5, 0.5, 0.5)</extents>
+    <enabled>true</enabled>
+    <isTrigger>false</isTrigger>
+    <contactOffset>0.01</contactOffset>
+    <material>Default (Instance) (UnityEngine.PhysicMaterial)</material>
+    <sharedMaterial>Default (Instance) (UnityEngine.PhysicMaterial)</sharedMaterial>
+    <tag>Untagged</tag>
+    <name>Cube</name>
+    <hideFlags>HideInHierarchy</hideFlags>
+  </BoxCollider>
+  <MeshRenderer>
+    <additionalVertexStreams />
+    <enabled>true</enabled>
+    <shadowCastingMode>On</shadowCastingMode>
+    <castShadows>true</castShadows>
+    <receiveShadows>true</receiveShadows>
+    <material />
+    <sharedMaterial>NewMaterial (UnityEngine.Material)</sharedMaterial>
+    <materials />
+    <sharedMaterials>NewMaterial (UnityEngine.Material)</sharedMaterials>
+    <lightmapIndex>-1</lightmapIndex>
+    <realtimeLightmapIndex>-1</realtimeLightmapIndex>
+    <lightmapScaleOffset>(1.0, 1.0, 0.0, 0.0)</lightmapScaleOffset>
+    <realtimeLightmapScaleOffset>(1.0, 1.0, 0.0, 0.0)</realtimeLightmapScaleOffset>
+    <useLightProbes>true</useLightProbes>
+    <probeAnchor />
+    <reflectionProbeUsage>BlendProbes</reflectionProbeUsage>
+    <sortingLayerName>Default</sortingLayerName>
+    <sortingLayerID>0</sortingLayerID>
+    <sortingOrder>0</sortingOrder>
+    <lightmapTilingOffset>(0.0, 0.0, 0.0, 0.0)</lightmapTilingOffset>
+    <lightProbeAnchor />
+    <tag>Untagged</tag>
+    <name>Cube</name>
+    <hideFlags>HideInHierarchy</hideFlags>
+  </MeshRenderer>
+</Root>

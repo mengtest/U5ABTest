@@ -1,0 +1,29 @@
+ManifestFileVersion: 0
+CRC: 2326092616
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 620cacc4eeed74a64d8889a28a05545a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 67e99222a1589ff9377ee6366f65dd7a
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+Assets:
+- Assets/Resources/Prefabs/Cube.prefab
+Dependencies:
+- D:/Users/ResetOTER/Documents/Unity5Project/U5ABTest/AssetBundle/assets/resources/newmaterial.mat.ab

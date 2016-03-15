@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
+using ResetCore.Asset;
+
 namespace ResetCore.Util
 {
     public class MyXMLParser
@@ -10,7 +12,8 @@ namespace ResetCore.Util
 
         public static bool LoadIntMap(string fileName, out Dictionary<int, Dictionary<string, string>> dicFromXml)
         {
-            XDocument xDoc = XDocument.Load(fileName);
+            TextAsset textAsset = ResourcesLoaderHelper.Instance.LoadTextAsset(fileName);
+            XDocument xDoc = XDocument.Parse(textAsset.text);
             XElement root = xDoc.Root;
             dicFromXml = new Dictionary<int, Dictionary<string, string>>();
             if (xDoc == null) return false;

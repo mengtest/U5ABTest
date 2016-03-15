@@ -88,7 +88,7 @@ namespace ResetCore.Data
 
         public object FormatData(string fileName, Type dicType, Type type)
         {
-            return this.FormatXMLData(this.m_resourcePath + "/" + fileName + this.m_fileExtention, dicType, type);
+            return this.FormatXMLData(fileName + this.m_fileExtention, dicType, type);
         }
 
         private object FormatXMLData(string fileName, Type dicType, Type type)

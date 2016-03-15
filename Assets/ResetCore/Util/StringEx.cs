@@ -151,6 +151,25 @@ namespace ResetCore.Util
             return null;
         }
 
+        public static string ConverToString(object value, System.Type type)
+        {
+            if (type == null)
+            {
+                return "";
+            }
+            if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Dictionary<,>)))
+            {
+                System.Type[] genericArguments = type.GetGenericArguments();
+                //type.GetProperty
+                return type.ToString();
+            }
+            if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)))
+            {
+
+            }
+            return value.ToString();
+        }
+
         public static bool ParseColor(string _inputString, out Color result)
         {
             string str = _inputString.Trim();

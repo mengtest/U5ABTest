@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Root>
+  <n>NewMaterial.mat</n>
+  <p>Assets/Resources/NewMaterial</p>
+  <n>ResourcesList.xml</n>
+  <p>Assets/Resources/Data/BundleData/ResourcesList</p>
+  <n>Cube.xml</n>
+  <p>Assets/Resources/Data/BundleData/PrefabCompData/Cube</p>
+  <n>DynamicMain.xml</n>
+  <p>Assets/Resources/Data/BundleData/SceneData/DynamicMain</p>
+  <n>DynamicTestLoadScene.xml</n>
+  <p>Assets/Resources/Data/BundleData/SceneData/DynamicTestLoadScene</p>
+  <n>StaticMain.xml</n>
+  <p>Assets/Resources/Data/BundleData/SceneData/StaticMain</p>
+  <n>StaticTestLoadScene.xml</n>
+  <p>Assets/Resources/Data/BundleData/SceneData/StaticTestLoadScene</p>
+  <n>ItemData.xml</n>
+  <p>Assets/Resources/Data/GameData/ItemData</p>
+  <n>TestData.protodata.bytes</n>
+  <p>Assets/Resources/Data/ProtoBufData/TestData.protodata</p>
+  <n>TestData1.protodata.bytes</n>
+  <p>Assets/Resources/Data/ProtoBufData/TestData1.protodata</p>
+  <n>Cube.prefab</n>
+  <p>Assets/Resources/Prefabs/Cube</p>
+</Root>

@@ -1,34 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ResetCore.Asset;
+using ResetCore.Util;
+using System.Collections.Generic;
+using ResetCore.Data;
+using ResetCore.Data.GameDatas;
+//using ResetCore.Data.GameDatas;
 
-public class Driver : MonoBehaviour {
+public class Driver : MonoSingleton<Driver> {
 
-    private static Driver Instance;
-    public static Driver instance
-    {
-        get { return Instance; }
-    }
 
     void Awake()
     {
-        Instance = this;
         Init();
     }
 
 	// Use this for initialization
 	void Start () {
-        GameObject go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
-        go.transform.position = Vector3.zero;
-        go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
-        go.transform.position = new Vector3(1, 1, 1);
+        //GameObject go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
+        //go.transform.position = Vector3.zero;
+        //go = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
+        //go.transform.position = new Vector3(1, 1, 1);
+
+        //NetTaskDispatcher.instance.AddNetPostTask(new ExampleNetTask(null));
+
+        XmlSceneBuilder.Instance.SceneBuilder("TestLoadScene", (bo) => { });
+        Debug.Log(ItemData.dataMap[1].description);
 	}
 
-    private void Init()
+    public override void Init()
     {
-        //ProtoData<m.TestData> testData = new ProtoData<m.TestData>();
-        //Debug.Log(testData[1].id);
+        base.Init();
     }
-
 
 }

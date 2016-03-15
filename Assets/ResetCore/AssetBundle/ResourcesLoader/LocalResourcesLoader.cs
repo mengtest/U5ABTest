@@ -18,7 +18,7 @@ namespace ResetCore.Asset
         public Object LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
         {
 
-            Object obj = Resources.Load(loadHelper.resourcesList[objectName]);
+            Object obj = Resources.Load(ResourcesLoaderHelper.resourcesList[objectName].Replace("Asset/Resources", ""));
 
             if (afterLoadAct != null)
                 afterLoadAct(obj);
@@ -46,7 +46,7 @@ namespace ResetCore.Asset
         public GameObject LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
         {
 
-            Object obj = Resources.Load(loadHelper.resourcesList[objectName]);
+            Object obj = Resources.Load(ResourcesLoaderHelper.resourcesList[objectName].Replace("Asset/Resources", ""));
             GameObject go = GameObject.Instantiate(obj) as GameObject;
 
 
