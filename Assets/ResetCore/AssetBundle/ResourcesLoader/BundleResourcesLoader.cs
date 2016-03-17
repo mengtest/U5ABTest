@@ -13,19 +13,19 @@ namespace ResetCore.Asset
         public ResourcesLoaderHelper loadHelper { get { return LoadHelper; } }
 
         //键为Bundle名，值为Bundle
-        public Dictionary<string, AssetInfo> assetInfoList { get; private set; }
+        public Dictionary<string, ABResInfo> assetInfoList { get; private set; }
 
         public BundleResourcesLoader(ResourcesLoaderHelper helper)
         {
             LoadHelper = helper;
-            assetInfoList = new Dictionary<string, AssetInfo>();
+            assetInfoList = new Dictionary<string, ABResInfo>();
         }
 
         public Object LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
         {
 
             string bundleName = ResourcesLoaderHelper.GetResourcesBundleNameByObjectName(objectName);
-            AssetInfo assetInfo = LoadFromFileOrCache(bundleName);
+            ABResInfo assetInfo = LoadFromFileOrCache(bundleName);
             AssetBundle assetBundle = assetInfo.assetbundle;
 
             Object obj = null;
@@ -39,6 +39,10 @@ namespace ResetCore.Asset
 
                 obj = assetBundle.LoadAsset(objectName);
             }
+            else
+            {
+
+            }
 
             if (afterLoadAct != null)
                 afterLoadAct(obj);
@@ -50,32 +54,7 @@ namespace ResetCore.Asset
 
         }
 
-        public Object[] LoadResources(string[] objectsNames, System.Action<Object[]> afterLoadAct = null)
-        {
-            Object[] objs = new Object[objectsNames.Length];
-            for (int i = 0; i < objs.Length; i++)
-            {
-                objs[i] = ResourcesLoaderHelper.Instance.LoadResource(objectsNames[i]);
-            }
-
-            if (afterLoadAct != null)
-                afterLoadAct(objs);
-
-            return objs;
-        }
-
-        public GameObject LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
-        {
-            Object obj = ResourcesLoaderHelper.Instance.LoadResource(objectName);
-            GameObject go = GameObject.Instantiate(obj) as GameObject;
-
-            if (afterLoadAct != null)
-                afterLoadAct(go);
-
-            return go;
-        }
-
-        private AssetInfo LoadFromFileOrCache(string bundleName)
+        private ABResInfo LoadFromFileOrCache(string bundleName)
         {
             if (assetInfoList.ContainsKey(bundleName))
             {
@@ -83,7 +62,7 @@ namespace ResetCore.Asset
             }
             else
             {
-                AssetInfo newInfo = new AssetInfo(bundleName);
+                ABResInfo newInfo = new ABResInfo(bundleName);
                 assetInfoList.Add(bundleName, newInfo);
                 UnloadBundles();
                 return newInfo;
@@ -102,9 +81,19 @@ namespace ResetCore.Asset
                                       select new { Key = list.Key };
                 foreach (var item in unloadResources)
                 {
-                    assetInfoList[item.Key].assetbundle.Unload(false);
+                    assetInfoList[item.Key].Unload();
                     assetInfoList.Remove(item.Key);
                 }
+            }
+        }
+
+        //释放所有Bundle
+        private void UnloadAll()
+        {
+            foreach (KeyValuePair<string, ABResInfo> assetPair in assetInfoList)
+            {
+                assetPair.Value.Unload();
+                assetInfoList.Remove(assetPair.Key);
             }
         }
     }

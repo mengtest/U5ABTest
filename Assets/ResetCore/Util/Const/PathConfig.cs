@@ -5,6 +5,12 @@ using System.IO;
 public class PathConfig
 {
 
+    #region 全局
+    public static readonly string projectPath = Application.dataPath.ToLower().Replace("asset", "");
+
+
+    #endregion
+
     #region AssetBundle 相关
     public static readonly string resourcePath = Application.dataPath + "/Resources/";
     //资源列表目录

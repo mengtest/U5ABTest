@@ -13,6 +13,10 @@ namespace ResetCore.Util
         public static bool LoadIntMap(string fileName, out Dictionary<int, Dictionary<string, string>> dicFromXml)
         {
             TextAsset textAsset = ResourcesLoaderHelper.Instance.LoadTextAsset(fileName);
+            if (textAsset == null)
+            {
+                Debug.logger.LogError("XMLParser", fileName + " 文本加载失败");
+            }
             XDocument xDoc = XDocument.Parse(textAsset.text);
             XElement root = xDoc.Root;
             dicFromXml = new Dictionary<int, Dictionary<string, string>>();

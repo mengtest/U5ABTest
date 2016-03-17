@@ -140,15 +140,15 @@ public class SceneXmlBuilder
 
         XmlElement gameObjectRoot = xmlDoc.CreateElement("GameObject");
         gameObjectRoot.SetAttribute("PrefabType", prefabType.ToString());
-        XmlElement propRoot = xmlDoc.CreateElement("Property");
-
+        XmlElement fieldRoot = xmlDoc.CreateElement("Field");
+        XmlElement propRoot = xmlDoc.CreateElement("Prop");
 
 
         //当为没有Prefab的时候
         if (prefabType == PrefabType.None)
         {
             gameObjectRoot.SetAttribute("Name", obj.name);
-            WriteTransform(xmlDoc, propRoot, obj);
+            WriteTransform(xmlDoc, fieldRoot, obj);
         }
         //有Prefab的时候
         else if (prefabType == PrefabType.PrefabInstance)
@@ -174,10 +174,10 @@ public class SceneXmlBuilder
                     gameObjectRoot.SetAttribute("Name", obj.name + ".prefab");
                 }
                 //写入Transform
-                WriteTransform(xmlDoc, propRoot, obj);
+                WriteTransform(xmlDoc, fieldRoot, obj);
             }
 
-            WriteChangedValue(xmlDoc, propRoot, obj);
+            WriteChangedValue(xmlDoc, propRoot, fieldRoot, obj);
             //对Prefab中的子物体进行遍历
 
         }
@@ -232,10 +232,20 @@ public class SceneXmlBuilder
 
 
 
+        if (fieldRoot.HasChildNodes)
+        {
+            gameObjectRoot.AppendChild(fieldRoot);
+        }
         if (propRoot.HasChildNodes)
+        {
             gameObjectRoot.AppendChild(propRoot);
+        }
+
         if (gameObjectRoot.HasChildNodes)
+        {
             parent.AppendChild(gameObjectRoot);
+        }
+            
         currentTree.Pop();
     }
     //写入位置
@@ -264,13 +274,110 @@ public class SceneXmlBuilder
         propEle.AppendChild(transformRoot);
     }
 
-    private static void WriteChangedValue(XmlDocument xmlDoc, XmlElement propEle, GameObject obj)
+    private static void WriteChangedValue(XmlDocument xmlDoc, XmlElement propEle, XmlElement fieldEle, GameObject obj)
     {
         string prefabPath = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabParent(obj));
         GameObject prefabGo = AssetDatabase.LoadAssetAtPath(prefabPath, typeof(GameObject)) as GameObject;
 
         //当不为Prefab的根物体就要寻找该物体在Prefab中的位置
         //（在这里不允许出现子物体重名！并且要求场景中子物体名与Prefab中的相同！）
+        bool hasTruePrefabExist = GetPrefabInAsset(obj, ref prefabGo);
+        if (!hasTruePrefabExist) return;
+
+
+        Component[] prefabComps = prefabGo.GetComponents<Component>();
+        Component[] objComps = obj.GetComponents<Component>();
+
+        if (!HasSameComponent(obj, prefabComps, objComps)) return;
+
+        //开始检查每个组件中的域
+        for (int compNum = 0; compNum < prefabComps.Length; compNum++)
+        {
+            Component prefabComp = prefabComps[compNum];
+            Component objComp = objComps[compNum];
+
+            AddFieldInfos(xmlDoc, fieldEle, prefabComp, objComp);
+            AddPropInfos(xmlDoc, propEle, prefabComp, objComp);
+        }
+    }
+
+    //加上相应的域信息
+    private static void AddFieldInfos(XmlDocument xmlDoc, XmlElement fieldEle, Component prefabComp, Component objComp)
+    {
+        Type compType = prefabComp.GetType();
+
+        XmlElement compEle = xmlDoc.CreateElement(compType.Name);
+
+        FieldInfo[] fieldInfos = compType.GetFields();
+        for (int infoNum = 0; infoNum < fieldInfos.Length; infoNum++)
+        {
+            FieldInfo fieldInfo = fieldInfos[infoNum];
+
+            if (StringEx.IsConvertableType(fieldInfo.FieldType) && fieldInfo.IsPublic == true)//为公共类型并且与Prefab不一样了
+            {
+                object prefabValue = fieldInfo.GetValue(prefabComp);
+                object objValue = fieldInfo.GetValue(objComp);
+
+                if (!prefabValue.Equals(objValue))
+                {
+                    Debug.Log(compType.Name);
+                    Debug.Log(fieldInfos[infoNum].Name);
+                    Debug.Log(prefabValue + "  " + objValue);
+                    System.Type type = fieldInfo.FieldType;
+                    compEle.SetAttribute(fieldInfo.Name, StringEx.ConverToString(objValue, type));
+                }
+               
+            }
+        }
+        if (compEle.HasAttributes)
+        {
+            fieldEle.AppendChild(compEle);
+        }
+    }
+
+    private static void AddPropInfos(XmlDocument xmlDoc, XmlElement propEle, Component prefabComp, Component objComp)
+    {
+        Type compType = prefabComp.GetType();
+
+        XmlElement compEle = xmlDoc.CreateElement(compType.Name);
+
+        PropertyInfo[] propInfos = compType.GetProperties();
+        for (int infoNum = 0; infoNum < propInfos.Length; infoNum++)
+        {
+            PropertyInfo propInfo = propInfos[infoNum];
+
+            if (StringEx.IsConvertableType(propInfo.PropertyType) && 
+                propInfo.GetGetMethod() != null && propInfo.GetGetMethod().IsPublic == true &&
+                propInfo.GetSetMethod() != null && propInfo.GetSetMethod().IsPublic == true)
+            {
+                object prefabValue = propInfo.GetValue(prefabComp, null);
+                object objValue = propInfo.GetValue(objComp, null);
+
+                if (prefabValue == null || objValue == null) continue;
+
+                if(!prefabValue.Equals(objValue))
+                {
+                    Debug.Log(compType.Name);
+                    Debug.Log(propInfos[infoNum].Name);
+                    Debug.Log(prefabValue + "!!!!!!!!!!!!!!!!!" + objValue);
+                    System.Type type = propInfo.PropertyType;
+                    compEle.SetAttribute(propInfo.Name, StringEx.ConverToString(objValue, type));
+                }
+                
+            }
+        }
+        if (compEle.HasAttributes)
+        {
+            propEle.AppendChild(compEle);
+        }
+    }
+
+    
+
+    //获取从AssetDatabase中加载出来的Prefab
+    private static bool GetPrefabInAsset(GameObject obj, ref GameObject prefabGo)
+    {
+        bool flag = true;
         if (PrefabUtility.FindPrefabRoot(obj) != obj)
         {
             GameObject tempObj = obj;
@@ -293,66 +400,32 @@ public class SceneXmlBuilder
                 else
                 {
                     Debug.LogError("在" + prefabGo.name + "中找不到子物体" + childName);
-                    return;
+                    flag = false;
                 }
 
             }
         }
+        return flag;
+    }
 
-
-        Component[] prefabComps = prefabGo.GetComponents<Component>();
-        Component[] objComps = obj.GetComponents<Component>();
-
+    //场景中的物体与数据库中相应物体是否有相同的组件
+    private static bool HasSameComponent(GameObject obj, Component[] prefabComps, Component[] objComps)
+    {
+        bool hasSameComponent = true;
         //检查组件是否相同
         if (prefabComps.Length != objComps.Length)
         {
             Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
-            return;
+            hasSameComponent = false;
         }
         for (int i = 0; i < prefabComps.Length; i++)
         {
             if (prefabComps.GetType() != objComps.GetType())
             {
                 Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
-                return;
+                hasSameComponent = false;
             }
         }
-
-        //开始检查每个组件中的域
-        for (int compNum = 0; compNum < prefabComps.Length; compNum++)
-        {
-            Component prefabComp = prefabComps[compNum];
-            Component objComp = objComps[compNum];
-
-            Type compType = prefabComp.GetType();
-            //Debug.Log(obj.name + "组件名为" + compType.Name);
-
-            XmlElement compEle = xmlDoc.CreateElement(compType.Name);
-
-            FieldInfo[] fieldInfos = compType.GetFields();
-            for (int infoNum = 0; infoNum < fieldInfos.Length; infoNum++)
-            {
-                FieldInfo fieldInfo = fieldInfos[infoNum];
-
-                object prefabValue = fieldInfo.GetValue(prefabComp);
-                object objValue = fieldInfo.GetValue(objComp);
-
-                if ((fieldInfo.FieldType.IsPrimitive || fieldInfo.FieldType == typeof(string) 
-                    || fieldInfo.FieldType == typeof(UnityEngine.Object)) && //为基本类型或者字符类型
-                    !fieldInfo.IsStatic && //不能为静态
-                    fieldInfo.IsPublic == true &&
-                    !prefabValue.Equals(objValue))//为公共类型并且与Prefab不一样了
-                {
-                    System.Type type = fieldInfo.FieldType;
-                    compEle.SetAttribute(fieldInfo.Name, StringEx.ConverToString(objValue, type));
-                }
-            }
-            if (compEle.HasAttributes)
-            {
-                propEle.AppendChild(compEle);
-            }
-        }
+        return hasSameComponent;
     }
-
-
 }

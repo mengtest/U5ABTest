@@ -126,6 +126,9 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
     //递归创建物体
     private IEnumerator CreateObject(XElement ele, GameObject parentObj)
     {
+        XElement fieldEl = ele.Element("Field");
+        XElement propEl = ele.Element("Prop");
+
         isDone = false;
         currentTree.Push(ele.Name.ToString());
         GameObject newObj = null;
@@ -160,7 +163,8 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
                             newObj.transform.parent = parentObj.transform;
                             StartCoroutine(CreateChildrenObject(ele, newObj));
                             SetObjectTransform(ele, newObj);
-                            SetChangedValue(ele.Element("Property"), newObj);
+                            SetChangedField(fieldEl, newObj);
+                            SetChangedProp(propEl, newObj);
                             //Debug.Log("创建" + ele.Attribute("Name").Value + "对象成功！");
                         }
                         else
@@ -183,7 +187,8 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
                 {
                     //Debug.LogError("设置中！！");
                     newObj = parentObj.transform.FindChild(ele.Attribute("Name").Value).gameObject;
-                    SetChangedValue(ele.Element("Property"), newObj);
+                    SetChangedField(fieldEl, newObj);
+                    SetChangedProp(propEl, newObj);
                     yield return StartCoroutine(CreateChildrenObject(ele, newObj));
                     UpdateProcess();
                 }
@@ -221,9 +226,9 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
 
     private void SetObjectTransform(XElement objEle, GameObject obj)
     {
-        obj.transform.localPosition = GetXYZ(objEle.Element("Property").Element("Transform").Element("Position"));
-        obj.transform.localEulerAngles = GetXYZ(objEle.Element("Property").Element("Transform").Element("Rotation"));
-        obj.transform.localScale = GetXYZ(objEle.Element("Property").Element("Transform").Element("Scale"));
+        obj.transform.localPosition = GetXYZ(objEle.Element("Field").Element("Transform").Element("Position"));
+        obj.transform.localEulerAngles = GetXYZ(objEle.Element("Field").Element("Transform").Element("Rotation"));
+        obj.transform.localScale = GetXYZ(objEle.Element("Field").Element("Transform").Element("Scale"));
     }
 
     //获取XYZ属性
@@ -233,7 +238,28 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
         return xyz;
     }
 
-    private void SetChangedValue(XElement propEle, GameObject obj)
+    private void SetChangedField(XElement fieldEle, GameObject obj)
+    {
+        if (fieldEle == null || obj == null || !fieldEle.HasElements)
+            return;
+        foreach (XElement ele in fieldEle.Elements())
+        {
+            if (ele.Name.Equals("Transform"))
+            {
+                continue;
+            }
+            Component comp = obj.GetComponent(ele.Name.LocalName);
+            Type compType = comp.GetType();
+            foreach (XAttribute attr in ele.Attributes())
+            {
+                FieldInfo fieldInfo = compType.GetField(attr.Name.LocalName);
+                Debug.Log("变量名为 " + attr.Name.LocalName + " 变量类型为 " + fieldInfo.FieldType.Name);
+                fieldInfo.SetValue(comp, StringEx.GetValue(attr.Value, fieldInfo.FieldType));
+            }
+        }
+    }
+
+    private void SetChangedProp(XElement propEle, GameObject obj)
     {
         if (propEle == null || obj == null || !propEle.HasElements)
             return;
@@ -247,9 +273,9 @@ public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
             Type compType = comp.GetType();
             foreach (XAttribute attr in ele.Attributes())
             {
-                FieldInfo fieldInfo = compType.GetField(attr.Name.LocalName);
-                Debug.Log("变量名为 " + attr.Name.LocalName + " 变量类型为 " + fieldInfo.FieldType.Name);
-                fieldInfo.SetValue(comp, StringEx.GetValue(attr.Value, fieldInfo.FieldType));
+                PropertyInfo propInfo = compType.GetProperty(attr.Name.LocalName);
+                //Debug.Log("变量名为 " + attr.Name.LocalName + " 变量类型为 " + propInfo.PropertyType.Name + " 值为 " + attr.Value);
+                propInfo.SetValue(comp, StringEx.GetValue(attr.Value, propInfo.PropertyType), null);
             }
         }
     }

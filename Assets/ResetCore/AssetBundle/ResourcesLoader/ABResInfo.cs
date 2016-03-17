@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.IO;
 
 namespace ResetCore.Asset
 {
-    public class AssetInfo
+    public class ABResInfo
     {
 
         public string url { get; private set; }
@@ -28,13 +29,28 @@ namespace ResetCore.Asset
         public string[] dependenciesNames { get; private set; }
 
 
-        public AssetInfo(string bundleName)
+        public ABResInfo(string bundleName)
         {
             url = ResourcesLoaderHelper.GetBundlePathByBundleName(bundleName);
             getTimeLastTime = DateTime.Now;
             assetBundleName = bundleName;
             dependenciesNames = ResourcesLoaderHelper.Instance.manifest.GetAllDependencies(bundleName);
-            assetbundle = AssetBundle.LoadFromFile(ResourcesLoaderHelper.GetBundlePathByBundleName(bundleName));
+            string path = ResourcesLoaderHelper.GetBundlePathByBundleName(bundleName);
+
+            if (File.Exists(path))
+            {
+                assetbundle = AssetBundle.LoadFromFile(path);
+            }
+            else
+            {
+                Debug.logger.LogError("LocalResInfo", path + "中的文件不存在！");
+            }
+                
+        }
+
+        public void Unload()
+        {
+            assetbundle.Unload(false);
         }
     }
 

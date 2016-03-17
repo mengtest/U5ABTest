@@ -135,7 +135,7 @@ namespace ResetCore.Data
             }
             catch (Exception exception)
             {
-                Debug.logger.LogError("GameData", "FormatData Error: " + fileName + "  " + exception.Message);
+                Debug.logger.LogError("GameData", "FormatData Error: " + fileName + "  " + exception.Message + " " + exception.StackTrace);
             }
             result = dataDic;
             return result;

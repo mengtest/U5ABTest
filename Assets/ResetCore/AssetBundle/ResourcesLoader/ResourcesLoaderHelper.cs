@@ -37,7 +37,16 @@ namespace ResetCore.Asset
             {
                 if (MainBundle == null)
                 {
-                    MainBundle = AssetBundle.LoadFromFile(PathConfig.AssetRootBundlePath);
+                    string path = PathConfig.AssetRootBundlePath;
+                    if (File.Exists(path))
+                    {
+                        MainBundle = AssetBundle.LoadFromFile(path);
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                        
                 }
                 return MainBundle;
             }
@@ -50,7 +59,15 @@ namespace ResetCore.Asset
             {
                 if (Manifest == null)
                 {
-                    Manifest = (AssetBundleManifest)mainBundle.LoadAsset("AssetBundleManifest");
+                    if (mainBundle != null)
+                    {
+                        Manifest = (AssetBundleManifest)mainBundle.LoadAsset("AssetBundleManifest");
+                    }
+                    else
+                    {
+                        Manifest = null;
+                    }
+                    
                 }
                 return Manifest;
             }
@@ -75,12 +92,20 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public Object LoadResource(string objectName, System.Action<Object> afterLoadAct = null)
         {
-            Object obj = bundleLoader.LoadResource(objectName, afterLoadAct);
-            if (obj == null)
+            Object obj = null;
+            if (mainBundle != null)
+            {
+                obj = bundleLoader.LoadResource(objectName, afterLoadAct);
+                if (obj == null)
+                {
+                    obj = localLoader.LoadResource(objectName, afterLoadAct);
+                }
+            }
+            else
             {
                 obj = localLoader.LoadResource(objectName, afterLoadAct);
             }
-
+            
             return obj;
         }
         /// <summary>
@@ -91,11 +116,16 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public Object[] LoadResources(string[] objectNames, System.Action<Object[]> afterLoadAct = null)
         {
-            Object[] objs = bundleLoader.LoadResources(objectNames, afterLoadAct);
-            if (objs == null)
+            int length = objectNames.Length;
+            Object[] objs = new Object[length];
+
+            for (int i = 0; i < length; i ++)
             {
-                objs = localLoader.LoadResources(objectNames, afterLoadAct);
+                objs[i] = ResourcesLoaderHelper.Instance.LoadResource(objectNames[i]);
             }
+
+            if(afterLoadAct != null)
+                afterLoadAct(objs);
             return objs;
         }
         /// <summary>
@@ -106,11 +136,8 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public GameObject LoadAndGetInstance(string objectName, System.Action<GameObject> afterLoadAct = null)
         {
-            GameObject go = bundleLoader.LoadAndGetInstance(objectName, afterLoadAct);
-            if (go == null)
-            {
-                go = localLoader.LoadAndGetInstance(objectName, afterLoadAct);
-            }
+            Object obj = ResourcesLoaderHelper.Instance.LoadResource(objectName);
+            GameObject go = GameObject.Instantiate(obj) as GameObject;
             return go;
         }
         /// <summary>
@@ -121,11 +148,8 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public TextAsset LoadTextAsset(string objectName, System.Action<Object> afterLoadAct = null)
         {
-            TextAsset go = bundleLoader.LoadResource(objectName, afterLoadAct) as TextAsset;
-            if (go == null)
-            {
-                go = bundleLoader.LoadResource(objectName, afterLoadAct) as TextAsset;
-            }
+            TextAsset go = ResourcesLoaderHelper.Instance.LoadResource(objectName, afterLoadAct) as TextAsset;
+            
             return go;
         }
 
