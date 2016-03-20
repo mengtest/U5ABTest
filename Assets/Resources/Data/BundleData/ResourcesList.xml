@@ -4,8 +4,8 @@
   <p>Assets/Resources/NewMaterial</p>
   <n>ResourcesList.xml</n>
   <p>Assets/Resources/Data/BundleData/ResourcesList</p>
-  <n>Cube.xml</n>
-  <p>Assets/Resources/Data/BundleData/PrefabCompData/Cube</p>
+  <n>CubeInfoObj.asset</n>
+  <p>Assets/Resources/Data/BundleData/PrefabCompData/CubeInfoObj</p>
   <n>DynamicMain.xml</n>
   <p>Assets/Resources/Data/BundleData/SceneData/DynamicMain</p>
   <n>DynamicTestLoadScene.xml</n>

@@ -9,6 +9,7 @@ using System.Reflection;
 public class HandleCompOnAllPrefab {
 
     private static Dictionary<string, string> ResourcesList;
+    private static readonly string ComponentInfoObjectRootPath = PathConfig.assetResourcePath + PathConfig.compInfoObjRootPath;
 
     [MenuItem("Tools/生成预置组件信息")]
     public static void GenCompInfoXml()
@@ -38,36 +39,42 @@ public class HandleCompOnAllPrefab {
         }
 
         Component[] comps = go.GetComponents<Component>();
+        
+        ComponentInfoObject compDataObj = ScriptableObject.CreateInstance<ComponentInfoObject>();
+        compDataObj.componentGroup = new List<Component>(comps);
 
-        XDocument xDoc = new XDocument();
-        XElement root = new XElement("Root");
-        xDoc.Add(root);
-
-        root.SetAttributeValue("Name", go.name + ".prefab");
-        foreach (Component comp in comps)
+        foreach (Component comp in compDataObj.componentGroup)
         {
             System.Type compType = comp.GetType();
-            XElement compEl = new XElement(compType.Name);
-            FieldInfo[] fieldInfos = compType.GetFields();
-            PropertyInfo[] propInfos = compType.GetProperties();
-            Debug.logger.Log(compType.Name + " " + propInfos.Length);
-            foreach (PropertyInfo propInfo in propInfos)
+            Debug.LogError(compType.Name);
+
+            foreach (FieldInfo info in compType.GetFields())
             {
-                if ((propInfo.PropertyType.IsPublic == true && propInfo.CanWrite && propInfo.CanRead))
+                if (info.IsPublic && !info.IsStatic)
                 {
-                    XElement fieldEl = new XElement(propInfo.Name);
-                    object value = propInfo.GetValue(comp, null);
-                    if(value != null){
-                        fieldEl.SetValue(value);
-                    }
-                    
-                    compEl.Add(fieldEl);
+                    Debug.Log("Field " + info.Name);
+                    ///TODO写入域信息
                 }
+                
             }
-            root.Add(compEl);
+
+            foreach (PropertyInfo info in compType.GetProperties())
+            {
+                if (info.GetGetMethod() != null && info.GetSetMethod() != null &&
+                    info.GetGetMethod().IsPublic && info.GetSetMethod().IsPublic &&
+                    info.CanRead && info.CanWrite)
+                {
+                    Debug.Log("Property " + info.Name);
+                    ///TODO写入属性信息
+                }
+
+            }
+            
         }
-        Debug.logger.Log(PathConfig.resourcePath + PathConfig.compInfoXmlRootPath + go.name + ".xml");
-        xDoc.Save(PathConfig.resourcePath + PathConfig.compInfoXmlRootPath + go.name + ".xml");
-        AssetDatabase.Refresh();
+
+        string path = ComponentInfoObjectRootPath + go.name + ComponentInfoObject.ExName;
+
+        AssetDatabase.CreateAsset(compDataObj, path);
+        
     }
 }

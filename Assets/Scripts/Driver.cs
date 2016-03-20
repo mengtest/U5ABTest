@@ -24,8 +24,8 @@ public class Driver : MonoSingleton<Driver> {
 
         //NetTaskDispatcher.instance.AddNetPostTask(new ExampleNetTask(null));
 
-        XmlSceneBuilder.Instance.SceneBuilder("TestLoadScene", (bo) => { });
-        Debug.Log(ItemData.dataMap[1].description);
+        //XmlSceneBuilder.Instance.SceneBuilder("TestLoadScene", (bo) => { });
+        //Debug.Log(ItemData.dataMap[1].description);
 	}
 
     public override void Init()

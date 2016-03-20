@@ -7,7 +7,7 @@ public class PathConfig
 
     #region 全局
     public static readonly string projectPath = Application.dataPath.ToLower().Replace("asset", "");
-
+    public static readonly string assetResourcePath = "Assets/Resources/";
 
     #endregion
 
@@ -18,7 +18,7 @@ public class PathConfig
     //场景记录文件储存目录
     public static readonly string sceneXmlRootPath = "Data/BundleData/SceneData/";
     //预置组件信息文件储存目录
-    public static readonly string compInfoXmlRootPath = "Data/BundleData/PrefabCompData/";
+    public static readonly string compInfoObjRootPath = "Data/BundleData/PrefabCompData/";
     
     //AssetBundle导出文件夹
     public static readonly string bundleFolderName = "AssetBundle";
