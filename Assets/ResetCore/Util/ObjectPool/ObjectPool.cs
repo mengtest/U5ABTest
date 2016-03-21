@@ -17,6 +17,8 @@ namespace ResetCore.Util
         public bool IsCheckAllPool = true;
         [HeaderAttribute("当隐藏时是否将池外物体加入池内")]
         public bool AddOutterObjectToPool = true;
+        [HeaderAttribute("制作物体时是否重置其Transform")]
+        public bool IsResetObject = true;
 
 
         public override void Init()
@@ -58,7 +60,11 @@ namespace ResetCore.Util
                 finalGo.transform.parent = poolTran;
             }
 
-            ResetObject(finalGo);
+            if (IsResetObject)
+            {
+                ResetObject(finalGo);
+            }
+            
 
 
 
