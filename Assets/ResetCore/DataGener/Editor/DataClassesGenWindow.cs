@@ -115,6 +115,10 @@ public class DataClassesGenWindow : EditorWindow{
         foreach (XElement el in xDoc.Root.Element("item").Elements())
         {
             string[] propAttrs = el.Name.LocalName.Split('_');
+            if (propAttrs.Length < 2)
+            {
+                Debug.logger.LogError("生成数据类", "属性" + el.Name.LocalName + "不存在属性类型信息");
+            }
             string propName = propAttrs[0];
             string propType = propAttrs[1];
             string propComment = "";

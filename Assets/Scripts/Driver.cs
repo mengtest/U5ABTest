@@ -17,7 +17,8 @@ public class Driver : MonoSingleton<Driver> {
 
 	// Use this for initialization
 	void Start () {
-        
+        Debug.Log(0);
+        CoroutineHelper.Instance.DoCoroutine(Do());
 	}
 
     public override void Init()
@@ -29,26 +30,14 @@ public class Driver : MonoSingleton<Driver> {
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.UpArrow))
-        //{
-        //    GameObject cube = ObjectPool.Instance.CreateOrFindGameObject("Cube");
-        //    cubes.Add(cube);
-        //}
-        //if (Input.GetKeyDown(KeyCode.DownArrow))
-        //{
-        //    GameObject cube = GameObject.Find("Cube(Clone)");
-        //    ObjectPool.Instance.HideOrDestroyObject(cube);
-        //}
-        //if (Input.GetKeyDown(KeyCode.LeftArrow))
-        //{
-        //    GameObject cube = GameObject.Find("Cube(Clone)");
-        //    ObjectPool.Instance.AddObjectToPool(cube);
-        //}
-        //if (Input.GetKeyDown(KeyCode.RightArrow))
-        //{
-        //    GameObject cube = GameObject.Find("Cube(Clone)");
-        //    ObjectPool.Instance.AddObjectToPool(cube, "Cube");
-        //}
+        
+    }
+    
+    IEnumerator Do()
+    {
+        Debug.Log(0.1f);
+        yield return new WaitForSeconds(3);
+        Debug.Log(0.1f);
     }
 
 }
