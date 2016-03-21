@@ -79,6 +79,11 @@ namespace ResetCore.Asset
             sceneName = scenePath.Substring(scenePath.LastIndexOf("/") + 1, scenePath.Length - scenePath.LastIndexOf("/") - 1);
             sceneName = sceneName.Substring(0, sceneName.LastIndexOf("."));
 
+            if (!Directory.Exists(dataRoot))
+            {
+                Directory.CreateDirectory(dataRoot);
+            }
+
             string dynamicDataPath = dataRoot + dynamicSceneEx + sceneName + ".xml";
             string staticDataPath = dataRoot + staticSceneEx + sceneName + ".xml";
             Debug.logger.Log("导出路径为" + dynamicDataPath + "和" + staticDataPath);

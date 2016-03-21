@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ResetCore.Asset;
 using System.Xml.Linq;
 using System.Reflection;
+using System.IO;
 
 public class HandleCompOnAllPrefab {
 
@@ -73,6 +74,11 @@ public class HandleCompOnAllPrefab {
         }
 
         string path = ComponentInfoObjectRootPath + go.name + ComponentInfoObject.ExName;
+
+        if (!Directory.Exists(ComponentInfoObjectRootPath))
+        {
+            Directory.CreateDirectory(ComponentInfoObjectRootPath);
+        }
 
         AssetDatabase.CreateAsset(compDataObj, path);
         

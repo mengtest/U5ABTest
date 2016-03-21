@@ -17,6 +17,11 @@ public class DataClassesGenWindow : EditorWindow{
     [MenuItem("Tools/生成GameData类")]
     public static void CreateNewClasses()
     {
+        
+        if (!Directory.Exists(PathConfig.localGameDataXmlPath))
+        {
+            Directory.CreateDirectory(PathConfig.localGameDataXmlPath);
+        }
         DirectoryInfo dirInfo = new DirectoryInfo(PathConfig.localGameDataXmlPath);
         FileInfo[] fileInfos = dirInfo.GetFiles();
         CreateEveryFilesClasses(fileInfos);
@@ -64,7 +69,11 @@ public class DataClassesGenWindow : EditorWindow{
         importNameSpaces = new string[]{
             "System","System.Collections.Generic"
         };
-        outputFile = PathConfig.localGameDataClassPath + "/" + className + ".cs";
+        if (!Directory.Exists(PathConfig.localGameDataClassPath))
+        {
+            Directory.CreateDirectory(PathConfig.localGameDataClassPath);
+        }
+        outputFile = PathConfig.localGameDataClassPath + className + ".cs";
     }
     private static XDocument LoadXml(string filePath)
     {
