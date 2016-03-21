@@ -13,6 +13,8 @@ public class PathConfig
 
     #region AssetBundle 相关
     public static readonly string resourcePath = Application.dataPath + "/Resources/";
+    //Bundle根目录
+    public static readonly string resourceBundlePath = "Data/BundleData/";
     //资源列表目录
     public static readonly string resourceListDocPath = "Data/BundleData/ResourcesList";
     //场景记录文件储存目录

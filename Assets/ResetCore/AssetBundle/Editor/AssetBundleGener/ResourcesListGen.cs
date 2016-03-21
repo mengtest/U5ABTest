@@ -20,6 +20,7 @@ namespace ResetCore.Asset
                 new XElement("Root")
                 );
             XElement rootEl = resourceListDoc.Element("Root");
+            
             DirectoryInfo resourceFolder = new DirectoryInfo(PathConfig.resourcePath);
             FileInfo[] fileInfos = resourceFolder.GetFiles("*", SearchOption.AllDirectories);
 
@@ -38,7 +39,10 @@ namespace ResetCore.Asset
                 }
 
             }
-
+            if (!Directory.Exists(PathConfig.resourcePath + PathConfig.resourceBundlePath))
+            {
+                Directory.CreateDirectory(PathConfig.resourcePath + PathConfig.resourceBundlePath);
+            }
             resourceListDoc.Save(PathConfig.resourcePath + PathConfig.resourceListDocPath + ".xml");
             AssetDatabase.Refresh();
         }
