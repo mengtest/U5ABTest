@@ -24,7 +24,7 @@ namespace ResetCore.Util
         /// <summary>
         /// 协程任务类
         /// </summary>
-        class CoroutineTask
+        public class CoroutineTask
         {
 
             private IEnumerator iEnumer;
@@ -124,19 +124,47 @@ namespace ResetCore.Util
 
 
         /// <summary>
-        /// 开始一个新任务
+        /// 添加一个新任务
         /// </summary>
         /// <param name="taskName"></param>
         /// <param name="iEnumer"></param>
         /// <param name="callBack"></param>
         /// <param name="autoStart"></param>
-        public void DoTask(string taskName, IEnumerator iEnumer, System.Action<bool> callBack = null, bool autoStart = true)
+        public void AddTask(string taskName, IEnumerator iEnumer, System.Action<bool> callBack = null, bool autoStart = true)
         {
             if (taskList.ContainsKey(taskName))
             {
                 Debug.logger.LogError("添加新任务", "任务重名！" + taskName);
+                Restart(taskName);
             }
-            taskList.Add(taskName, new CoroutineTask(taskName, iEnumer, callBack, autoStart));
+            else
+            {
+                taskList.Add(taskName, new CoroutineTask(taskName, iEnumer, callBack, autoStart));
+            }
+            
+        }
+
+        public void AddTask(CoroutineTask task)
+        {
+            if (taskList.ContainsKey(task.name))
+            {
+                Debug.logger.LogError("添加新任务", "任务重名！" + task.name);
+            }
+            taskList.Add(task.name, task);
+        }
+
+        /// <summary>
+        /// 开始一个任务
+        /// </summary>
+        /// <param name="taskName"></param>
+        public void DoTask(string taskName)
+        {
+            if (!taskList.ContainsKey(taskName))
+            {
+                Debug.logger.LogError("开始任务", "不存在该任务" + taskName);
+                return;
+            }
+            taskList[taskName].Start();
         }
 
         /// <summary>
@@ -182,6 +210,18 @@ namespace ResetCore.Util
             taskList[taskName].Stop();
         }
 
+        public void Restart(string taskName)
+        {
+            if (!taskList.ContainsKey(taskName))
+            {
+                Debug.logger.LogError("重新开始任务", "不存在该任务" + taskName);
+                return;
+            }
+            CoroutineTask task = taskList[taskName];
+            Stop(taskName);
+            AddTask(task);
+        }
+
         /// <summary>
         /// 停止所有协程
         /// </summary>
@@ -198,12 +238,12 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public void WaitSecondTodo(System.Action callBack, int time)
+        public void WaitSecondTodo(System.Action callBack, float time)
         {
-            DoTask(callBack.GetHashCode().ToString() + time.ToString(), DoWaitTodo(callBack, time));
+            AddTask(callBack.GetHashCode().ToString() + time.ToString(), DoWaitTodo(callBack, time));
         }
 
-        private IEnumerator DoWaitTodo(System.Action callBack, int time)
+        private IEnumerator DoWaitTodo(System.Action callBack, float time)
         {
             yield return new WaitForSeconds(time);
             callBack();
@@ -216,7 +256,7 @@ namespace ResetCore.Util
         /// <param name="time"></param>
         public void WaitUntilTodo(System.Action callBack, System.Func<bool> predicates)
         {
-            DoTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitUntil(callBack, predicates));
+            AddTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitUntil(callBack, predicates));
         }
 
         private IEnumerator DoWaitUntil(System.Action callBack, System.Func<bool> predicates)
@@ -234,7 +274,7 @@ namespace ResetCore.Util
         /// <param name="time"></param>
         public void WaitWhileTodo(System.Action callBack, System.Func<bool> predicates)
         {
-            DoTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitWhile(callBack, predicates));
+            AddTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitWhile(callBack, predicates));
         }
 
         private IEnumerator DoWaitWhile(System.Action callBack, System.Func<bool> predicates)
