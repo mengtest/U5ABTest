@@ -9,21 +9,27 @@ using ResetCore.Data.GameDatas;
 
 public class Driver : MonoSingleton<Driver> {
 
-
+    
     void Awake()
     {
         Init();
     }
 
 	// Use this for initialization
-	void Start () {
-        Debug.Log(0);
-        CoroutineHelper.Instance.DoCoroutine(Do());
+	void Start () 
+    {
+
 	}
 
     public override void Init()
     {
         base.Init();
+        Debug.Log("laowulaowulaowu");
+        System.Action act = () =>
+        {
+            Debug.Log("heihei");
+        };
+        CoroutineTaskManager.Instance.WaitTodo(act, 3);
     }
 
     //private List<GameObject> cubes = new List<GameObject>();
@@ -33,11 +39,4 @@ public class Driver : MonoSingleton<Driver> {
         
     }
     
-    IEnumerator Do()
-    {
-        Debug.Log(0.1f);
-        yield return new WaitForSeconds(3);
-        Debug.Log(0.1f);
-    }
-
 }
