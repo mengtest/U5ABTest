@@ -198,7 +198,7 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public void WaitTodo(System.Action callBack, int time)
+        public void WaitSecondTodo(System.Action callBack, int time)
         {
             DoTask(callBack.GetHashCode().ToString() + time.ToString(), DoWaitTodo(callBack, time));
         }
@@ -208,6 +208,44 @@ namespace ResetCore.Util
             yield return new WaitForSeconds(time);
             callBack();
         }
+
+        /// <summary>
+        /// 等待直到某个条件成立时
+        /// </summary>
+        /// <param name="callBack"></param>
+        /// <param name="time"></param>
+        public void WaitUntilTodo(System.Action callBack, System.Func<bool> predicates)
+        {
+            DoTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitUntil(callBack, predicates));
+        }
+
+        private IEnumerator DoWaitUntil(System.Action callBack, System.Func<bool> predicates)
+        {
+            while(!predicates()){
+                yield return null;
+            }
+            callBack();
+        }
+
+        /// <summary>
+        /// 当条件成立时等待
+        /// </summary>
+        /// <param name="callBack"></param>
+        /// <param name="time"></param>
+        public void WaitWhileTodo(System.Action callBack, System.Func<bool> predicates)
+        {
+            DoTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitWhile(callBack, predicates));
+        }
+
+        private IEnumerator DoWaitWhile(System.Action callBack, System.Func<bool> predicates)
+        {
+            while (predicates())
+            {
+                yield return null;
+            }
+            callBack();
+        }
+
     }
 
 }

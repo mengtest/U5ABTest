@@ -29,7 +29,7 @@ public class Driver : MonoSingleton<Driver> {
         {
             Debug.Log("heihei");
         };
-        CoroutineTaskManager.Instance.WaitTodo(act, 3);
+        CoroutineTaskManager.Instance.WaitSecondTodo(act, 3);
     }
 
     //private List<GameObject> cubes = new List<GameObject>();
