@@ -60,14 +60,17 @@ namespace ResetCore.Util
                 finalGo.transform.parent = poolTran;
             }
 
+            if (finalGo == null)
+            {
+                return null;
+            }
+                
+            finalGo.name = objectName;
             if (IsResetObject)
             {
-                ResetObject(finalGo);
+                finalGo.ResetTransform();
             }
             
-
-
-
             return finalGo;
         }
 
@@ -167,14 +170,6 @@ namespace ResetCore.Util
         private bool IsInPool(GameObject go)
         {
             return (go.transform.parent != null && go.transform.parent.parent != null && go.transform.parent.parent == transform);
-        }
-
-        private void ResetObject(GameObject go)
-        {
-            go.transform.position = Vector3.zero;
-            go.transform.eulerAngles = Vector3.zero;
-            go.transform.localScale = Vector3.one;
-            go.SetActive(true);
         }
 
         private GameObject CreateObject(string objectName)

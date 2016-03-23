@@ -24,12 +24,9 @@ public class Driver : MonoSingleton<Driver> {
     public override void Init()
     {
         base.Init();
-        Debug.Log("laowulaowulaowu");
-        System.Action act = () =>
-        {
-            Debug.Log("heihei");
-        };
-        CoroutineTaskManager.Instance.WaitSecondTodo(act, 3);
+        GameObject go1 = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
+        
+        GameObject go2 = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
     }
 
     //private List<GameObject> cubes = new List<GameObject>();

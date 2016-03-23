@@ -138,6 +138,7 @@ namespace ResetCore.Asset
         {
             Object obj = ResourcesLoaderHelper.Instance.LoadResource(objectName);
             GameObject go = GameObject.Instantiate(obj) as GameObject;
+            go.name = StringEx.GetFileNameWithoutExtention(objectName);
             return go;
         }
         /// <summary>
