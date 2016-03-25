@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Text.RegularExpressions;
+using System.Text;
+using System.Reflection;
 
 
 namespace ResetCore.Util
@@ -165,8 +167,9 @@ namespace ResetCore.Util
             return null;
         }
 
-        public static string ConverToString(object value, System.Type type)
+        public static string ConverToString(object value)
         {
+            System.Type type = value.GetType();
             if (type == null)
             {
                 return "";
@@ -191,26 +194,68 @@ namespace ResetCore.Util
             {
                 return ((Color)value).r + "," + ((Color)value).g + "," + ((Color)value).b;
             }
-            //if (type == typeof(bool))
-            //{
-            //    return (((bool)value) ? 1 : 0).ToString();
-            //}
             if (type.BaseType == typeof(Enum))
             {
-
                 return Enum.GetName(type, value);
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Dictionary<,>)))
             {
                 System.Type[] genericArguments = type.GetGenericArguments();
-                //type.GetProperty
-                return type.ToString();
+                object Keys = type.GetProperty("Keys");
+                object Values = type.GetProperty("Values");
+
+                MethodInfo getIe = type.GetMethod("GetEnumerator");
+                object enumerator = getIe.Invoke(value, new object[0]);
+                System.Type enumeratorType = enumerator.GetType();
+                MethodInfo moveToNextMethod = enumeratorType.GetMethod("MoveNext");
+                PropertyInfo current = enumeratorType.GetProperty("Current");
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while (enumerator != null && (bool)moveToNextMethod.Invoke(enumerator, new object[0]))
+                {
+                    stringBuilder.Append("," + ConverToString(current.GetValue(enumerator, null)));
+                }
+
+                return stringBuilder.ToString().ReplaceFirst(",", "");
+
+            }
+            if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>)))
+            {
+                Debug.Log("hahaha");
+                System.Type[] genericArguments = type.GetGenericArguments();
+                object pairKey = type.GetProperty("Key").GetValue(value, null);
+                object pairValue = type.GetProperty("Value").GetValue(value, null);
+
+                string keyStr = ConverToString(pairKey);
+                string valueStr = ConverToString(pairValue);
+
+                return keyStr + ":" + valueStr;
+
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)))
             {
+                System.Type[] genericArguments = type.GetGenericArguments();
+                int Count = (int)type.GetProperty("Count").GetValue(value, null);
+                MethodInfo mget = type.GetMethod("get_Item", BindingFlags.Instance | BindingFlags.Public);
 
+                StringBuilder stringBuilder = new StringBuilder();
+
+                object item;
+                string itemStr;
+
+                for(int i = 0; i < Count - 1; i++){
+                    item = mget.Invoke(value, new object[] { i });
+                    itemStr = StringEx.ConverToString(item);
+                    stringBuilder.Append(itemStr + ",");
+                }
+                item = mget.Invoke(value, new object[] { Count-1 });
+                itemStr = StringEx.ConverToString(item);
+                stringBuilder.Append(itemStr);
+
+                return stringBuilder.ToString();
             }
-            Debug.logger.LogWarning("字符转换", "没有适合的转换类型，返回默认值");
+            //Debug.logger.LogWarning("字符转换", type.Name + "没有适合的转换类型，返回默认值");
             return value.ToString();
         }
 
@@ -236,6 +281,7 @@ namespace ResetCore.Util
             typeof(Quaternion), 
             typeof(Color),
             typeof(Dictionary<,>),
+            typeof(KeyValuePair<,>),
             typeof(List<>),
             typeof(Enum)
         };

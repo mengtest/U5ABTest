@@ -24,9 +24,10 @@ public class Driver : MonoSingleton<Driver> {
     public override void Init()
     {
         base.Init();
-        GameObject go1 = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
-        
-        GameObject go2 = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
+        List<string> heihei = new List<string>() { "11", "22" };
+        Dictionary<string, string> haha = new Dictionary<string, string>() { { "1", "haha" }, { "2", "haha" } };
+        KeyValuePair<string, string> xixi = new KeyValuePair<string, string>("aaa", "aaa111");
+        Debug.Log(StringEx.ConverToString(haha));
     }
 
     //private List<GameObject> cubes = new List<GameObject>();

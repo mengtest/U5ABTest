@@ -332,7 +332,7 @@ namespace ResetCore.Asset
                         Debug.Log(fieldInfos[infoNum].Name);
                         Debug.Log(prefabValue + "  " + objValue);
                         System.Type type = fieldInfo.FieldType;
-                        compEle.SetAttribute(fieldInfo.Name, StringEx.ConverToString(objValue, type));
+                        compEle.SetAttribute(fieldInfo.Name, StringEx.ConverToString(objValue));
                     }
 
                 }
@@ -369,7 +369,7 @@ namespace ResetCore.Asset
                         Debug.Log(propInfos[infoNum].Name);
                         Debug.Log(prefabValue + "!!!!!!!!!!!!!!!!!" + objValue);
                         System.Type type = propInfo.PropertyType;
-                        compEle.SetAttribute(propInfo.Name, StringEx.ConverToString(objValue, type));
+                        compEle.SetAttribute(propInfo.Name, StringEx.ConverToString(objValue));
                     }
 
                 }
