@@ -182,15 +182,15 @@ namespace ResetCore.Util
         private void CleanPool(string poolName)
         {
             Transform poolTran = poolDic[poolName].transform;
-
-            if (poolTran.childCount < MaxSize)
+            int num = poolTran.childCount;
+            if (num < MaxSize)
             {
                 return;
             }
 
-            for (int i = poolTran.childCount - 1; i >= 0; i--)
+            for (int i = num - 1; i >= 0; i--)
             {
-                if (poolTran.childCount < CleanToSize)
+                if (num < CleanToSize)
                 {
                     break;
                 }
@@ -199,6 +199,7 @@ namespace ResetCore.Util
                 if (childTran.gameObject.activeSelf == false)
                 {
                     Destroy(childTran.gameObject);
+                    num--;
                 }
             }
         }

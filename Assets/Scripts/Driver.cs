@@ -27,6 +27,11 @@ public class Driver : MonoSingleton<Driver> {
         GameObject go1 = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
         
         GameObject go2 = ResourcesLoaderHelper.Instance.LoadAndGetInstance("Cube.prefab");
+
+        CoroutineTaskManager.Instance.WaitSecondTodo(() => 
+        {
+            
+        }, 2);
     }
 
     //private List<GameObject> cubes = new List<GameObject>();
