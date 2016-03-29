@@ -21,7 +21,6 @@ public class HandleCompOnAllPrefab {
         {
             EditorUtility.DisplayProgressBar("导出信息中", "请耐心等候", (float)num / (float)ResourcesList.Count);
             if(!pair.Key.EndsWith(".prefab")) continue;
-            string path = pair.Value;
             GameObject go = AssetDatabase.LoadAssetAtPath(pair.Value + ".prefab", typeof(GameObject)) as GameObject;
             //GameObject go = GameObject.Instantiate(obj) as GameObject;
             ReadPrefab(go);

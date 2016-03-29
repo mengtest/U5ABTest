@@ -95,15 +95,20 @@ namespace ResetCore.Asset
             Object obj = null;
             if (mainBundle != null)
             {
-                obj = bundleLoader.LoadResource(objectName, afterLoadAct);
+                obj = bundleLoader.LoadResource(objectName, null);
                 if (obj == null)
                 {
-                    obj = localLoader.LoadResource(objectName, afterLoadAct);
+                    obj = localLoader.LoadResource(objectName, null);
                 }
             }
             else
             {
-                obj = localLoader.LoadResource(objectName, afterLoadAct);
+                obj = localLoader.LoadResource(objectName, null);
+            }
+
+            if (afterLoadAct != null)
+            {
+                afterLoadAct(obj);
             }
             
             return obj;
@@ -139,6 +144,8 @@ namespace ResetCore.Asset
             Object obj = ResourcesLoaderHelper.Instance.LoadResource(objectName);
             GameObject go = GameObject.Instantiate(obj) as GameObject;
             go.name = StringEx.GetFileNameWithoutExtention(objectName);
+            if (afterLoadAct != null)
+                afterLoadAct(go);
             return go;
         }
         /// <summary>
@@ -147,10 +154,15 @@ namespace ResetCore.Asset
         /// <param name="objectName"></param>
         /// <param name="afterLoadAct"></param>
         /// <returns></returns>
-        public TextAsset LoadTextAsset(string objectName, System.Action<Object> afterLoadAct = null)
+        public TextAsset LoadTextAsset(string objectName, System.Action<TextAsset> afterLoadAct = null)
         {
-            TextAsset go = ResourcesLoaderHelper.Instance.LoadResource(objectName, afterLoadAct) as TextAsset;
-            
+            TextAsset go = ResourcesLoaderHelper.Instance.LoadResource(objectName, null) as TextAsset;
+
+            if (afterLoadAct != null)
+            {
+                afterLoadAct(go);
+            }
+
             return go;
         }
 

@@ -19,6 +19,11 @@ namespace ResetCore.Util
                 return Instance;
             }
         }
+
+        protected virtual void Init()
+        {
+
+        }
     }
 
 }

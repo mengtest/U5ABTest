@@ -200,9 +200,6 @@ namespace ResetCore.Util
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Dictionary<,>)))
             {
-                System.Type[] genericArguments = type.GetGenericArguments();
-                object Keys = type.GetProperty("Keys");
-                object Values = type.GetProperty("Values");
 
                 MethodInfo getIe = type.GetMethod("GetEnumerator");
                 object enumerator = getIe.Invoke(value, new object[0]);
@@ -223,7 +220,7 @@ namespace ResetCore.Util
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>)))
             {
                 Debug.Log("hahaha");
-                System.Type[] genericArguments = type.GetGenericArguments();
+
                 object pairKey = type.GetProperty("Key").GetValue(value, null);
                 object pairValue = type.GetProperty("Value").GetValue(value, null);
 
@@ -235,7 +232,6 @@ namespace ResetCore.Util
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)))
             {
-                System.Type[] genericArguments = type.GetGenericArguments();
                 int Count = (int)type.GetProperty("Count").GetValue(value, null);
                 MethodInfo mget = type.GetMethod("get_Item", BindingFlags.Instance | BindingFlags.Public);
 

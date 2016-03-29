@@ -5,6 +5,8 @@ using ResetCore.Util;
 using System.Collections.Generic;
 using ResetCore.Data;
 using ResetCore.Data.GameDatas;
+using System;
+using System.IO;
 //using ResetCore.Data.GameDatas;
 
 public class Driver : MonoSingleton<Driver> {
@@ -18,16 +20,16 @@ public class Driver : MonoSingleton<Driver> {
 	// Use this for initialization
 	void Start () 
     {
-
+        //DownloadManager.instance.AsynDownLoadText("http://localhost/ResetResources/heihei.txt", handle, () => { });
+        string res = DownloadManager.instance.DownLoadText("http://localhost/ResetResources/heihei.txt");
+        Debug.logger.Log(res);
+        //DownloadManager.instance.DownloadFileBreakPoint("http://localhost/ResetResources/book.pdf", Path.Combine(Application.dataPath, "book.pdf"));
 	}
 
     public override void Init()
     {
         base.Init();
-        List<string> heihei = new List<string>() { "11", "22" };
-        Dictionary<string, string> haha = new Dictionary<string, string>() { { "1", "haha" }, { "2", "haha" } };
-        KeyValuePair<string, string> xixi = new KeyValuePair<string, string>("aaa", "aaa111");
-        Debug.Log(StringEx.ConverToString(haha));
+        
     }
 
     //private List<GameObject> cubes = new List<GameObject>();
