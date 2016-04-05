@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEditor;
 using System.Xml.Linq;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 namespace ResetCore.Asset
 {
@@ -24,6 +25,10 @@ namespace ResetCore.Asset
             DirectoryInfo resourceFolder = new DirectoryInfo(PathConfig.resourcePath);
             FileInfo[] fileInfos = resourceFolder.GetFiles("*", SearchOption.AllDirectories);
 
+            
+            int currentNum = 0;
+            int total = fileInfos.Length;
+            EditorUtility.DisplayProgressBar("更新本地资源列表中", "0/" + total, 0);
             foreach (FileInfo info in fileInfos)
             {
                 string name = info.Name;
@@ -33,18 +38,24 @@ namespace ResetCore.Asset
 
                 if (IsResource(name))
                 {
-                    Debug.logger.Log("添加" + name);
                     rootEl.Add(new XElement("n", name));
                     rootEl.Add(new XElement("p", path));
                 }
-
+                currentNum++;
+                EditorUtility.DisplayProgressBar("更新本地资源列表中", currentNum + "/" + total + info.Name, (float)currentNum/(float)total);
             }
+
+            EditorUtility.ClearProgressBar();
+
             if (!Directory.Exists(PathConfig.resourcePath + PathConfig.resourceBundlePath))
             {
                 Directory.CreateDirectory(PathConfig.resourcePath + PathConfig.resourceBundlePath);
             }
+
             resourceListDoc.Save(PathConfig.resourcePath + PathConfig.resourceListDocPath + ".xml");
             AssetDatabase.Refresh();
+            Debug.logger.Log("更新本地资源列表完成");
+            
         }
 
         private static bool IsResource(string path)
@@ -69,7 +80,25 @@ namespace ResetCore.Asset
             filePath = filePath.Replace("\\", "/");
             return filePath;
         }
+        public class AutoGenResourcesList : UnityEditor.AssetModificationProcessor
+        {
 
+            public static void OnWillSaveAssets(string[] names)
+            {
+                ResourcesListGen.UpdateResourcesList();
+            }
+
+            public static void OnWillDeleteAsset(string[] names, RemoveAssetOptions options)
+            {
+                ResourcesListGen.UpdateResourcesList();
+            }
+
+            static public void OnWillMoveAsset(string[] from, string[] to)
+            {
+                ResourcesListGen.UpdateResourcesList();
+            }
+
+        }
     }
 
 }

@@ -16,14 +16,17 @@ public class Driver : MonoSingleton<Driver> {
     {
         Init();
     }
-
+    public Transform Target;
 	// Use this for initialization
 	void Start () 
     {
-        //DownloadManager.instance.AsynDownLoadText("http://localhost/ResetResources/heihei.txt", handle, () => { });
-        string res = DownloadManager.instance.DownLoadText("http://localhost/ResetResources/heihei.txt");
-        Debug.logger.Log(res);
-        //DownloadManager.instance.DownloadFileBreakPoint("http://localhost/ResetResources/book.pdf", Path.Combine(Application.dataPath, "book.pdf"));
+        //Quaternion rotation = Quaternion.Euler(0f, 30f, 0f) * Target.rotation;
+        //Vector3 newPos = rotation * new Vector3(10f, 0f, 0f);
+        //Debug.DrawLine(newPos, Vector3.zero, Color.red);
+        //Debug.Log("newpos " + newPos + " nowpos " + Target.position + " distance " + Vector3.Distance(newPos, Target.position));
+        //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        //go.transform.position = newPos;
+        
 	}
 
     public override void Init()
@@ -36,7 +39,11 @@ public class Driver : MonoSingleton<Driver> {
 
     void Update()
     {
-        
+        Target.localPosition = Target.NewRotateAround(Vector3.zero, new Vector3(0, 1 * Time.deltaTime, 0));
+        Target.LookAt(Vector3.zero);
+        Target.NewLookAt(Vector3.zero);
+        //Target.eulerAngles = Target.NewLookAt(Vector3.zero, new Vector3(0, 5, 0));
+        //Debug.DrawLine(Target.position, Vector3.zero, Color.red);
     }
     
 }
