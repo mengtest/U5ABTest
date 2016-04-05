@@ -44,8 +44,11 @@ namespace ResetCore.Util
             return str;
         }
 
+        public static char Spriter1 = ',';
+        public static char Spriter2 = ':';
         public static object GetValue(string value, System.Type type)
         {
+            //Debug.logger.Log("GetValue " + Spriter1 + "  " + Spriter2);
             if (type != null)
             {
                 object obj2;
@@ -140,7 +143,7 @@ namespace ResetCore.Util
                 if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Dictionary<,>)))
                 {
                     System.Type[] genericArguments = type.GetGenericArguments();
-                    Dictionary<string, string> dictionary = ParseMap(value, ':', ',');
+                    Dictionary<string, string> dictionary = ParseMap(value, Spriter2 , Spriter1);
                     obj2 = type.GetConstructor(System.Type.EmptyTypes).Invoke(null);
                     foreach (KeyValuePair<string, string> pair in dictionary)
                     {
@@ -153,7 +156,7 @@ namespace ResetCore.Util
                 if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)))
                 {
                     System.Type type2 = type.GetGenericArguments()[0];
-                    List<string> list = ParseList(value, ',');
+                    List<string> list = ParseList(value, Spriter1);
                     obj2 = type.GetConstructor(System.Type.EmptyTypes).Invoke(null);
                     foreach (string str in list)
                     {
@@ -169,6 +172,7 @@ namespace ResetCore.Util
 
         public static string ConverToString(object value)
         {
+            //Debug.logger.Log("ConverToString " + Spriter1 + "  "+ Spriter2);
             System.Type type = value.GetType();
             if (type == null)
             {
@@ -176,23 +180,23 @@ namespace ResetCore.Util
             }
             if (type == typeof(Vector3))
             {
-                return ((Vector3)value).x + "," + ((Vector3)value).y + "," + ((Vector3)value).z;
+                return ((Vector3)value).x + Spriter1.ToString() + ((Vector3)value).y + Spriter1.ToString() + ((Vector3)value).z;
             }
             if (type == typeof(Vector2))
             {
-                return ((Vector2)value).x + "," + ((Vector2)value).y;
+                return ((Vector2)value).x + Spriter1.ToString() + ((Vector2)value).y;
             }
             if (type == typeof(Vector4))
             {
-                return ((Vector4)value).x + "," + ((Vector4)value).y + "," + ((Vector4)value).z + "," + ((Vector4)value).w;
+                return ((Vector4)value).x + Spriter1.ToString() + ((Vector4)value).y + Spriter1.ToString() + ((Vector4)value).z + Spriter1.ToString() + ((Vector4)value).w;
             }
             if (type == typeof(Quaternion))
             {
-                return ((Quaternion)value).x + "," + ((Quaternion)value).y + "," + ((Quaternion)value).z + "," + ((Quaternion)value).w;
+                return ((Quaternion)value).x + Spriter1.ToString() + ((Quaternion)value).y + Spriter1.ToString() + ((Quaternion)value).z + Spriter1.ToString() + ((Quaternion)value).w;
             }
             if (type == typeof(Color))
             {
-                return ((Color)value).r + "," + ((Color)value).g + "," + ((Color)value).b;
+                return ((Color)value).r + Spriter1.ToString() + ((Color)value).g + Spriter1.ToString() + ((Color)value).b;
             }
             if (type.BaseType == typeof(Enum))
             {
@@ -200,7 +204,8 @@ namespace ResetCore.Util
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Dictionary<,>)))
             {
-
+                int Count = (int)type.GetProperty("Count").GetValue(value, null);
+                if (Count == 0) return String.Empty;
                 MethodInfo getIe = type.GetMethod("GetEnumerator");
                 object enumerator = getIe.Invoke(value, new object[0]);
                 System.Type enumeratorType = enumerator.GetType();
@@ -211,28 +216,26 @@ namespace ResetCore.Util
 
                 while (enumerator != null && (bool)moveToNextMethod.Invoke(enumerator, new object[0]))
                 {
-                    stringBuilder.Append("," + ConverToString(current.GetValue(enumerator, null)));
+                    stringBuilder.Append(Spriter1.ToString() + ConverToString(current.GetValue(enumerator, null)));
                 }
 
-                return stringBuilder.ToString().ReplaceFirst(",", "");
+                return stringBuilder.ToString().ReplaceFirst(Spriter1.ToString(), "");
 
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(KeyValuePair<,>)))
             {
-                Debug.Log("hahaha");
-
                 object pairKey = type.GetProperty("Key").GetValue(value, null);
                 object pairValue = type.GetProperty("Value").GetValue(value, null);
 
                 string keyStr = ConverToString(pairKey);
                 string valueStr = ConverToString(pairValue);
-
-                return keyStr + ":" + valueStr;
+                return keyStr + Spriter2.ToString() + valueStr;
 
             }
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(List<>)))
             {
                 int Count = (int)type.GetProperty("Count").GetValue(value, null);
+                if (Count == 0) return String.Empty;
                 MethodInfo mget = type.GetMethod("get_Item", BindingFlags.Instance | BindingFlags.Public);
 
                 StringBuilder stringBuilder = new StringBuilder();
@@ -243,7 +246,7 @@ namespace ResetCore.Util
                 for(int i = 0; i < Count - 1; i++){
                     item = mget.Invoke(value, new object[] { i });
                     itemStr = StringEx.ConverToString(item);
-                    stringBuilder.Append(itemStr + ",");
+                    stringBuilder.Append(itemStr + Spriter1.ToString());
                 }
                 item = mget.Invoke(value, new object[] { Count-1 });
                 itemStr = StringEx.ConverToString(item);
@@ -287,7 +290,7 @@ namespace ResetCore.Util
             return convertableTypes.Contains(type);
         }
 
-        public static bool ParseColor(string _inputString, out Color result)
+        public static bool ParseColor(string _inputString, out Color result, char colorSpriter = ',')
         {
             string str = _inputString.Trim();
             result = Color.clear;
@@ -297,7 +300,7 @@ namespace ResetCore.Util
             }
             try
             {
-                string[] strArray = str.Split(new char[] { ',' });
+                string[] strArray = str.Split(new char[] { colorSpriter });
                 if (strArray.Length != 4)
                 {
                     return false;
@@ -354,13 +357,13 @@ namespace ResetCore.Util
             return dictionary;
         }
 
-        public static bool ParseVector4(string _inputString, out Vector4 result)
+        public static bool ParseVector4(string _inputString, out Vector4 result, char vectorSpriter = ',')
         {
             string str = _inputString.Trim();
             result = new Vector4();
             try
             {
-                string[] strArray = str.Split(new char[] { ',' });
+                string[] strArray = str.Split(new char[] { vectorSpriter });
                 if (strArray.Length != 4)
                 {
                     return false;
@@ -378,21 +381,21 @@ namespace ResetCore.Util
             }
         }
 
-        public static bool ParseQuaternion(string _inputString, out Quaternion result)
+        public static bool ParseQuaternion(string _inputString, out Quaternion result, char spriter = ',')
         {
             Vector4 vec = new Vector4();
-            bool flag = ParseVector4(_inputString, out vec);
+            bool flag = ParseVector4(_inputString, out vec, spriter);
             result = new Quaternion(vec.x, vec.y, vec.z, vec.w);
             return flag;
         }
 
-        public static bool ParseVector3(string _inputString, out Vector3 result)
+        public static bool ParseVector3(string _inputString, out Vector3 result, char spriter = ',')
         {
             string str = _inputString.Trim();
             result = new Vector3();
             try
             {
-                string[] strArray = str.Split(new char[] { ',' });
+                string[] strArray = str.Split(new char[] { spriter });
                 if (strArray.Length != 3)
                 {
                     return false;
@@ -409,13 +412,13 @@ namespace ResetCore.Util
             }
         }
 
-        public static bool ParseVector2(string _inputString, out Vector2 result)
+        public static bool ParseVector2(string _inputString, out Vector2 result, char spriter = ',')
         {
             string str = _inputString.Trim();
             result = new Vector2();
             try
             {
-                string[] strArray = str.Split(new char[] { ',' });
+                string[] strArray = str.Split(new char[] { spriter });
                 if (strArray.Length != 2)
                 {
                     return false;

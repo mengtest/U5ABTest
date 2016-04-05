@@ -14,9 +14,24 @@ public static class GameObjectEx {
         go.SetActive(true);
     }
 
-#if UNITY_EDITOR
-    
+    public static void ResetTransform(this Transform tran)
+    {
+        tran.position = Vector3.zero;
+        tran.eulerAngles = Vector3.zero;
+        tran.localScale = Vector3.one;
+        tran.gameObject.SetActive(true);
+    }
 
-#endif
+    public static Vector3 NewRotateAround(this Transform tran, Vector3 pos, Vector3 euler)
+    {
+        Quaternion rotation = Quaternion.Euler(euler) * tran.localRotation;
+        Vector3 newPosition = rotation * (tran.position - pos);
+        return newPosition;
+    }
 
+    //public static Vector3 NewLookAt(this Transform tran, Vector3 worldpos)
+    //{
+    //    Quaternion rotation = Quaternion.Euler(euler) * tran.rotation;
+    //    return rotation.eulerAngles;
+    //}
 }

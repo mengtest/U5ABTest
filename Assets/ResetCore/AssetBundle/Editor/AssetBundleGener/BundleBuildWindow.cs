@@ -19,7 +19,7 @@ namespace ResetCore.Asset
         {
             Rect wr = new Rect(0, 0, 800, 300);
             BundleBuildWindow window =
-                EditorWindow.GetWindowWithRect(typeof(BundleBuildWindow), wr, true, "AssetBundle压缩包生成器") as BundleBuildWindow;
+                EditorWindow.GetWindowWithRect(typeof(BundleBuildWindow), wr, false, "AssetBundle压缩包生成器") as BundleBuildWindow;
             window.Show();
         }
         //路径列表
