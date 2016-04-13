@@ -238,9 +238,12 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public void WaitSecondTodo(System.Action callBack, float time)
+        public CoroutineTask WaitSecondTodo(System.Action callBack, float time)
         {
-            AddTask(callBack.GetHashCode().ToString() + time.ToString(), DoWaitTodo(callBack, time));
+            CoroutineTask task = new CoroutineTask(callBack.GetHashCode().ToString() + time.ToString(), DoWaitTodo(callBack, time),
+                null, true);
+            AddTask(task);
+            return task;
         }
 
         private IEnumerator DoWaitTodo(System.Action callBack, float time)
@@ -254,9 +257,12 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public void WaitUntilTodo(System.Action callBack, System.Func<bool> predicates)
+        public CoroutineTask WaitUntilTodo(System.Action callBack, System.Func<bool> predicates)
         {
-            AddTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitUntil(callBack, predicates));
+            CoroutineTask task = new CoroutineTask(callBack.GetHashCode().ToString() + predicates.GetHashCode()
+                , DoWaitUntil(callBack, predicates), null, true);
+            AddTask(task);
+            return task;
         }
 
         private IEnumerator DoWaitUntil(System.Action callBack, System.Func<bool> predicates)
@@ -272,9 +278,12 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public void WaitWhileTodo(System.Action callBack, System.Func<bool> predicates)
+        public CoroutineTask WaitWhileTodo(System.Action callBack, System.Func<bool> predicates)
         {
-            AddTask(callBack.GetHashCode().ToString() + predicates.GetHashCode(), DoWaitWhile(callBack, predicates));
+            CoroutineTask task = new CoroutineTask(callBack.GetHashCode().ToString() + predicates.GetHashCode()
+                , DoWaitWhile(callBack, predicates), null, true);
+            AddTask(task);
+            return task;
         }
 
         private IEnumerator DoWaitWhile(System.Action callBack, System.Func<bool> predicates)
