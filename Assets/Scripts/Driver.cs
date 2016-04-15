@@ -26,7 +26,7 @@ public class Driver : MonoSingleton<Driver> {
         //Debug.Log("newpos " + newPos + " nowpos " + Target.position + " distance " + Vector3.Distance(newPos, Target.position));
         //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
         //go.transform.position = newPos;
-        
+        UIManager.Instance.ShowUI();
 	}
 
     public override void Init()
@@ -39,8 +39,8 @@ public class Driver : MonoSingleton<Driver> {
 
     void Update()
     {
-        Target.localPosition = Target.NewRotateAround(Vector3.zero, new Vector3(0, 1 * Time.deltaTime, 0));
-        Target.LookAt(Vector3.zero);
+        //Target.localPosition = Target.NewRotateAround(Vector3.zero, new Vector3(0, 1 * Time.deltaTime, 0));
+        //Target.LookAt(Vector3.zero);
         //Target.NewLookAt(Vector3.zero);
         //Target.eulerAngles = Target.NewLookAt(Vector3.zero, new Vector3(0, 5, 0));
         //Debug.DrawLine(Target.position, Vector3.zero, Color.red);
