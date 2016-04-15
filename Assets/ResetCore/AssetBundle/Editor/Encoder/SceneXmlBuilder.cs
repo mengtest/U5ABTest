@@ -73,7 +73,7 @@ namespace ResetCore.Asset
         private static void WriteXml()
         {
             //获取当前场景完整路径
-            scenePath = SceneManager.GetAllScenes()[0].path;
+            scenePath = SceneManager.GetSceneAt(0).path;
             //Debug.logger.Log(scenePath);
             //获取当前场景名称
             sceneName = scenePath.Substring(scenePath.LastIndexOf("/") + 1, scenePath.Length - scenePath.LastIndexOf("/") - 1);
@@ -194,14 +194,14 @@ namespace ResetCore.Asset
                 string prefabPath = AssetDatabase.GetAssetPath(PrefabUtility.GetPrefabParent(obj));
                 if (string.IsNullOrEmpty(prefabPath))
                 {
-                    Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "丢失预设！！！！");
+                    Debug.LogError(SceneManager.GetSceneAt(0).path + "中的物体" + obj.name + "丢失预设！！！！");
                     gameObjectRoot.SetAttribute("Name", obj.name + "'s Prefab has Error");
                 }
                 else
                 {
                     gameObjectRoot.SetAttribute("Name", prefabPath);
                 }
-                Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的预设类型为" + prefabType.ToString());
+                Debug.LogError(SceneManager.GetSceneAt(0).path + "中的物体" + obj.name + "的预设类型为" + prefabType.ToString());
             }
 
             bool willCheckChild = true;
@@ -422,14 +422,14 @@ namespace ResetCore.Asset
             //检查组件是否相同
             if (prefabComps.Length != objComps.Length)
             {
-                Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
+                Debug.LogError(SceneManager.GetSceneAt(0).path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
                 hasSameComponent = false;
             }
             for (int i = 0; i < prefabComps.Length; i++)
             {
                 if (prefabComps.GetType() != objComps.GetType())
                 {
-                    Debug.LogError(SceneManager.GetAllScenes()[0].path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
+                    Debug.LogError(SceneManager.GetSceneAt(0).path + "中的物体" + obj.name + "的Component与其Prefab上的组件不同！");
                     hasSameComponent = false;
                 }
             }
