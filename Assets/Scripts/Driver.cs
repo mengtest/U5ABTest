@@ -26,7 +26,7 @@ public class Driver : MonoSingleton<Driver> {
         //Debug.Log("newpos " + newPos + " nowpos " + Target.position + " distance " + Vector3.Distance(newPos, Target.position));
         //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
         //go.transform.position = newPos;
-        UIManager.Instance.ShowUI();
+        //UIManager.Instance.ShowUI();
 	}
 
     public override void Init()

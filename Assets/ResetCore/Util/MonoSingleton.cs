@@ -50,6 +50,10 @@ namespace ResetCore.Util
                 }
                 return m_Instance;
             }
+            protected set
+            {
+                m_Instance = value;
+            }
         }
 
         public static bool isTemporaryInstance { private set; get; }

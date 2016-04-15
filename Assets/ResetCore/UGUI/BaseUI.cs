@@ -1,15 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BaseUI : MonoBehaviour {
+namespace ResetCore.UGUI
+{
+    public abstract class BaseUI : MonoBehaviour
+    {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+        public GameObject uiRoot { get; protected set; }
+
+        protected virtual void Awake() { }
+
+        protected virtual void OnEnable() { }
+
+        protected virtual void Start() { }
+
+        protected virtual void Update() { }
+
+        protected virtual void OnDisable() { }
+    }
 }
+

@@ -2,18 +2,25 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public static class UIConst {
 
-    public enum UIType
+namespace ResetCore.UGUI
+{
+    public static class UIConst
     {
+
+
+        public enum UIName
+        {
+
+        }
+
+        public static Dictionary<UIName, string> UIPrefabNameDic = new Dictionary<UIName, string>
+        {
+
+        };
+
+
 
     }
-
-    public static Dictionary<UIType, string> UIPrefabNameDic = new Dictionary<UIType, string>
-    {
-
-    };
-
-    
-
 }
+
