@@ -85,17 +85,15 @@ namespace ResetCore.Asset
 
             public static void OnWillSaveAssets(string[] names)
             {
-                ResourcesListGen.UpdateResourcesList();
-            }
+                foreach (string name in names)
+                {
+                    if (name.EndsWith(".unity"))
+                    {
+                        ResourcesListGen.UpdateResourcesList();
+                        break;
+                    }
+                }
 
-            public static void OnWillDeleteAsset(string[] names, RemoveAssetOptions options)
-            {
-                ResourcesListGen.UpdateResourcesList();
-            }
-
-            static public void OnWillMoveAsset(string[] from, string[] to)
-            {
-                ResourcesListGen.UpdateResourcesList();
             }
 
         }

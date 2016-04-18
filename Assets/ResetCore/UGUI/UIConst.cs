@@ -16,10 +16,8 @@ namespace ResetCore.UGUI
 
         public static Dictionary<UIName, string> UIPrefabNameDic = new Dictionary<UIName, string>
         {
-
+            
         };
-
-
 
     }
 }

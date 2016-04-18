@@ -7,8 +7,48 @@ using ResetCore.Asset;
 
 namespace ResetCore.UGUI
 {
-    public class UIManager : MonoSingleton<UIManager>
+    public class ShowUIArg
     {
+
+    }
+
+    public class UIManager : MonoBehaviour
+    {
+
+        private static UIManager _instance;
+        public static UIManager Instance
+        {
+            get 
+            {
+                if (_instance == null)
+                {
+                    _instance = GameObject.FindObjectOfType<UIManager>();
+                }
+                return _instance; 
+            }
+        }
+
+        void Awake()
+        {
+            
+        }
+
+        void Start()
+        {
+            BaseUI[] uiGroup = normalRoot.GetComponentsInChildren<BaseUI>();
+            foreach (BaseUI ui in uiGroup)
+            {
+                if (!uiDic.ContainsKey(ui.uiName))
+                {
+                    uiDic.Add(ui.uiName, ui);
+                }
+                else
+                {
+                    Destroy(ui.gameObject);
+                }
+                
+            }
+        }
 
         public Canvas canvas;
 
@@ -20,28 +60,19 @@ namespace ResetCore.UGUI
 
         private readonly string prefabPath = "UIManager";
 
-        public override void Init()
-        {
-            base.Init();
-
-            GameObject prefab = GameObject.Instantiate(Resources.Load(prefabPath)) as GameObject;
-            Instance = prefab.GetComponent<UIManager>();
-            DontDestroyOnLoad(gameObject);
-        }
-
-        public void ShowUI(UIConst.UIName name)
+        public void ShowUI(UIConst.UIName name, ShowUIArg arg = null)
         {
             if (uiDic.ContainsKey(name))
             {
                 uiDic[name].gameObject.SetActive(true);
                 uiDic[name].transform.SetAsLastSibling();
+                uiDic[name].Init(arg);
             }
             else
             {
                 BaseUI newUI = ResourcesLoaderHelper.Instance.LoadAndGetInstance(UIConst.UIPrefabNameDic[name]).GetComponent<BaseUI>();
+                newUI.Init(arg);
                 uiDic.Add(name, newUI);
-                newUI.transform.parent = newUI.uiRoot.transform;
-                uiDic[name].transform.SetAsLastSibling();
             }
 
         }

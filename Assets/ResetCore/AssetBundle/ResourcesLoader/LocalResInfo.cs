@@ -30,6 +30,10 @@ namespace ResetCore.Asset
 
         public LocalResInfo(string resName)
         {
+            if (!ResourcesLoaderHelper.resourcesList.ContainsKey(resName))
+            {
+                Debug.logger.LogError("读取资源列表错误", "资源列表中并不存在键值" + resName);
+            }
             url = ResourcesLoaderHelper.resourcesList[resName].Replace("Assets/Resources/", "");
             getTimeLastTime = System.DateTime.Now;
             localResName = resName;

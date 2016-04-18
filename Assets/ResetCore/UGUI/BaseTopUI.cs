@@ -6,9 +6,12 @@ namespace ResetCore.UGUI
 {
     public class BaseTopUI : BaseUI
     {
-        protected override void Awake()
+        protected override void OnEnable()
         {
             uiRoot = UIManager.Instance.topRoot;
+            transform.SetParent(uiRoot.transform);
+            transform.SetAsLastSibling();
+            gameObject.ResetTransform();
         }
 
 
