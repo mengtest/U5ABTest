@@ -8,9 +8,8 @@ namespace ResetCore.UGUI
         protected override void OnEnable()
         {
             uiRoot = UIManager.Instance.popUpRoot;
-            transform.SetParent(uiRoot.transform);
+            transform.SetParent(uiRoot.transform, false);
             transform.SetAsLastSibling();
-            gameObject.ResetTransform();
         }
 
     }

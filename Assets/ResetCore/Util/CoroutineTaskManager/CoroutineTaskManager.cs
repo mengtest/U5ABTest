@@ -54,9 +54,9 @@ namespace ResetCore.Util
                 this.iEnumer = iEnumer;
                 this.callBack = (comp) =>
                 {
+                    taskList.Remove(name);
                     if (callBack != null)
                         callBack(comp);
-                    taskList.Remove(name);
                 };
                 running = false;
                 paused = false;
@@ -134,7 +134,7 @@ namespace ResetCore.Util
         {
             if (taskList.ContainsKey(taskName))
             {
-                Debug.logger.LogError("添加新任务", "任务重名！" + taskName);
+                //Debug.logger.LogError("添加新任务", "任务重名！" + taskName);
                 Restart(taskName);
             }
             else
@@ -148,9 +148,13 @@ namespace ResetCore.Util
         {
             if (taskList.ContainsKey(task.name))
             {
-                Debug.logger.LogError("添加新任务", "任务重名！" + task.name);
+                //Debug.logger.LogError("添加新任务", "任务重名！" + task.name);
+                Restart(task.name);
             }
-            taskList.Add(task.name, task);
+            else
+            {
+                taskList.Add(task.name, task);
+            }
         }
 
         /// <summary>
@@ -240,16 +244,19 @@ namespace ResetCore.Util
         /// <param name="time"></param>
         public CoroutineTask WaitSecondTodo(System.Action callBack, float time)
         {
-            CoroutineTask task = new CoroutineTask(callBack.GetHashCode().ToString() + time.ToString(), DoWaitTodo(callBack, time),
-                null, true);
+            System.Action<bool> callBack2 = (bo) =>
+            {
+                callBack();
+            };
+            CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + time.ToString(), DoWaitTodo(time),
+                callBack2, true);
             AddTask(task);
             return task;
         }
 
-        private IEnumerator DoWaitTodo(System.Action callBack, float time)
+        private IEnumerator DoWaitTodo(float time)
         {
             yield return new WaitForSeconds(time);
-            callBack();
         }
 
         /// <summary>
@@ -259,18 +266,21 @@ namespace ResetCore.Util
         /// <param name="time"></param>
         public CoroutineTask WaitUntilTodo(System.Action callBack, System.Func<bool> predicates)
         {
-            CoroutineTask task = new CoroutineTask(callBack.GetHashCode().ToString() + predicates.GetHashCode()
-                , DoWaitUntil(callBack, predicates), null, true);
+            System.Action<bool> callBack2 = (bo) =>
+            {
+                callBack();
+            };
+            CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
+                , DoWaitUntil(predicates), callBack2, true);
             AddTask(task);
             return task;
         }
 
-        private IEnumerator DoWaitUntil(System.Action callBack, System.Func<bool> predicates)
+        private IEnumerator DoWaitUntil(System.Func<bool> predicates)
         {
             while(!predicates()){
                 yield return null;
             }
-            callBack();
         }
 
         /// <summary>
@@ -280,19 +290,22 @@ namespace ResetCore.Util
         /// <param name="time"></param>
         public CoroutineTask WaitWhileTodo(System.Action callBack, System.Func<bool> predicates)
         {
-            CoroutineTask task = new CoroutineTask(callBack.GetHashCode().ToString() + predicates.GetHashCode()
-                , DoWaitWhile(callBack, predicates), null, true);
+            System.Action<bool> callBack2 = (bo) =>
+            {
+                callBack();
+            };
+            CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
+                , DoWaitWhile(predicates), callBack2, true);
             AddTask(task);
             return task;
         }
 
-        private IEnumerator DoWaitWhile(System.Action callBack, System.Func<bool> predicates)
+        private IEnumerator DoWaitWhile(System.Func<bool> predicates)
         {
             while (predicates())
             {
                 yield return null;
             }
-            callBack();
         }
 
     }

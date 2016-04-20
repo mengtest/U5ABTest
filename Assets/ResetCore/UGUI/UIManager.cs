@@ -35,6 +35,7 @@ namespace ResetCore.UGUI
 
         void Start()
         {
+            Camera.main.gameObject.AddComponent<CameraScale>();
             BaseUI[] uiGroup = normalRoot.GetComponentsInChildren<BaseUI>();
             foreach (BaseUI ui in uiGroup)
             {

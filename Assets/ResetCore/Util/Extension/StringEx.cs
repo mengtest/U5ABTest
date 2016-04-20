@@ -46,6 +46,12 @@ namespace ResetCore.Util
 
         public static char Spriter1 = ',';
         public static char Spriter2 = ':';
+
+        public static object GetValue<T>(string value)
+        {
+            return GetValue(value, typeof(T));
+        }
+
         public static object GetValue(string value, System.Type type)
         {
             //Debug.logger.Log("GetValue " + Spriter1 + "  " + Spriter2);
