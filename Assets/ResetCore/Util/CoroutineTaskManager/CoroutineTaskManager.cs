@@ -311,6 +311,14 @@ namespace ResetCore.Util
             }
         }
 
+        /// <summary>
+        /// 间隔时间进行多次动作
+        /// </summary>
+        /// <param name="callBack"></param>
+        /// <param name="interval"></param>
+        /// <param name="loopTime"></param>
+        /// <param name="startTime"></param>
+        /// <returns></returns>
         public CoroutineTask LoopTodoByTime(System.Action callBack, float interval, float loopTime, float startTime = 0)
         {
             System.Action<bool> callBack2 = (bo) =>
@@ -332,6 +340,39 @@ namespace ResetCore.Util
             }
             int loopNum = 0;
             while (loopNum < loopTime)
+            {
+                loopNum++;
+                callBack();
+                yield return new WaitForSeconds(interval);
+            }
+        }
+
+        /// <summary>
+        /// 当满足条件循环动作
+        /// </summary>
+        /// <param name="callBack"></param>
+        /// <param name="predicates"></param>
+        /// <param name="loopTime"></param>
+        /// <param name="startTime"></param>
+        /// <returns></returns>
+        public CoroutineTask LoopTodoByWhile(System.Action callBack, float interval, System.Func<bool> predicates, float startTime = 0)
+        {
+            System.Action<bool> callBack2 = (bo) =>
+            {
+                callBack();
+            };
+            CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
+                , DoLoopByWhile(interval, predicates, callBack, startTime), null, true);
+            AddTask(task);
+            return task;
+        }
+
+        private IEnumerator DoLoopByWhile(float interval, System.Func<bool> predicates, System.Action callBack, float startTime)
+        {
+            yield return new WaitForSeconds(startTime);
+
+            int loopNum = 0;
+            while (predicates())
             {
                 loopNum++;
                 callBack();

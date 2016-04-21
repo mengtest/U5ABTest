@@ -7,6 +7,9 @@ using ResetCore.Data;
 using ResetCore.Data.GameDatas;
 using System;
 using System.IO;
+using ResetCore.UGUI;
+using ResetCore.AOP;
+
 //using ResetCore.Data.GameDatas;
 
 public class Driver : MonoSingleton<Driver> {
@@ -47,6 +50,18 @@ public class Driver : MonoSingleton<Driver> {
             
         }, 5);
 
+
+        ActionQueue queue = new ActionQueue();
+        queue.AddAction(() =>
+        {
+
+        }).AddAction((act) =>
+        {
+            act();
+        });
+
+        
+
 	}
 
     public override void Init()
@@ -65,5 +80,6 @@ public class Driver : MonoSingleton<Driver> {
         //Target.eulerAngles = Target.NewLookAt(Vector3.zero, new Vector3(0, 5, 0));
         //Debug.DrawLine(Target.position, Vector3.zero, Color.red);
     }
+    
     
 }
