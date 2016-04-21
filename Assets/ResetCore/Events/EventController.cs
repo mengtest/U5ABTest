@@ -66,6 +66,28 @@ namespace ResetCore.Event
             }
         }
 
+        public void CleanUp(string eventName)
+        {
+            List<string> list = new List<string>();
+            bool flag = false;
+            foreach (string str in this.m_permanentEvents)
+            {
+                if (eventName == str)
+                {
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag)
+            {
+                list.Add(eventName);
+            }    
+            foreach (string str in list)
+            {
+                this.m_theRouter.Remove(str);
+            }
+        }
+
         public bool ContainsEvent(string eventType)
         {
             return this.m_theRouter.ContainsKey(eventType);

@@ -18,6 +18,7 @@ public class Driver : MonoSingleton<Driver> {
     }
     public Transform Target;
 	// Use this for initialization
+    int i = 0;
 	void Start () 
     {
         //Quaternion rotation = Quaternion.Euler(0f, 30f, 0f) * Target.rotation;
@@ -27,6 +28,25 @@ public class Driver : MonoSingleton<Driver> {
         //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
         //go.transform.position = newPos;
         //UIManager.Instance.ShowUI();
+
+        CoroutineTaskManager.CoroutineTask task = CoroutineTaskManager.Instance.LoopTodoByTime(() => {
+            i++;
+            Debug.Log(i);
+        }, 1, 10);
+
+        CoroutineTaskManager.Instance.WaitSecondTodo(() =>
+        {
+            Debug.Log("停止任务");
+            task.Pause();
+
+            CoroutineTaskManager.Instance.WaitSecondTodo(() => 
+            {
+                Debug.Log("继续任务");
+                task.Unpause();
+            }, 2);
+            
+        }, 5);
+
 	}
 
     public override void Init()

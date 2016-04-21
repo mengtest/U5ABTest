@@ -30,13 +30,13 @@ namespace ResetCore.UGUI
 
         void Awake()
         {
-            
+
         }
 
         void Start()
         {
             Camera.main.gameObject.AddComponent<CameraScale>();
-            BaseUI[] uiGroup = normalRoot.GetComponentsInChildren<BaseUI>();
+            BaseUI[] uiGroup = canvas.GetComponentsInChildren<BaseUI>();
             foreach (BaseUI ui in uiGroup)
             {
                 if (!uiDic.ContainsKey(ui.uiName))

@@ -246,7 +246,8 @@ namespace ResetCore.Util
         {
             System.Action<bool> callBack2 = (bo) =>
             {
-                callBack();
+                if(bo)
+                    callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + time.ToString(), DoWaitTodo(time),
                 callBack2, true);
@@ -268,7 +269,8 @@ namespace ResetCore.Util
         {
             System.Action<bool> callBack2 = (bo) =>
             {
-                callBack();
+                if(bo)
+                    callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
                 , DoWaitUntil(predicates), callBack2, true);
@@ -292,7 +294,8 @@ namespace ResetCore.Util
         {
             System.Action<bool> callBack2 = (bo) =>
             {
-                callBack();
+                if(bo)
+                    callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
                 , DoWaitWhile(predicates), callBack2, true);
@@ -305,6 +308,34 @@ namespace ResetCore.Util
             while (predicates())
             {
                 yield return null;
+            }
+        }
+
+        public CoroutineTask LoopTodoByTime(System.Action callBack, float interval, float loopTime, float startTime = 0)
+        {
+            System.Action<bool> callBack2 = (bo) =>
+            {
+                callBack();
+            };
+            CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + interval
+                , DoLoopByTime(interval, loopTime, callBack, startTime), null, true);
+            AddTask(task);
+            return task;
+        }
+
+        private IEnumerator DoLoopByTime(float interval, float loopTime, System.Action callBack, float startTime)
+        {
+            yield return new WaitForSeconds(startTime);
+            if(loopTime <= 0)
+            {
+                loopTime = float.MaxValue;
+            }
+            int loopNum = 0;
+            while (loopNum < loopTime)
+            {
+                loopNum++;
+                callBack();
+                yield return new WaitForSeconds(interval);
             }
         }
 
