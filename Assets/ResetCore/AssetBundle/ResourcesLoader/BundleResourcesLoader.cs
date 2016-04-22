@@ -41,7 +41,7 @@ namespace ResetCore.Asset
             }
             else
             {
-
+                Debug.logger.LogError("加载Bundle", "Bundle为空");
             }
 
             if (afterLoadAct != null)

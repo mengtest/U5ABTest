@@ -60,8 +60,7 @@ public class Driver : MonoSingleton<Driver> {
             act();
         });
 
-        
-
+        ShowUIArg arg = AopProxy<ShowUIArg>.CreateProxy();
 	}
 
     public override void Init()

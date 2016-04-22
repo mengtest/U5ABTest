@@ -9,6 +9,12 @@ using System.Runtime.Remoting.Messaging;
 namespace ResetCore.AOP
 {
 
+    interface IAopProceede
+    {
+        void PreProceede(IMessage msg);
+        void PostProceede(IMessage msg);
+    }
+
     //RealProxy
     public class AopProxy<T> : RealProxy 
     {
@@ -34,11 +40,8 @@ namespace ResetCore.AOP
         {
             
         }
-    }
-    //TransparentProxy
-    public static class TransparentProxy
-    {
-        public static T Create<T>()
+
+        public static T CreateProxy()
         {
             T instance = Activator.CreateInstance<T>();
             AopProxy<T> realProxy = new AopProxy<T>(instance);
