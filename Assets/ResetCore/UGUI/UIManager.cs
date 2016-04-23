@@ -59,7 +59,6 @@ namespace ResetCore.UGUI
 
         private Dictionary<UIConst.UIName, BaseUI> uiDic = new Dictionary<UIConst.UIName, BaseUI>();
 
-        private readonly string prefabPath = "UIManager";
 
         public void ShowUI(UIConst.UIName name, ShowUIArg arg = null)
         {

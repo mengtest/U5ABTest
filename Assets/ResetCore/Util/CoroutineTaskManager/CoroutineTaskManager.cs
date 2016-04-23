@@ -1,19 +1,8 @@
-﻿/// Simple, really.  There is no need to initialize or even refer to TaskManager.
-/// When the first Task is created in an application, a "TaskManager" GameObject
-/// will automatically be added to the scene root with the TaskManager component
-/// attached.  This component will be responsible for dispatching all coroutines
-/// behind the scenes.
-///
-/// Task also provides an event that is triggered when the coroutine exits.
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using ResetCore.Util;
 using System.Collections.Generic;
 
-/// A Task object represents a coroutine.  Tasks can be started, paused, and stopped.
-/// It is an error to attempt to start a task that has been stopped or which has
-/// naturally terminated.
 
 namespace ResetCore.Util
 {
@@ -54,9 +43,12 @@ namespace ResetCore.Util
                 this.iEnumer = iEnumer;
                 this.callBack = (comp) =>
                 {
-                    taskList.Remove(name);
-                    if (callBack != null)
-                        callBack(comp);
+                    if (taskList.ContainsKey(name))
+                    {
+                        taskList.Remove(name);
+                        if (callBack != null)
+                            callBack(comp);
+                    }
                 };
                 running = false;
                 paused = false;

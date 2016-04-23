@@ -2,6 +2,70 @@
 <Root>
   <n>NewMaterial.mat</n>
   <p>Assets/Resources/NewMaterial</p>
+  <n>TestAudio.mixer</n>
+  <p>Assets/Resources/TestAudio</p>
+  <n>AutoLight.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/AutoLight</p>
+  <n>HLSLSupport.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/HLSLSupport</p>
+  <n>Lighting.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/Lighting</p>
+  <n>SpeedTreeBillboardCommon.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/SpeedTreeBillboardCommon</p>
+  <n>SpeedTreeCommon.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/SpeedTreeCommon</p>
+  <n>SpeedTreeVertex.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/SpeedTreeVertex</p>
+  <n>SpeedTreeWind.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/SpeedTreeWind</p>
+  <n>TerrainEngine.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/TerrainEngine</p>
+  <n>TerrainSplatmapCommon.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/TerrainSplatmapCommon</p>
+  <n>Tessellation.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/Tessellation</p>
+  <n>UnityBuiltin2xTreeLibrary.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityBuiltin2xTreeLibrary</p>
+  <n>UnityBuiltin3xTreeLibrary.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityBuiltin3xTreeLibrary</p>
+  <n>UnityCG.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityCG</p>
+  <n>UnityDeferredLibrary.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityDeferredLibrary</p>
+  <n>UnityGlobalIllumination.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityGlobalIllumination</p>
+  <n>UnityLightingCommon.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityLightingCommon</p>
+  <n>UnityMetaPass.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityMetaPass</p>
+  <n>UnityPBSLighting.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityPBSLighting</p>
+  <n>UnityShaderVariables.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityShaderVariables</p>
+  <n>UnityShadowLibrary.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityShadowLibrary</p>
+  <n>UnityStandardBRDF.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardBRDF</p>
+  <n>UnityStandardConfig.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardConfig</p>
+  <n>UnityStandardCore.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardCore</p>
+  <n>UnityStandardCoreForward.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardCoreForward</p>
+  <n>UnityStandardCoreForwardSimple.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardCoreForwardSimple</p>
+  <n>UnityStandardInput.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardInput</p>
+  <n>UnityStandardMeta.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardMeta</p>
+  <n>UnityStandardShadow.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardShadow</p>
+  <n>UnityStandardUtils.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityStandardUtils</p>
+  <n>UnityUI.cginc</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/UnityUI</p>
+  <n>StandardShaderGUI.cs</n>
+  <p>Assets/Resources/builtin_shaders-5.3.4f1/Editor/StandardShaderGUI</p>
   <n>ResourcesList.xml</n>
   <p>Assets/Resources/Data/BundleData/ResourcesList</p>
   <n>CubeInfoObj.asset</n>

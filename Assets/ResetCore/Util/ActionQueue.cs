@@ -106,5 +106,10 @@ namespace ResetCore.Util
             actionCB();
             callBack();
         }
+
+        public void Clean()
+        {
+            m_queue = new Queue<Action>();
+        }
     }
 }

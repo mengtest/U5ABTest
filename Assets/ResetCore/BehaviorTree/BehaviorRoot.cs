@@ -4,21 +4,49 @@ using ResetCore.Asset;
 using System.Xml.Linq;
 using System;
 using System.Reflection;
+using System.Collections.Generic;
+using ResetCore.Event;
+using ResetCore.Util;
 
 public class BehaviorRoot : MonoBehaviour {
 
+    //行为树路径
     [SerializeField]
     private string behaviorTreeInfoPath;
 
-    private Behavior rootBehavior;
+    //当触发这些事件时会进行Tick
+    [SerializeField]
+    private List<string> tickEventsList;
 
-    private bool inited;
+    private BaseBehaviorNode rootBehavior;
+
+
+    public ActionNode currentRunningNode { get; set; }
+
+    public ActionQueue actionQueue { get; private set; }
 
     void Awake()
     {
-        inited = false;
         LoadBehaviorTreeInfo();
-        rootBehavior.DoBehavior();
+        
+        foreach (string eventName in tickEventsList)
+        {
+            EventDispatcher.AddEventListener<GameObject>(eventName, TickTarget);
+        }
+    }
+
+    void OnDestroy()
+    {
+        foreach (string eventName in tickEventsList)
+        {
+            EventDispatcher.RemoveEventListener<GameObject>(eventName, TickTarget);
+        }
+    }
+
+
+    void Start()
+    {
+        Tick();
     }
 	
 	// Update is called once per frame
@@ -32,22 +60,21 @@ public class BehaviorRoot : MonoBehaviour {
         XDocument xDoc = XDocument.Parse(xmlStr);
 
         string rootBehaviorName = xDoc.Root.Name.LocalName;
-        rootBehavior = Behavior.Getbehavior(rootBehaviorName);
+        rootBehavior = BaseBehaviorNode.Getbehavior(rootBehaviorName);
         rootBehavior.root = this;
         LoadBehaviorList(xDoc.Root, rootBehavior);
-        inited = true;
     }
 
-    private void LoadBehaviorList(XElement parentEl, Behavior parentBehavior)
+    private void LoadBehaviorList(XElement parentEl, BaseBehaviorNode parentBehavior)
     {
         if(!parentEl.HasElements) return;
 
-        Behavior childBehavior;
+        BaseBehaviorNode childBehavior;
 
         foreach (XElement el in parentEl.Elements())
         {
 
-            childBehavior = Behavior.Getbehavior(el.Name.LocalName);
+            childBehavior = BaseBehaviorNode.Getbehavior(el.Name.LocalName);
             parentBehavior.AddChild(childBehavior);
 
             if (el.HasElements)
@@ -55,5 +82,20 @@ public class BehaviorRoot : MonoBehaviour {
                 LoadBehaviorList(el, childBehavior);
             }
         }
+    }
+
+    public void TickTarget(GameObject target)
+    {
+        if (target == gameObject)
+        {
+            actionQueue.Clean();
+            currentRunningNode.StopBehavior();
+            rootBehavior.DoBehavior();
+        }
+    }
+
+    public void Tick()
+    {
+        TickTarget(gameObject);
     }
 }
