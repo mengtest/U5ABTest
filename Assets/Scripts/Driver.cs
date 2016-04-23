@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using ResetCore.UGUI;
 using ResetCore.AOP;
+using ResetCore.Event;
 
 //using ResetCore.Data.GameDatas;
 
@@ -24,13 +25,6 @@ public class Driver : MonoSingleton<Driver> {
     int i = 0;
 	void Start () 
     {
-        //Quaternion rotation = Quaternion.Euler(0f, 30f, 0f) * Target.rotation;
-        //Vector3 newPos = rotation * new Vector3(10f, 0f, 0f);
-        //Debug.DrawLine(newPos, Vector3.zero, Color.red);
-        //Debug.Log("newpos " + newPos + " nowpos " + Target.position + " distance " + Vector3.Distance(newPos, Target.position));
-        //GameObject go = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-        //go.transform.position = newPos;
-        //UIManager.Instance.ShowUI();
 
         CoroutineTaskManager.CoroutineTask task = CoroutineTaskManager.Instance.LoopTodoByTime(() => {
             i++;
@@ -61,6 +55,7 @@ public class Driver : MonoSingleton<Driver> {
         });
 
         ShowUIArg arg = AopProxy<ShowUIArg>.CreateProxy();
+
 	}
 
     public override void Init()

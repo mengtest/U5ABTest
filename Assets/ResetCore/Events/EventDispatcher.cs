@@ -37,7 +37,7 @@ namespace ResetCore.Event
 
         public static void Cleanup()
         {
-            m_eventController.Cleanup();
+            m_eventController.CleanUp();
         }
 
         public static void MarkAsPermanent(string eventType)

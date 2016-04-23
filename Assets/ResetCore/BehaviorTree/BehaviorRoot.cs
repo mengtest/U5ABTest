@@ -31,7 +31,7 @@ public class BehaviorRoot : MonoBehaviour {
         
         foreach (string eventName in tickEventsList)
         {
-            EventDispatcher.AddEventListener<GameObject>(eventName, TickTarget);
+            MonoEventDispatcher.GetMonoController(gameObject).AddEventListener(eventName, Tick);
         }
     }
 
@@ -39,7 +39,7 @@ public class BehaviorRoot : MonoBehaviour {
     {
         foreach (string eventName in tickEventsList)
         {
-            EventDispatcher.RemoveEventListener<GameObject>(eventName, TickTarget);
+            MonoEventDispatcher.GetMonoController(gameObject).RemoveEventListener(eventName, Tick);
         }
     }
 
@@ -84,18 +84,10 @@ public class BehaviorRoot : MonoBehaviour {
         }
     }
 
-    public void TickTarget(GameObject target)
-    {
-        if (target == gameObject)
-        {
-            actionQueue.Clean();
-            currentRunningNode.StopBehavior();
-            rootBehavior.DoBehavior();
-        }
-    }
-
     public void Tick()
     {
-        TickTarget(gameObject);
+        actionQueue.Clean();
+        currentRunningNode.StopBehavior();
+        rootBehavior.DoBehavior();
     }
 }

@@ -41,7 +41,7 @@ namespace ResetCore.Event
             this.m_theRouter[eventType] = (Action<T, U, V, W>)Delegate.Combine((Action<T, U, V, W>)this.m_theRouter[eventType], handler);
         }
 
-        public void Cleanup()
+        public void CleanUp()
         {
             List<string> list = new List<string>();
             foreach (KeyValuePair<string, Delegate> pair in this.m_theRouter)
