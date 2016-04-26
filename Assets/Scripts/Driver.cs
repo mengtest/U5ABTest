@@ -10,6 +10,8 @@ using System.IO;
 using ResetCore.UGUI;
 using ResetCore.AOP;
 using ResetCore.Event;
+using ResetCore.Xml;
+using System.Xml.Linq;
 
 //using ResetCore.Data.GameDatas;
 
@@ -25,37 +27,21 @@ public class Driver : MonoSingleton<Driver> {
     int i = 0;
 	void Start () 
     {
+        string XmlPath = Application.dataPath + "/SteamingAsset/test.xml";
 
-        CoroutineTaskManager.CoroutineTask task = CoroutineTaskManager.Instance.LoopTodoByTime(() => {
-            i++;
-            Debug.Log(i);
-        }, 1, 10);
+        XDocument xDoc = XDocument.Load(XmlPath);
 
-        CoroutineTaskManager.Instance.WaitSecondTodo(() =>
-        {
-            Debug.Log("停止任务");
-            task.Pause();
+        //XMLWriter.WriteValueToXML<string>(XmlPath, new string[] { "heihei" }, "asdasdasd");
+        //xDoc.WriteValueToXML<string>(XmlPath, new string[] { "heihei" }, "aaaaa");
 
-            CoroutineTaskManager.Instance.WaitSecondTodo(() => 
-            {
-                Debug.Log("继续任务");
-                task.Unpause();
-            }, 2);
-            
-        }, 5);
+        List<string> testList = new List<string>(){
+            "asdasdasdasd",
+            "zzzzzz",
+            "ssssss",
+            "vvvvvvvv"
+        };
 
-
-        ActionQueue queue = new ActionQueue();
-        queue.AddAction(() =>
-        {
-
-        }).AddAction((act) =>
-        {
-            act();
-        });
-
-        ShowUIArg arg = AopProxy<ShowUIArg>.CreateProxy();
-
+        XMLWriter.WriteListToXML<string>(XmlPath, new string[] { "hoho" }, testList);
 	}
 
     public override void Init()

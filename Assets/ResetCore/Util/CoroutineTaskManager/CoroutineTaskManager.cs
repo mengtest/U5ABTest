@@ -43,12 +43,9 @@ namespace ResetCore.Util
                 this.iEnumer = iEnumer;
                 this.callBack = (comp) =>
                 {
-                    if (taskList.ContainsKey(name))
-                    {
-                        taskList.Remove(name);
-                        if (callBack != null)
-                            callBack(comp);
-                    }
+					taskList.Remove(name);
+					if (callBack != null)
+						callBack(comp);
                 };
                 running = false;
                 paused = false;
