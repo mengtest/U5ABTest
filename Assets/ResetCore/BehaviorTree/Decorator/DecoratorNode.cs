@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class DecoratorNode : BaseBehaviorNode
+namespace ResetCore.BehaviorTree
 {
-    
+    public abstract class DecoratorNode : BaseBehaviorNode
+    {
+
+    }
 }
+

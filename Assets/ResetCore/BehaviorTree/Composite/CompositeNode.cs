@@ -1,32 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class CompositeNode : BaseBehaviorNode
+
+namespace ResetCore.BehaviorTree
 {
-
-    public sealed override bool DoBehavior()
+    public abstract class CompositeNode : BaseBehaviorNode
     {
-        if (CheckConditionNode() == false)
-        {
-            return false;
-        }
-        else
-        {
-            return DoComposite();
-        }
-    }
 
-    protected abstract bool DoComposite();
-
-    protected bool CheckConditionNode()
-    {
-        foreach (BaseBehaviorNode node in childBehaviorList)
+        public sealed override bool DoBehavior()
         {
-            if (!(node is ActionNode) && node.DoBehavior() == false)
+            if (CheckConditionNode() == false)
             {
                 return false;
             }
+            else
+            {
+                return DoComposite();
+            }
         }
-        return true;
+
+        protected abstract bool DoComposite();
+
+        protected bool CheckConditionNode()
+        {
+            foreach (BaseBehaviorNode node in childBehaviorList)
+            {
+                if (!(node is ActionNode) && node.DoBehavior() == false)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 }
+

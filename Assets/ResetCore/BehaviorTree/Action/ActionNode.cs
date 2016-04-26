@@ -2,75 +2,91 @@
 using System.Collections;
 using ResetCore.Util;
 
-public enum RunStatus
+
+namespace ResetCore.BehaviorTree
 {
-    Completed,
-    Failure,
-    Running,
-}  
-
-
-public abstract class ActionNode : BaseBehaviorNode {
-
-    public RunStatus runState { get; protected set; }
-    public CoroutineTaskManager.CoroutineTask task;
-
-    protected abstract IEnumerator DoAction(out RunStatus status);
-    public abstract bool CanDoBehavior();
-
-    public override bool DoBehavior()
+    public enum RunStatus
     {
-        bool flag = CanDoBehavior();
-        if(flag)
-        {
-            root.currentRunningNode = this;
+        Completed,
+        Failure,
+        Running,
+    }
 
-            runState = RunStatus.Running;
-            
-            //加入行为队列，如果完成工作就进入下一个节点
-            actionQueue.AddAction((act) =>
+
+    public abstract class ActionNode : BaseBehaviorNode
+    {
+
+        public RunStatus runState { get; protected set; }
+        public CoroutineTaskManager.CoroutineTask task;
+
+        protected abstract IEnumerator DoAction(out RunStatus status);
+        public abstract bool CanDoBehavior();
+
+        public sealed override bool DoBehavior()
+        {
+            bool flag = CanDoBehavior();
+            if (flag)
             {
-                task = new CoroutineTaskManager.CoroutineTask(root.GetHashCode() + GetType().Name,
-                    DoActionWithChangeState(),
-                    (comp) =>
-                    {
-                        if (comp)
+                root.currentRunningNode = this;
+
+                runState = RunStatus.Running;
+
+                //加入行为队列，如果完成工作就进入下一个节点
+                actionQueue.AddAction((act) =>
+                {
+                    task = new CoroutineTaskManager.CoroutineTask(root.GetHashCode() + GetType().Name,
+                        DoActionWithChangeState(),
+                        (comp) =>
                         {
-                            if (act != null)
+                            if (comp)
                             {
-                                act();
+                                if (act != null)
+                                {
+                                    act();
+                                }
+                                else
+                                {
+                                    root.Tick();
+                                }
+
                             }
-                            else
-                            {
-                                root.Tick();
-                            }
 
-                        }
+                        });
+                    CoroutineTaskManager.Instance.AddTask(task);
+                });
 
-                    });
-                CoroutineTaskManager.Instance.AddTask(task);
-            });
-            
-            return true;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
-        else
+
+        public sealed override void AddChild(BaseBehaviorNode behavior)
         {
-            return false;
+            Debug.logger.LogError("添加子节点", "行为节点不能有子节点");
         }
-    }
 
-    protected IEnumerator DoActionWithChangeState()
-    {
-        RunStatus statu;
-        yield return DoAction(out statu);
-        runState = statu;
-    }
-
-    public void StopBehavior()
-    {
-        if (task != null)
+        public sealed override void DeleteChild(BaseBehaviorNode behavior)
         {
-            task.Stop();
+            Debug.logger.LogError("添加子节点", "行为节点不能有子节点");
+        }
+
+        protected IEnumerator DoActionWithChangeState()
+        {
+            RunStatus statu;
+            yield return DoAction(out statu);
+            runState = statu;
+        }
+
+        public void StopBehavior()
+        {
+            if (task != null)
+            {
+                task.Stop();
+            }
         }
     }
+
 }

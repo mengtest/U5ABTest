@@ -1,28 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public abstract class ConditionNode : BaseBehaviorNode
+namespace ResetCore.BehaviorTree
 {
-
-    public BaseBehaviorNode childNode { get { return childBehaviorList[0]; } }
-
-    public sealed override bool DoBehavior()
+    public abstract class ConditionNode : BaseBehaviorNode
     {
-        return Handle();
+
+        public BaseBehaviorNode childNode { get { return childBehaviorList[0]; } }
+
+        public sealed override bool DoBehavior()
+        {
+            return Handle();
+        }
+
+        protected abstract bool Handle();
+
+        public override void AddChild(BaseBehaviorNode behavior)
+        {
+            if (childBehaviorList.Count == 0)
+            {
+                base.AddChild(behavior);
+            }
+            else
+            {
+                Debug.logger.LogError("ConditionNode", "ConditionNode只允许有一个子节点");
+            }
+
+        }
     }
 
-    protected abstract bool Handle();
-
-    public override void AddChild(BaseBehaviorNode behavior)
-    {
-        if (childBehaviorList.Count == 0)
-        {
-            base.AddChild(behavior);
-        }
-        else
-        {
-            Debug.logger.LogError("ConditionNode", "ConditionNode只允许有一个子节点");
-        }
-        
-    }
 }

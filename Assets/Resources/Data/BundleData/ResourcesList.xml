@@ -86,4 +86,10 @@
   <p>Assets/Resources/Data/ProtoBufData/TestData1.protodata</p>
   <n>Cube.prefab</n>
   <p>Assets/Resources/Prefabs/Cube</p>
+  <n>Bullet.prefab</n>
+  <p>Assets/Resources/TestBehaviorTree/Bullet</p>
+  <n>Enemy.prefab</n>
+  <p>Assets/Resources/TestBehaviorTree/Enemy</p>
+  <n>Player.prefab</n>
+  <p>Assets/Resources/TestBehaviorTree/Player</p>
 </Root>

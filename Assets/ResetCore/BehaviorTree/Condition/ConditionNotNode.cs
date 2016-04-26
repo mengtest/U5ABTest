@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ConditionNotNode : ConditionNode {
-
-    protected override bool Handle()
+namespace ResetCore.BehaviorTree
+{
+    public class ConditionNotNode : ConditionNode
     {
-        return !childNode.DoBehavior();
+
+        protected override bool Handle()
+        {
+            return !childNode.DoBehavior();
+        }
     }
+
 }

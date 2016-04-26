@@ -5,41 +5,44 @@ using System;
 using System.Reflection;
 using ResetCore.Util;
 
-
-public abstract class BaseBehaviorNode 
+namespace ResetCore.BehaviorTree
 {
-
-
-    protected BaseBehaviorNode parent;
-    protected List<BaseBehaviorNode> childBehaviorList = new List<BaseBehaviorNode>();
-
-    protected ActionQueue actionQueue { get { return root.actionQueue; } }
-
-    public BehaviorRoot root { get; set; }
-    
-
-    public virtual void AddChild(BaseBehaviorNode behavior)
+    public abstract class BaseBehaviorNode
     {
-        behavior.parent = this;
-        childBehaviorList.Add(behavior);
-        behavior.root = root;
-    }
 
-    public virtual void DeleteChild(BaseBehaviorNode behavior)
-    {
-        behavior.parent = null;
-        childBehaviorList.Remove(behavior);
-    }
 
-    public abstract bool DoBehavior();
+        protected BaseBehaviorNode parent;
+        protected List<BaseBehaviorNode> childBehaviorList = new List<BaseBehaviorNode>();
 
-    public static BaseBehaviorNode Getbehavior(string behaviorName)
-    {
-        Type rootBehaviorType = Type.GetType(behaviorName);
+        protected ActionQueue actionQueue { get { return root.actionQueue; } }
 
-        ConstructorInfo constructor = rootBehaviorType.GetConstructor(new Type[] { });
-        BaseBehaviorNode finalBehavior = constructor.Invoke(new object[] { }) as BaseBehaviorNode;
-        return finalBehavior;
+        public BehaviorRoot root { get; set; }
+
+
+        public virtual void AddChild(BaseBehaviorNode behavior)
+        {
+            behavior.parent = this;
+            childBehaviorList.Add(behavior);
+            behavior.root = root;
+        }
+
+        public virtual void DeleteChild(BaseBehaviorNode behavior)
+        {
+            behavior.parent = null;
+            childBehaviorList.Remove(behavior);
+        }
+
+        public abstract bool DoBehavior();
+
+        public static BaseBehaviorNode Getbehavior(string behaviorName)
+        {
+            Type rootBehaviorType = Type.GetType(behaviorName);
+
+            ConstructorInfo constructor = rootBehaviorType.GetConstructor(new Type[] { });
+            BaseBehaviorNode finalBehavior = constructor.Invoke(new object[] { }) as BaseBehaviorNode;
+            return finalBehavior;
+        }
+
     }
 
 }

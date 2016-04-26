@@ -1,19 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CompositeSequence : CompositeNode {
 
-
-    protected override bool DoComposite()
+namespace ResetCore.BehaviorTree
+{
+    public class CompositeSequence : CompositeNode
     {
-        //遇到一个false就立马返回
-        foreach (BaseBehaviorNode node in childBehaviorList)
+
+
+        protected override bool DoComposite()
         {
-            if (node is ActionNode && node.DoBehavior() == false)
+            //遇到一个false就立马返回
+            foreach (BaseBehaviorNode node in childBehaviorList)
             {
-                break;
+                if (node is ActionNode && node.DoBehavior() == false)
+                {
+                    break;
+                }
             }
+            return true;
         }
-        return true;
     }
+
 }

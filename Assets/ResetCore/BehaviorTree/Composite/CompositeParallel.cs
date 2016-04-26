@@ -1,19 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CompositeParallel : CompositeNode
+namespace ResetCore.BehaviorTree
 {
-    protected override bool DoComposite()
+    public class CompositeParallel : CompositeNode
     {
-        
-        foreach (BaseBehaviorNode node in childBehaviorList)
+        protected override bool DoComposite()
         {
-            if (node is ActionNode)
-            {
-                node.DoBehavior();
-            }
-        }
 
-        return true;
+            foreach (BaseBehaviorNode node in childBehaviorList)
+            {
+                if (node is ActionNode)
+                {
+                    node.DoBehavior();
+                }
+            }
+
+            return true;
+        }
     }
+
 }
