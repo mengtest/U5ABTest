@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
+  <n>Music1.mp3</n>
+  <p>Assets/Resources/Music1</p>
   <n>NewMaterial.mat</n>
   <p>Assets/Resources/NewMaterial</p>
   <n>TestAudio.mixer</n>

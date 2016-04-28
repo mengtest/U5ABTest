@@ -119,9 +119,114 @@ namespace ResetCore.Xml
             _XDoc.Save(uri);
         }
 
-        
+        /// <summary>
+        /// 打开XDocument
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static XDocument Open(string uri)
+        {
+            return XDocument.Load(uri);
+        }
 
+        /// <summary>
+        /// 将值加入XML
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="xDoc"></param>
+        /// <param name="nodeNames"></param>
+        /// <param name="value"></param>
+        public static XDocument WriteValue<T>(this XDocument xDoc, string[] nodeNames, T value)
+        {
+            if (xDoc.Root == null)
+            {
+                xDoc.Add(new XElement("Root"));
+            }
 
+            XElement _Root = xDoc.Root;
+            for (int i = 0; i < nodeNames.Length; i++)
+            {
+                if (_Root.Element(nodeNames[i]) == null)
+                {
+                    _Root.Add(new XElement(nodeNames[i]));
+                }
+                _Root = _Root.Element(nodeNames[i]);
+            }
+
+            XElement newRoot = new XElement(_Root.Name);
+            XElement parent = _Root.Parent;
+
+            _Root.Remove();
+
+            parent.Add(newRoot);
+            newRoot.Value = StringEx.ConverToString(value);
+            return xDoc;
+        }
+
+        /// <summary>
+        /// 加入列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="uri"></param>
+        /// <param name="nodeNames"></param>
+        /// <param name="arr"></param>
+        /// <param name="tag"></param>
+        public static XDocument WriteList<T>(this XDocument xDoc, string[] nodeNames, List<T> arr, string tag = "item")
+        {
+
+            XElement _Root = xDoc.Root;
+            for (int i = 0; i < nodeNames.Length; i++)
+            {
+                if (_Root.Element(nodeNames[i]) == null)
+                {
+                    _Root.Add(new XElement(nodeNames[i]));
+                }
+                _Root = _Root.Element(nodeNames[i]);
+            }
+            _Root.RemoveAll();
+            foreach (T ob in arr)
+            {
+                _Root.Add(new XElement(tag, StringEx.ConverToString(ob)));
+            }
+            return xDoc;
+        }
+
+        /// <summary>
+        /// 加入词典
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="xDoc"></param>
+        /// <param name="nodeNames"></param>
+        /// <param name="_dic"></param>
+        /// <returns></returns>
+        public static XDocument WriteDictionary<T>(this XDocument xDoc, string[] nodeNames, Dictionary<string, T> _dic)
+        {
+            XElement _Root = xDoc.Root;
+            for (int i = 0; i < nodeNames.Length; i++)
+            {
+                if (_Root.Element(nodeNames[i]) == null)
+                {
+                    _Root.Add(new XElement(nodeNames[i]));
+                }
+                _Root = _Root.Element(nodeNames[i]);
+            }
+            _Root.RemoveAll();
+            foreach (string _id in _dic.Keys)
+            {
+                _Root.Add(new XElement(_id, StringEx.ConverToString(_dic[_id])));
+            }
+            return xDoc;
+        }
+
+        /// <summary>
+        /// 提交修改
+        /// </summary>
+        /// <param name="xDoc"></param>
+        /// <param name="uri"></param>
+        public static void Submit(this XDocument xDoc, string uri)
+        {
+            xDoc.Save(uri);
+        }
     }
 }
 
