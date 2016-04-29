@@ -12,21 +12,21 @@ namespace ResetCore.UGUI
 
     }
 
-    public class UIManager : MonoBehaviour
+    public class UIManager : MonoSingleton<UIManager>
     {
 
-        private static UIManager _instance;
-        public static UIManager Instance
-        {
-            get 
-            {
-                if (_instance == null)
-                {
-                    _instance = GameObject.FindObjectOfType<UIManager>();
-                }
-                return _instance; 
-            }
-        }
+        //private static UIManager _instance;
+        //public static UIManager Instance
+        //{
+        //    get 
+        //    {
+        //        if (_instance == null)
+        //        {
+        //            _instance = GameObject.FindObjectOfType<UIManager>();
+        //        }
+        //        return _instance; 
+        //    }
+        //}
 
         void Awake()
         {
@@ -87,20 +87,15 @@ namespace ResetCore.UGUI
 
         public void CleanUI()
         {
-            Destroy(normalRoot);
-            normalRoot = new GameObject("NormalRoot");
-            normalRoot.transform.parent = transform;
+            normalRoot.transform.DeleteAllChild();
 
-            Destroy(popUpRoot);
-            popUpRoot = new GameObject("PopUpRoot");
-            popUpRoot.transform.parent = transform;
+            popUpRoot.transform.DeleteAllChild();
 
-            Destroy(topRoot);
-            topRoot = new GameObject("TopRoot");
-            topRoot.transform.parent = transform;
+            topRoot.transform.DeleteAllChild();
 
             uiDic.Clear();
         }
+
     }
 }
 

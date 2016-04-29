@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 using ResetCore.Asset;
 
-namespace ResetCore.Util
+namespace ResetCore.Data
 {
     public class MyXMLParser
     {
@@ -13,6 +13,7 @@ namespace ResetCore.Util
         public static bool LoadIntMap(string fileName, out Dictionary<int, Dictionary<string, string>> dicFromXml)
         {
             TextAsset textAsset = ResourcesLoaderHelper.Instance.LoadTextAsset(fileName);
+            Debug.logger.Log(ResourcesLoaderHelper.resourcesList[fileName]);
             if (textAsset == null)
             {
                 Debug.logger.LogError("XMLParser", fileName + " 文本加载失败");
@@ -22,7 +23,7 @@ namespace ResetCore.Util
             dicFromXml = new Dictionary<int, Dictionary<string, string>>();
             if (xDoc == null) return false;
             int id = 1;
-            Debug.Log("Elements.Count" + root.Elements());
+            //Debug.Log("Elements.Count" + root.Elements());
             foreach (XElement item in root.Elements())
             {
                 Dictionary<string, string> propDic = new Dictionary<string, string>();
@@ -36,9 +37,12 @@ namespace ResetCore.Util
                     }
                     else
                     {
-                        Debug.logger.LogError("XMLPraser", "未记录类型信息，将无法自动生成GameData代码" + key);
+                        if (Application.platform == RuntimePlatform.WindowsEditor)
+                        {
+                            Debug.logger.LogWarning("XMLPraser", "未记录类型信息，将无法自动生成GameData代码" + key);
+                        }
                     }
-
+                    Debug.logger.Log(key);
                     if (!propDic.ContainsKey(key))
                     {
                         propDic.Add(key, propItem.Value);

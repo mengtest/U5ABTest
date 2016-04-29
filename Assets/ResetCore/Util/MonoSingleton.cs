@@ -95,6 +95,7 @@ namespace ResetCore.Util
         {
             m_Instance = null;
         }
+
     }
 
 }

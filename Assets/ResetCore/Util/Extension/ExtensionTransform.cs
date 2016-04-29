@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public static class ExtensionTransform {
 
@@ -39,5 +40,49 @@ public static class ExtensionTransform {
         {
             return euler;
         }
+    }
+
+    /// <summary>
+    /// 获得所有子物体
+    /// </summary>
+    /// <param name="tran"></param>
+    /// <returns></returns>
+    public static List<Transform> GetAllChildren(this Transform tran)
+    {
+        List<Transform> children = new List<Transform>();
+
+        for (int i = 0; i < tran.childCount; i++)
+        {
+            children.Add(tran.GetChild(i));
+        }
+
+        return children;
+    }
+
+    /// <summary>
+    /// 对所有子物体做动作
+    /// </summary>
+    /// <param name="tran"></param>
+    /// <param name="todo"></param>
+    public static void DoToAllChildren(this Transform tran, System.Action<Transform> todo)
+    {
+        List<Transform> children = tran.GetAllChildren();
+
+        foreach (Transform child in children)
+        {
+            todo(child);
+        }
+    }
+
+    /// <summary>
+    /// 删除所有子物体
+    /// </summary>
+    /// <param name="tran"></param>
+    public static void DeleteAllChild(this Transform tran)
+    {
+        tran.DoToAllChildren((child) =>
+        {
+            GameObject.Destroy(child);
+        });
     }
 }

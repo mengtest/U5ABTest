@@ -106,7 +106,7 @@ namespace ResetCore.Data
                     result = dataDic;
                     return result;
                 }
-                Debug.logger.Log("dictionary.count" + dictionary.Count);
+                //Debug.logger.Log("dictionary.count" + dictionary.Count);
                 PropertyInfo[] properties = type.GetProperties();
                 foreach (KeyValuePair<int, Dictionary<string, string>> pair in dictionary)
                 {
@@ -124,6 +124,10 @@ namespace ResetCore.Data
                         {
                             object propValue = StringEx.GetValue(pair.Value[propInfo.Name], propInfo.PropertyType);
                             propInfo.SetValue(propInstance, propValue, null);
+                        }
+                        else
+                        {
+                            Debug.logger.LogError("添加新值", propInfo.Name + "不存在于Xml中");
                         }
                     }
                     dicType.GetMethod("Add").Invoke(dataDic, new object[]

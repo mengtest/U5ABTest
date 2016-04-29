@@ -38,6 +38,8 @@ namespace ResetCore.Data.GameDatas
         private Int32 _gold;
         
         private Int32 _money;
+
+        public List<String> testList { get; protected set; }
         
         // 
         public Int32 itemId
@@ -168,5 +170,6 @@ namespace ResetCore.Data.GameDatas
                 this._money = value;
             }
         }
+
     }
 }

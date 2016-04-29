@@ -53,17 +53,16 @@ public class Driver : MonoSingleton<Driver> {
         //    .WriteDictionary<int>(new string[] { "testDict" }, testDict)
         //    .Submit(XmlPath);
 
-        string host = "localhost";  
-	    //如果是局域网，那么写上本机的局域网IP
-	    //static string host = "192.168.1.106";  
-        string id = "root";
-        string pwd = "vgvgvvvqazwsx123";
-        string database = "student";
+        //string host = "localhost";  
+        ////如果是局域网，那么写上本机的局域网IP
+        ////static string host = "192.168.1.106";  
+        //string id = "root";
+        //string pwd = "vgvgvvvqazwsx123";
+        //string database = "student";
 
-
-        MySQLManager.OpenSql(host, database, id, pwd);
-        MySQLManager.ExecuteQuery("asdasd");
-        MySQLManager.Close();
+        //MySQLManager.OpenSql(host, database, id, pwd);
+        //MySQLManager.ExecuteQuery("asdasd");
+        //MySQLManager.Close();
 	}
 
     public override void Init()
