@@ -27,42 +27,7 @@ public class Driver : MonoSingleton<Driver> {
 	// Use this for initialization
 	void Start () 
     {
-        //string XmlPath = Application.dataPath + "/SteamingAsset/test.xml";
-
-        
-        ////XMLWriter.WriteValueToXML<string>(XmlPath, new string[] { "heihei" }, "asdasdasd");
-        ////xDoc.WriteValueToXML<string>(XmlPath, new string[] { "heihei" }, "aaaaa");
-
-        //List<string> testList = new List<string>(){
-        //    "asdasdasdasd",
-        //    "zzzzzz",
-        //    "ssssss",
-        //    "vvvvvvvv"
-        //};
-
-        //Dictionary<string, int> testDict = new Dictionary<string, int>()
-        //{
-        //    {"asdasd", 1},
-        //    {"aszxc", 2},
-        //    {"aqwed", 3},
-        //    {"aswerd", 4},
-        //};
-
-        //XMLWriter.Open(XmlPath)
-        //    .WriteList<string>(new string[] { "asdasd" }, testList)
-        //    .WriteDictionary<int>(new string[] { "testDict" }, testDict)
-        //    .Submit(XmlPath);
-
-        //string host = "localhost";  
-        ////如果是局域网，那么写上本机的局域网IP
-        ////static string host = "192.168.1.106";  
-        //string id = "root";
-        //string pwd = "vgvgvvvqazwsx123";
-        //string database = "student";
-
-        //MySQLManager.OpenSql(host, database, id, pwd);
-        //MySQLManager.ExecuteQuery("asdasd");
-        //MySQLManager.Close();
+        //ReadXlsxData.ParseXlsx.ReadExcelFile("asdasd");
 	}
 
     public override void Init()
