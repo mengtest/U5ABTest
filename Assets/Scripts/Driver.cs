@@ -28,6 +28,9 @@ public class Driver : MonoSingleton<Driver> {
 	void Start () 
     {
         //ReadXlsxData.ParseXlsx.ReadExcelFile("asdasd");
+        //MySQLManager.OpenSql();
+        //MySQLManager.ExecuteQuery();
+        //MySQLManager.Close();
 	}
 
     public override void Init()

@@ -9,7 +9,7 @@ using System;
 
 namespace ResetCore.MySQL
 {
-    public class MySQLManager : Singleton<MySQLManager>
+    public class MySQLManager
     {
 
         public static MySqlConnection current { get; private set; }
