@@ -166,6 +166,16 @@ namespace ResetCore.Asset
             return go;
         }
 
+        public T LoadResource<T>(string objectName, System.Action<T> afterLoadAct = null) where T : class
+        {
+            T obj = ResourcesLoaderHelper.Instance.LoadResource(objectName) as T;
+            if (afterLoadAct != null)
+            {
+                afterLoadAct(obj);
+            }
+            return obj;
+        }
+
 
         //加载资源列表
         public static Dictionary<string, string> LoadResourcesListFile()

@@ -72,6 +72,10 @@ namespace ResetCore.Util
             {
                 foreach (string directoryName in directoryDic.Keys)
                 {
+                    if (!Directory.Exists(directoryName))
+                    {
+                        continue;
+                    }
                     string[] fileNames = Directory.GetFiles(directoryName, "*", SearchOption.AllDirectories);
                     foreach (string fileName in fileNames)
                     {
