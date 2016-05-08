@@ -6,7 +6,13 @@ namespace ResetCore.Util
 {
     public class LoadSceneManager : Singleton<LoadSceneManager>
     {
-        public bool isLoading = false;
+        public bool isLoading { get; private set; }
+
+        public override void Init()
+        {
+            isLoading = false;
+        }
+
         public void LoadScene(string sceneName, System.Action<bool> loadedAct = null, System.Action<float> progressAct = null)
         {
             if (isLoading == false)
@@ -23,14 +29,14 @@ namespace ResetCore.Util
         }
 
         private AsyncOperation operation;
-        IEnumerator DoLoadScene(string sceneName)
+        private IEnumerator DoLoadScene(string sceneName)
         {
             isLoading = true;
             yield return operation = SceneManager.LoadSceneAsync(sceneName);
             isLoading = false;
         }
 
-        IEnumerator DoLoadSceneProgress(System.Action<float> progressAct)
+        private IEnumerator DoLoadSceneProgress(System.Action<float> progressAct)
         {
             while (!operation.isDone)
             {

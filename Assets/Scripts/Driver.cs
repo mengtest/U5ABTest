@@ -24,6 +24,7 @@ public class Driver : MonoSingleton<Driver> {
     {
         Init();
     }
+    int i = 0;
 	// Use this for initialization
 	void Start () 
     {
@@ -31,6 +32,17 @@ public class Driver : MonoSingleton<Driver> {
         //MySQLManager.OpenSql();
         //MySQLManager.ExecuteQuery();
         //MySQLManager.Close();
+
+        CoroutineTaskManager.Instance.LoopTodoByTime(() =>
+        {
+            i++;
+            Debug.logger.Log("当前数字" + i);
+        }, 1, -1, gameObject);
+
+        CoroutineTaskManager.Instance.WaitSecondTodo(() =>
+        {
+            Destroy(gameObject);
+        }, 5);
 	}
 
     public override void Init()

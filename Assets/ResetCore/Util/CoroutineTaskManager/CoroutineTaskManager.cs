@@ -19,7 +19,14 @@ namespace ResetCore.Util
             private IEnumerator iEnumer;
             private System.Action<bool> callBack;
 
+
             public string name
+            {
+                get;
+                private set;
+            }
+
+            public GameObject bindObject
             {
                 get;
                 private set;
@@ -37,7 +44,9 @@ namespace ResetCore.Util
                 private set;
             }
 
-            public CoroutineTask(string name, IEnumerator iEnumer, System.Action<bool> callBack = null, bool autoStart = true)
+            public CoroutineTask(
+                string name, IEnumerator iEnumer, System.Action<bool> callBack = null, 
+                GameObject bindObject = null, bool autoStart = true)
             {
                 this.name = name;
                 this.iEnumer = iEnumer;
@@ -47,6 +56,16 @@ namespace ResetCore.Util
 					if (callBack != null)
 						callBack(comp);
                 };
+
+                if (bindObject == null)
+                {
+                    this.bindObject = CoroutineTaskManager.Instance.gameObject;
+                }
+                else
+                {
+                    this.bindObject = bindObject;
+                }
+                
                 running = false;
                 paused = false;
 
@@ -98,6 +117,13 @@ namespace ResetCore.Util
                             running = false;
                         }
                     }
+
+                    if (bindObject == null)
+                    {
+                        Debug.logger.LogWarning("协程中断", "因为绑定物体被删除所以停止协程");
+                        Stop();
+                    }
+
                 }
                 callBack(true);
             }
@@ -119,7 +145,7 @@ namespace ResetCore.Util
         /// <param name="iEnumer"></param>
         /// <param name="callBack"></param>
         /// <param name="autoStart"></param>
-        public void AddTask(string taskName, IEnumerator iEnumer, System.Action<bool> callBack = null, bool autoStart = true)
+        public void AddTask(string taskName, IEnumerator iEnumer, System.Action<bool> callBack = null, GameObject bindObject = null, bool autoStart = true)
         {
             if (taskList.ContainsKey(taskName))
             {
@@ -128,7 +154,7 @@ namespace ResetCore.Util
             }
             else
             {
-                taskList.Add(taskName, new CoroutineTask(taskName, iEnumer, callBack, autoStart));
+                taskList.Add(taskName, new CoroutineTask(taskName, iEnumer, callBack, bindObject, autoStart));
             }
             
         }
@@ -231,7 +257,7 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public CoroutineTask WaitSecondTodo(System.Action callBack, float time)
+        public CoroutineTask WaitSecondTodo(System.Action callBack, float time, GameObject bindObject = null)
         {
             System.Action<bool> callBack2 = (bo) =>
             {
@@ -239,7 +265,7 @@ namespace ResetCore.Util
                     callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + time.ToString(), DoWaitTodo(time),
-                callBack2, true);
+                callBack2, bindObject, true);
             AddTask(task);
             return task;
         }
@@ -254,7 +280,7 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public CoroutineTask WaitUntilTodo(System.Action callBack, System.Func<bool> predicates)
+        public CoroutineTask WaitUntilTodo(System.Action callBack, System.Func<bool> predicates, GameObject bindObject = null)
         {
             System.Action<bool> callBack2 = (bo) =>
             {
@@ -262,7 +288,7 @@ namespace ResetCore.Util
                     callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
-                , DoWaitUntil(predicates), callBack2, true);
+                , DoWaitUntil(predicates), callBack2, bindObject, true);
             AddTask(task);
             return task;
         }
@@ -279,7 +305,7 @@ namespace ResetCore.Util
         /// </summary>
         /// <param name="callBack"></param>
         /// <param name="time"></param>
-        public CoroutineTask WaitWhileTodo(System.Action callBack, System.Func<bool> predicates)
+        public CoroutineTask WaitWhileTodo(System.Action callBack, System.Func<bool> predicates, GameObject bindObject = null)
         {
             System.Action<bool> callBack2 = (bo) =>
             {
@@ -287,7 +313,7 @@ namespace ResetCore.Util
                     callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
-                , DoWaitWhile(predicates), callBack2, true);
+                , DoWaitWhile(predicates), callBack2, bindObject, true);
             AddTask(task);
             return task;
         }
@@ -308,14 +334,14 @@ namespace ResetCore.Util
         /// <param name="loopTime"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        public CoroutineTask LoopTodoByTime(System.Action callBack, float interval, float loopTime, float startTime = 0)
+        public CoroutineTask LoopTodoByTime(System.Action callBack, float interval, float loopTime, GameObject bindObject = null, float startTime = 0)
         {
             System.Action<bool> callBack2 = (bo) =>
             {
                 callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + interval
-                , DoLoopByTime(interval, loopTime, callBack, startTime), null, true);
+                , DoLoopByTime(interval, loopTime, callBack, startTime), null, bindObject, true);
             AddTask(task);
             return task;
         }
@@ -344,14 +370,14 @@ namespace ResetCore.Util
         /// <param name="loopTime"></param>
         /// <param name="startTime"></param>
         /// <returns></returns>
-        public CoroutineTask LoopTodoByWhile(System.Action callBack, float interval, System.Func<bool> predicates, float startTime = 0)
+        public CoroutineTask LoopTodoByWhile(System.Action callBack, float interval, System.Func<bool> predicates, GameObject bindObject = null, float startTime = 0)
         {
             System.Action<bool> callBack2 = (bo) =>
             {
                 callBack();
             };
             CoroutineTask task = new CoroutineTask(callBack2.GetHashCode().ToString() + predicates.GetHashCode()
-                , DoLoopByWhile(interval, predicates, callBack, startTime), null, true);
+                , DoLoopByWhile(interval, predicates, callBack, startTime), null, bindObject, true);
             AddTask(task);
             return task;
         }

@@ -4,7 +4,7 @@ using System;
 
 namespace ResetCore.Util
 {
-    public class Singleton<T> where T : Singleton<T>, new()
+    public abstract class Singleton<T> where T : Singleton<T>, new()
     {
 
         private static T Instance = null;
@@ -15,15 +15,14 @@ namespace ResetCore.Util
                 if (Instance == null)
                 {
                     Instance = typeof(T).GetConstructor(new Type[] { }).Invoke(new object[] { }) as T;
+                    Instance.Init();
                 }
                 return Instance;
             }
         }
 
-        protected virtual void Init()
-        {
+        public virtual void Init() { }
 
-        }
     }
 
 }

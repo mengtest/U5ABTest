@@ -15,18 +15,7 @@ namespace ResetCore.UGUI
     public class UIManager : MonoSingleton<UIManager>
     {
 
-        //private static UIManager _instance;
-        //public static UIManager Instance
-        //{
-        //    get 
-        //    {
-        //        if (_instance == null)
-        //        {
-        //            _instance = GameObject.FindObjectOfType<UIManager>();
-        //        }
-        //        return _instance; 
-        //    }
-        //}
+        
 
         void Awake()
         {
@@ -59,7 +48,6 @@ namespace ResetCore.UGUI
 
         private Dictionary<UIConst.UIName, BaseUI> uiDic = new Dictionary<UIConst.UIName, BaseUI>();
 
-
         public void ShowUI(UIConst.UIName name, ShowUIArg arg = null)
         {
             if (uiDic.ContainsKey(name))
@@ -82,6 +70,26 @@ namespace ResetCore.UGUI
             if (uiDic.ContainsKey(name))
             {
                 uiDic[name].gameObject.SetActive(false);
+            }
+        }
+
+        public BaseUI GetUI(UIConst.UIName name)
+        {
+            if (uiDic.ContainsKey(name))
+            {
+                if (uiDic[name] != null)
+                {
+                    return uiDic[name].gameObject.GetComponent<BaseUI>();
+                }
+                else
+                {
+                    uiDic.Remove(name);
+                    return null;
+                }
+            }
+            else
+            {
+                return null;
             }
         }
 
