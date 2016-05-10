@@ -36,7 +36,6 @@ namespace ResetCore.UGUI
                 {
                     Destroy(ui.gameObject);
                 }
-                
             }
         }
 
@@ -48,7 +47,7 @@ namespace ResetCore.UGUI
 
         private Dictionary<UIConst.UIName, BaseUI> uiDic = new Dictionary<UIConst.UIName, BaseUI>();
 
-        public void ShowUI(UIConst.UIName name, ShowUIArg arg = null)
+        public void ShowUI(UIConst.UIName name, System.Action afterAct, ShowUIArg arg = null)
         {
             if (uiDic.ContainsKey(name))
             {
@@ -61,6 +60,11 @@ namespace ResetCore.UGUI
                 BaseUI newUI = ResourcesLoaderHelper.Instance.LoadAndGetInstance(UIConst.UIPrefabNameDic[name]).GetComponent<BaseUI>();
                 newUI.Init(arg);
                 uiDic.Add(name, newUI);
+            }
+
+            if (afterAct != null)
+            {
+                afterAct();
             }
 
         }

@@ -13,11 +13,11 @@ public class SpriteHelper {
 
         if (rect == default(Rect))
         {
-            rect = new Rect(0, 0, texture.width, texture.height);
+            finRect = new Rect(0, 0, texture.width, texture.height);
         }
         if (pivot == default(Vector2))
         {
-            pivot = new Vector2(0.5f, 0.5f);
+            finPivot = new Vector2(0.5f, 0.5f);
         }
 
         Sprite sprite = Sprite.Create(texture, finRect, finPivot);

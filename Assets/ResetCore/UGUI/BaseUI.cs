@@ -29,9 +29,13 @@ namespace ResetCore.UGUI
 
         protected virtual void OnDisable() { }
 
-        protected void Hide()
+        protected void Hide(System.Action afterAct = null)
         {
             UIManager.Instance.HideUI(uiName);
+            if (afterAct != null)
+            {
+                afterAct();
+            }
         }
     }
 }
