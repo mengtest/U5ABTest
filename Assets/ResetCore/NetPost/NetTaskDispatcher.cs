@@ -33,7 +33,7 @@ namespace ResetCore.NetPost
 
         private ActionQueue GetQueue(string queueName)
         {
-            if (taskTable.ContainsKey(queueName))
+            if (!taskTable.ContainsKey(queueName))
             {
                 taskTable.Add(queueName, new ActionQueue());
             }

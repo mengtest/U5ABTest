@@ -69,11 +69,15 @@ namespace ResetCore.UGUI
 
         }
 
-        public void HideUI(UIConst.UIName name)
+        public void HideUI(UIConst.UIName name, System.Action afterAct = null)
         {
             if (uiDic.ContainsKey(name))
             {
                 uiDic[name].gameObject.SetActive(false);
+                if (afterAct != null)
+                {
+                    afterAct();
+                }
             }
         }
 

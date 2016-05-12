@@ -31,11 +31,7 @@ namespace ResetCore.UGUI
 
         protected void Hide(System.Action afterAct = null)
         {
-            UIManager.Instance.HideUI(uiName);
-            if (afterAct != null)
-            {
-                afterAct();
-            }
+            UIManager.Instance.HideUI(uiName, afterAct);
         }
     }
 }

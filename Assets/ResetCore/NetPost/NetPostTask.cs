@@ -14,6 +14,8 @@ namespace ResetCore.NetPost
         public Action<JsonData> finishCall { get; private set; }
         public Action<float> progressCall { get; private set; }
 
+        private Action afterAct;
+
         public abstract string taskId
         {
             get;
@@ -28,6 +30,8 @@ namespace ResetCore.NetPost
                 OnFinish(backJsonData);
                 if (finishCall != null)
                     finishCall(backJsonData);
+                if (afterAct != null)
+                    afterAct();
             };
             this.progressCall = (progress) =>
             {
@@ -52,12 +56,8 @@ namespace ResetCore.NetPost
         public void Start(Action afterAct = null)
         {
             OnStart();
-            finishCall = (data) =>
-            {
-                finishCall(data);
-                afterAct();
-            };
-            HttpProxy.Instance.AsynDownloadJsonData(PathConfig.NetPostURL, postJsonData, finishCall);
+            this.afterAct = afterAct;
+            HttpProxy.Instance.AsynDownloadJsonData(PathConfig.NetPostURL, postJsonData, finishCall, progressCall);
         }
 
         protected virtual void OnStart()
@@ -67,7 +67,7 @@ namespace ResetCore.NetPost
 
         protected virtual void OnProgress(float progress)
         {
-
+            Debug.logger.Log(progress + "%");
         }
 
         protected virtual void OnFinish(JsonData backJsonData)

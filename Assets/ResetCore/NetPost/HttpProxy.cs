@@ -13,7 +13,7 @@ namespace ResetCore.NetPost
     public class HttpProxy : MonoSingleton<HttpProxy>
     {
 
-        public void AsynDownloadJsonData(string url, JsonData jsonData, Action<JsonData> callback)
+        public void AsynDownloadJsonData(string url, JsonData jsonData, Action<JsonData> callback, Action<float> progressAct)
         {
             string json = jsonData.ToJson();
 
@@ -24,7 +24,7 @@ namespace ResetCore.NetPost
 
             byte[] bytes = Encoding.UTF8.GetBytes(json);
             WWW www = new WWW(url, bytes, headers);
-            StartCoroutine(WaitForRequest(www, callback));
+            StartCoroutine(WaitForRequest(www, callback, progressAct));
 
             PrintJson(json);
         }
@@ -47,6 +47,7 @@ namespace ResetCore.NetPost
 
             while (!www.isDone)
             {
+                Debug.logger.Log("下载中");
                 if (IsTimeout(starttime, timeout))
                 {
                     HandleTimeout(finishAct);
@@ -79,6 +80,7 @@ namespace ResetCore.NetPost
         }
         private static void HandleTimeout(Action<JsonData> action)
         {
+            Debug.logger.Log("超时！");
             if (action != null)
             {
                 action("time");

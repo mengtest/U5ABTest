@@ -33,6 +33,7 @@ namespace ResetCore.NetPost
         protected override void OnFinish(LitJson.JsonData backJsonData)
         {
             base.OnFinish(backJsonData);
+            Debug.logger.Log(backJsonData.ToString());
         }
     }
 }

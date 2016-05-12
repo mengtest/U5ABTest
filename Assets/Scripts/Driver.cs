@@ -13,6 +13,7 @@ using ResetCore.Event;
 using ResetCore.Xml;
 using System.Xml.Linq;
 using ResetCore.MySQL;
+using ResetCore.NetPost;
 
 
 //using ResetCore.Data.GameDatas;
@@ -33,16 +34,22 @@ public class Driver : MonoSingleton<Driver> {
         //MySQLManager.ExecuteQuery();
         //MySQLManager.Close();
 
-        CoroutineTaskManager.Instance.LoopTodoByTime(() =>
-        {
-            i++;
-            Debug.logger.Log("当前数字" + i);
-        }, 1, -1, gameObject);
+        //CoroutineTaskManager.Instance.LoopTodoByTime(() =>
+        //{
+        //    i++;
+        //    Debug.logger.Log("当前数字" + i);
+        //}, 1, -1, gameObject);
 
-        CoroutineTaskManager.Instance.WaitSecondTodo(() =>
+        //CoroutineTaskManager.Instance.WaitSecondTodo(() =>
+        //{
+        //    Destroy(gameObject);
+        //}, 5);
+        NetTaskDispatcher.instance.AddNetPostTask(new ExampleNetTask(new Dictionary<string, object>()
         {
-            Destroy(gameObject);
-        }, 5);
+            {"参数1", "哈哈哈"}
+        }, (comp) => {
+            Debug.logger.Log("完成咯~");
+        }));
 	}
 
     public override void Init()
