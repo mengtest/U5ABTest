@@ -35,7 +35,8 @@ namespace ResetCore.BehaviorTree
 
             foreach (string eventName in tickEventsList)
             {
-                MonoEventDispatcher.GetMonoController(gameObject).AddEventListener(eventName, Tick);
+                //MonoEventDispatcher.GetMonoController(gameObject).AddEventListener(eventName, Tick);
+                EventDispatcher.AddEventListener(eventName, Tick, gameObject);
             }
         }
 
@@ -43,7 +44,8 @@ namespace ResetCore.BehaviorTree
         {
             foreach (string eventName in tickEventsList)
             {
-                MonoEventDispatcher.GetMonoController(gameObject).RemoveEventListener(eventName, Tick);
+                //MonoEventDispatcher.GetMonoController(gameObject).RemoveEventListener(eventName, Tick);
+                EventDispatcher.RemoveEventListener(eventName, Tick, gameObject);
             }
         }
 

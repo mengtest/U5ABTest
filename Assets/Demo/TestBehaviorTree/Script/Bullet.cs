@@ -15,7 +15,7 @@ public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        MonoEventDispatcher.GetMonoController(other.gameObject).TriggerEvent<Bullet>(BaseBlock.eventShoted, this);
+        EventDispatcher.TriggerEvent<Bullet>(BaseBlock.eventShoted, this, other.gameObject);
         ObjectPool.Instance.HideOrDestroyObject(gameObject);
     }
 

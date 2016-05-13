@@ -8,7 +8,7 @@ namespace ResetCore.Event
     public class MonoEventDispatcher
     {
 
-        private static Dictionary<GameObject, EventController> monoEventControllerDict = new Dictionary<GameObject, EventController>();
+        public static Dictionary<GameObject, EventController> monoEventControllerDict = new Dictionary<GameObject, EventController>();
         public static EventController GetMonoController(GameObject gameObject)
         {
             if (gameObject == null) return null;
@@ -18,7 +18,6 @@ namespace ResetCore.Event
                 monoEventControllerDict.Add(gameObject, new EventController());
             }
             return monoEventControllerDict[gameObject];
-
         }
     }
 }

@@ -34,23 +34,11 @@ public class Driver : MonoSingleton<Driver> {
         //MySQLManager.ExecuteQuery();
         //MySQLManager.Close();
 
-        //CoroutineTaskManager.Instance.LoopTodoByTime(() =>
-        //{
-        //    i++;
-        //    Debug.logger.Log("当前数字" + i);
-        //}, 1, -1, gameObject);
+        EventDispatcher.AddEventListener("asdasd", () => { }, gameObject);
 
-        //CoroutineTaskManager.Instance.WaitSecondTodo(() =>
-        //{
-        //    Destroy(gameObject);
-        //}, 5);
-        NetTaskDispatcher.instance.AddNetPostTask(new ExampleNetTask(new Dictionary<string, object>()
-        {
-            {"参数1", "哈哈哈"}
-        }, (comp) => {
-            Debug.logger.Log("完成咯~");
-        }));
+
 	}
+   
 
     public override void Init()
     {
@@ -62,6 +50,7 @@ public class Driver : MonoSingleton<Driver> {
 
     void Update()
     {
+        //Debug.logger.Log(www.progress);
         //Target.localPosition = Target.NewRotateAround(Vector3.zero, new Vector3(0, 1 * Time.deltaTime, 0));
         //Target.LookAt(Vector3.zero);
         //Target.NewLookAt(Vector3.zero);

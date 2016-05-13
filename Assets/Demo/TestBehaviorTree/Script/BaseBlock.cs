@@ -27,7 +27,7 @@ public class BaseBlock : MonoBehaviour {
     void Awake()
     {
         Hp = 100;
-        MonoEventDispatcher.GetMonoController(gameObject).AddEventListener<Bullet>(eventShoted, Shooted);
+        EventDispatcher.AddEventListener<Bullet>(eventShoted, Shooted, gameObject);
     }
 
 	// Use this for initialization
