@@ -50,7 +50,7 @@ namespace ResetCore.NetPost
                 subData[param.Key] = new JsonData(param.Value);
             }
 
-            postJsonData["param"] = subData;
+            postJsonData["Param"] = subData;
         }
 
         public void Start(Action afterAct = null)
@@ -77,7 +77,9 @@ namespace ResetCore.NetPost
 
         private static void HandleError(JsonData backJsonData)
         {
-            Debug.Log("GetPackageTask !!! is:  " + backJsonData.ToJson());
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Debug.Log("GetPackageTask !!! is:  " + backJsonData.ToString());
+            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             if (backJsonData.ToJson() == "time")
             {
                 return;

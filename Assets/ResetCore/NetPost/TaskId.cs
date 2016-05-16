@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class TaskId {
+namespace ResetCore.NetPost
+{
 
-    public class NetTask
+    public class TaskId
     {
-        public static readonly string TestTaskId = "NetTask.TestTaskId";
+        public static readonly string TEST_TASK = "TestTaskId";
     }
+
 }

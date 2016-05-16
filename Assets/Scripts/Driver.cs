@@ -34,8 +34,12 @@ public class Driver : MonoSingleton<Driver> {
         //MySQLManager.ExecuteQuery();
         //MySQLManager.Close();
 
-        EventDispatcher.AddEventListener("asdasd", () => { }, gameObject);
-
+        //EventDispatcher.AddEventListener("asdasd", () => { }, gameObject);
+        NetTaskDispatcher.instance.AddNetPostTask(new ExampleNetTask(new Dictionary<string, object>()
+        {
+            {"haha", "haha"},
+            {"lalal", "lala"}
+        }));
 
 	}
    

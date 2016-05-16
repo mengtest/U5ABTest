@@ -56,6 +56,6 @@ public class PathConfig
     #endregion
 
     #region NetPost
-    public static readonly string NetPostURL = "115.197.149.70:8000";
+    public static readonly string NetPostURL = "127.0.0.1:8000";
     #endregion
 }

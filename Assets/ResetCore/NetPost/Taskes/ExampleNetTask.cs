@@ -17,7 +17,7 @@ namespace ResetCore.NetPost
 
         public override string taskId
         {
-            get { return TaskId.NetTask.TestTaskId; }
+            get { return TaskId.TEST_TASK; }
         }
 
         protected override void OnStart()
