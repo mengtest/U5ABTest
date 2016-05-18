@@ -3,10 +3,12 @@ using System.Collections;
 
 namespace ResetCore.UGUI
 {
+    public abstract class ShowUIArg{}
+
     public abstract class BaseUI : MonoBehaviour
     {
 
-        public GameObject uiRoot { get; protected set; }
+        public Transform uiRoot { get; protected set; }
 
         [SerializeField]
         private UIConst.UIName _uiName;

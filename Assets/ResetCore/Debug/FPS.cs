@@ -39,7 +39,7 @@ namespace ResetCore.Util.Debugger
             bb.normal.textColor = new Color(1, 0, 0);   //设置字体颜色的
             bb.fontSize = 40;       //当然，这是字体颜色
 
-            Color cq = GUI.color;
+            //Color cq = GUI.color;
             GUI.color = Color.red;
             //GUI.Label(new Rect(Screen.width / 2, 0, 200, 200), MogoWorld.theGdata.strText, bb);
             GUI.Label(new Rect(Screen.width / 2, 0, 200, 200), "FPS: " + fps, bb);

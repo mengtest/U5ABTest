@@ -86,6 +86,8 @@
   <p>Assets/Resources/Data/ProtoBufData/TestData.protodata</p>
   <n>TestData1.protodata.bytes</n>
   <p>Assets/Resources/Data/ProtoBufData/TestData1.protodata</p>
+  <n>TestPanel.prefab</n>
+  <p>Assets/Resources/NGUITest/TestPanel</p>
   <n>Cube.prefab</n>
   <p>Assets/Resources/Prefabs/Cube</p>
   <n>Bullet.prefab</n>

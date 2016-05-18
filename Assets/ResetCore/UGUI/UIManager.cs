@@ -7,15 +7,10 @@ using ResetCore.Asset;
 
 namespace ResetCore.UGUI
 {
-    public class ShowUIArg
-    {
 
-    }
 
     public class UIManager : MonoSingleton<UIManager>
     {
-
-        
 
         void Awake()
         {
@@ -41,9 +36,15 @@ namespace ResetCore.UGUI
 
         public Canvas canvas;
 
-        public GameObject normalRoot;
-        public GameObject popUpRoot;
-        public GameObject topRoot;
+        [SerializeField]
+        private Transform _normalRoot;
+        public Transform normalRoot { get { return _normalRoot; } }
+        [SerializeField]
+        private Transform _popupRoot;
+        public Transform popupRoot { get { return _popupRoot; } }
+        [SerializeField]
+        private Transform _topRoot;
+        public Transform topRoot { get { return _topRoot; } }
 
         private Dictionary<UIConst.UIName, BaseUI> uiDic = new Dictionary<UIConst.UIName, BaseUI>();
 
@@ -105,7 +106,7 @@ namespace ResetCore.UGUI
         {
             normalRoot.transform.DeleteAllChild();
 
-            popUpRoot.transform.DeleteAllChild();
+            popupRoot.transform.DeleteAllChild();
 
             topRoot.transform.DeleteAllChild();
 

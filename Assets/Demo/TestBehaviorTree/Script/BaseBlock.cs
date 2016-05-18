@@ -68,7 +68,6 @@ public class BaseBlock : MonoBehaviour {
         bullet.parent = gameObject;
 
         Vector3 interval = (pos - transform.position);
-        float distance = interval.magnitude;
 
         bullet.transform.position = transform.position + interval.normalized * 10;
         bullet.transform.localScale = Vector2.one * 0.3f;

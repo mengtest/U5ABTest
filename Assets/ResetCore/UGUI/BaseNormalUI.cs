@@ -9,7 +9,7 @@ namespace ResetCore.UGUI
         protected override void OnEnable()
         {
             uiRoot = UIManager.Instance.normalRoot;
-            transform.SetParent(uiRoot.transform, false);
+            transform.SetParent(uiRoot, false);
             transform.SetAsLastSibling();
         }
 

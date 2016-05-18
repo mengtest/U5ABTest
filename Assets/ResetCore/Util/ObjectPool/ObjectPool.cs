@@ -18,7 +18,7 @@ namespace ResetCore.Util
         [HeaderAttribute("当隐藏时是否将池外物体加入池内")]
         public bool AddOutterObjectToPool = true;
         [HeaderAttribute("制作物体时是否重置其Transform")]
-        public bool IsResetObject = true;
+        public bool IsResetObject = false;
 
 
         public override void Init()
@@ -70,7 +70,9 @@ namespace ResetCore.Util
             {
                 finalGo.ResetTransform();
             }
-            
+
+            finalGo.SetActive(true);
+
             return finalGo;
         }
 

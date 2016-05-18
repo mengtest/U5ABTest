@@ -77,9 +77,7 @@ namespace ResetCore.NetPost
 
         private static void HandleError(JsonData backJsonData)
         {
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            Debug.Log("GetPackageTask !!! is:  " + backJsonData.ToString());
-            Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            
             if (backJsonData.ToJson() == "time")
             {
                 return;

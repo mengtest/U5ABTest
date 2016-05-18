@@ -43,8 +43,6 @@ namespace ResetCore.Util
         //读取文件
         private void ReadFromFile()
         {
-            int startTime = System.DateTime.Now.Millisecond;
-
             string content = ResourcesLoaderHelper.Instance.LoadTextAsset(textFileName).text;
 
             string[] blockWords = content.Split('#');
@@ -59,7 +57,6 @@ namespace ResetCore.Util
             Dictionary<string, object> newTable;
             foreach (string word in blockWordList)
             {
-                int startTime = System.DateTime.Now.Millisecond;
                 nowTable = DFATable;
                 for (int i = 0; i < word.Length; i++)
                 {

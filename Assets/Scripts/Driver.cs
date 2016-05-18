@@ -7,13 +7,13 @@ using ResetCore.Data;
 using ResetCore.Data.GameDatas;
 using System;
 using System.IO;
-using ResetCore.UGUI;
 using ResetCore.AOP;
 using ResetCore.Event;
 using ResetCore.Xml;
 using System.Xml.Linq;
 using ResetCore.MySQL;
 using ResetCore.NetPost;
+using ResetCore.NGUI;
 
 
 //using ResetCore.Data.GameDatas;
@@ -25,7 +25,6 @@ public class Driver : MonoSingleton<Driver> {
     {
         Init();
     }
-    int i = 0;
 	// Use this for initialization
 	void Start () 
     {
@@ -35,11 +34,8 @@ public class Driver : MonoSingleton<Driver> {
         //MySQLManager.Close();
 
         //EventDispatcher.AddEventListener("asdasd", () => { }, gameObject);
-        NetTaskDispatcher.instance.AddNetPostTask(new ExampleNetTask(new Dictionary<string, object>()
-        {
-            {"haha", "haha"},
-            {"lalal", "lala"}
-        }));
+
+        UIManager.Instance.ShowUI(UIConst.UIName.TestPanel);
 
 	}
    

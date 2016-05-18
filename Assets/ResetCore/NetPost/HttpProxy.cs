@@ -90,7 +90,12 @@ namespace ResetCore.NetPost
         {
             if (action != null)
             {
-                JsonData data = new JsonData(www.text);
+                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                Debug.Log("GetPackageTask !!! is:  " + www.text);
+                Debug.Log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+                JsonReader reader = new JsonReader(www.text);
+                JsonData data = JsonMapper.ToObject(reader);
                 action(data);
             }
         }

@@ -270,6 +270,14 @@ namespace ResetCore.Util
             return task;
         }
 
+        public CoroutineTask WaitSecondTodo(System.Action<bool> callBack, float time, GameObject bindObject = null)
+        {
+            CoroutineTask task = new CoroutineTask(callBack.GetHashCode().ToString() + time.ToString(), DoWaitTodo(time),
+                callBack, bindObject, true);
+            AddTask(task);
+            return task;
+        }
+
         private IEnumerator DoWaitTodo(float time)
         {
             yield return new WaitForSeconds(time);
