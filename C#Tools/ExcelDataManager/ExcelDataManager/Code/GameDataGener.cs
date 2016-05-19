@@ -121,7 +121,7 @@ namespace ExcelDataManager.Code
                 else
                 {
                     XElement item = new XElement("item");
-                    for (int i = 0; i < itemNameList.Count; i++)
+                    for (int i = 1; i < itemNameList.Count; i++)
                     {
 
                         string itemName = itemNameList[i];
