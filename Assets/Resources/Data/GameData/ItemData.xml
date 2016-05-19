@@ -11,7 +11,6 @@
 		<itembranch_Int32>2</itembranch_Int32>
 		<gold_Int32>0</gold_Int32>
 		<money_Int32>0</money_Int32>
-		<testList>asd, asd, asd</testList>
 	</item>
 	<item>
 		<itemId_Int32>2</itemId_Int32>
@@ -24,7 +23,6 @@
 		<itembranch_Int32>2</itembranch_Int32>
 		<gold_Int32>0</gold_Int32>
 		<money_Int32>0</money_Int32>
-    <testList>asd, asd, asd</testList>
 	</item>
 	<item>
 		<itemId_Int32>3</itemId_Int32>
@@ -37,6 +35,5 @@
 		<itembranch_Int32>1</itembranch_Int32>
 		<gold_Int32>0</gold_Int32>
 		<money_Int32>0</money_Int32>
-    <testList>asd, asd, asd</testList>
 	</item>
 </root>

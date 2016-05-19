@@ -11,11 +11,11 @@ using System.Xml.Linq;
 using ResetCore.Util;
 using System.IO;
 
-public class DataClassesGenWindow : EditorWindow{
+public class DataClassesGenWindow {
 
 
-    [MenuItem("Tools/生成GameData类")]
-    public static void CreateNewClasses()
+    [MenuItem("Tools/GameData/通过Xml生成GameData类")]
+    public static void CreateNewClassesViaXml()
     {
         
         if (!Directory.Exists(PathConfig.localGameDataXmlPath))
@@ -26,6 +26,13 @@ public class DataClassesGenWindow : EditorWindow{
         FileInfo[] fileInfos = dirInfo.GetFiles();
         CreateEveryFilesClasses(fileInfos);
         AssetDatabase.Refresh();
+    }
+
+    [MenuItem("Tools/GameData/通过Excel生成GameData类")]
+    public static void CreateNewXmlAndClassesViaExcel()
+    {
+        string command = PathConfig.csTool_GameDataViaExcel + " " + PathConfig.localGameDataExcelPath + " " + PathConfig.localGameDataXmlPath + " " + PathConfig.localGameDataClassPath;
+        CSToolLuncher.LaunchExe(command);
     }
 
     private static void CreateEveryFilesClasses(FileInfo[] fileInfos)

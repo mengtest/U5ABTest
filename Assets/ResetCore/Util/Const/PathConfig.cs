@@ -48,6 +48,7 @@ public class PathConfig
     #endregion
 
     #region GameData相关
+    public static readonly string localGameDataExcelPath = Application.dataPath + "/Excel/";
     //存放Xml的地址
     public static readonly string localGameDataXmlPath = resourcePath + "Data/GameData/";
     //存放GameData类的地址
@@ -57,5 +58,10 @@ public class PathConfig
 
     #region NetPost
     public static readonly string NetPostURL = "127.0.0.1:8000";
+    #endregion
+
+    #region 工具
+    public static readonly string csToolPath = Application.dataPath + "/ResetCore/CSTool/Editor/ExcelDataManager.exe";
+    public static readonly string csTool_GameDataViaExcel = "GameDataGen";
     #endregion
 }

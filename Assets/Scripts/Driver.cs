@@ -35,8 +35,21 @@ public class Driver : MonoSingleton<Driver> {
 
         //EventDispatcher.AddEventListener("asdasd", () => { }, gameObject);
 
-        UIManager.Instance.ShowUI(UIConst.UIName.TestPanel);
-
+        //UIManager.Instance.ShowUI(UIConst.UIName.TestPanel);
+        var person = new Person
+        {
+            Id = 1,
+            Name = "First",
+            Address = new Address { Line1 = "Line1", Line2 = "Line2" }
+        };
+        if (!Directory.Exists(Application.streamingAssetsPath))
+        {
+            Directory.CreateDirectory(Application.streamingAssetsPath);
+        }
+        using (var file = System.IO.File.Create(Application.streamingAssetsPath + "/Person.bin"))
+        {
+            ProtoBuf.Serializer.Serialize(file, person);
+        }
 	}
    
 
