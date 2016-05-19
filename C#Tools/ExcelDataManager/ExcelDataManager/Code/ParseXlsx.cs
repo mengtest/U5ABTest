@@ -7,16 +7,13 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ExcelDataManager.Code
 {
-    class ParseXlsx
+    public static class ParseXlsx
     {
-        public static Excel.Application excelFile = new Excel.Application();
+        private static Excel.Application excelFile;
+
         public static StringBuilder classSource;
         public static StringBuilder objectData;
-        public static void CloseExcelApplication()
-        {
-            excelFile.Quit();
-            excelFile = null;
-        }
+
         public static void ReadExcelFile(string excelFilePath)
         {
             classSource = new StringBuilder(); ;
@@ -74,7 +71,27 @@ namespace ExcelDataManager.Code
             m_Workbook = null;
         }
 
-        public static Excel._Worksheet OpenExcelSheet(string excelPath, int WorkbookIndex)
+        public static Excel.Application OpenExcelApplication()
+        {
+            if (excelFile == null)
+            {
+                excelFile = new Excel.Application();
+            }
+            return excelFile;
+        }
+
+        public static Excel._Workbook OpenExcelWorkBook(string excelPath)
+        {
+            Excel._Workbook workbook;
+            object missing = System.Reflection.Missing.Value;
+            Console.WriteLine("excelFilePath:" + excelPath);
+            excelFile.Workbooks.Open(excelPath);
+            excelFile.Visible = false;
+            workbook = excelFile.Workbooks[1];
+            return workbook;
+        }
+
+        public static Excel._Worksheet OpenExcelSheet(string excelPath, int WorkbookIndex = -1)
         {
             Excel._Workbook workbook;
             Excel._Worksheet worksheet;
@@ -83,13 +100,41 @@ namespace ExcelDataManager.Code
             excelFile.Workbooks.Open(excelPath);
             excelFile.Visible = false;
             workbook = excelFile.Workbooks[1];
-            worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            if (WorkbookIndex != -1)
+            {
+                worksheet = (Excel.Worksheet)workbook.Sheets.get_Item(WorkbookIndex);
+            }
+            else
+            {
+                worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            }
             return worksheet;
         }
 
-        public static string ReadExcelCell(Excel._Worksheet worksheet, int row, int clomn)
+        public static Excel._Worksheet OpenExcelSheet(this Excel._Workbook workbook, int WorkbookIndex = -1)
         {
-            return ((Excel.Range)worksheet.Cells[row, clomn]).Text;
+            Excel._Worksheet worksheet;
+            object missing = System.Reflection.Missing.Value;
+            if (WorkbookIndex != -1)
+            {
+                worksheet = (Excel.Worksheet)workbook.Sheets.get_Item(WorkbookIndex);
+            }
+            else
+            {
+                worksheet = (Excel.Worksheet)workbook.ActiveSheet;
+            }
+            return worksheet;
+        }
+
+        public static string ReadExcelCell(this Excel._Worksheet worksheet, int row, int clomn)
+        {
+            return ((Excel.Range)worksheet.Cells[row, clomn]).Text.ToString();
+        }
+
+        public static void CloseExcelApplication()
+        {
+            excelFile.Quit();
+            excelFile = null;
         }
     }
 }
