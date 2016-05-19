@@ -10,7 +10,7 @@ namespace ResetCore.NGUI
     {
         [SerializeField]
         private Camera _camera;
-        public Camera camera { get { return _camera; } }
+        public Camera canvasCamera { get { return _camera; } }
         [SerializeField]
         private Transform _normalRoot;
         public Transform normalRoot { get { return _normalRoot; } }

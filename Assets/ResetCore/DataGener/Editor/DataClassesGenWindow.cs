@@ -32,7 +32,7 @@ public class DataClassesGenWindow {
     public static void CreateNewXmlAndClassesViaExcel()
     {
         string command = PathConfig.csTool_GameDataViaExcel + " " + PathConfig.localGameDataExcelPath + " " + PathConfig.localGameDataXmlPath + " " + PathConfig.localGameDataClassPath;
-        CSToolLuncher.LaunchExe(command);
+        CSToolLuncher.LaunchCsToolExe(command);
     }
 
     private static void CreateEveryFilesClasses(FileInfo[] fileInfos)

@@ -60,6 +60,11 @@ public class PathConfig
     public static readonly string NetPostURL = "127.0.0.1:8000";
     #endregion
 
+    #region Lua
+    public static readonly string localLuaDataXmlPath = resourcePath + "Data/Lua/";
+    public static readonly string localModLuaFilePath = Application.persistentDataPath + "/Mod/Lua/";
+    #endregion
+
     #region 工具
     public static readonly string csToolPath = Application.dataPath + "/ResetCore/CSTool/Editor/ExcelDataManager.exe";
     public static readonly string csTool_GameDataViaExcel = "GameDataGen";

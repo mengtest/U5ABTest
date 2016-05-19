@@ -205,6 +205,27 @@ namespace ResetCore.Asset
             return resList;
         }
 
+        public void LoadTextResourcesByPath(string path, System.Action<string, bool> afterAct)
+        {
+            StartCoroutine(DoDownload(path, afterAct));
+        }
+
+        private IEnumerator DoDownload(string path, System.Action<string, bool> afterAct)
+        {
+            WWW www = new WWW(path);
+
+            yield return www;
+
+            if (www.isDone)
+            {
+                afterAct(www.text, true);
+            }
+            else
+            {
+                afterAct(null, false);
+            }
+        }
+
         /// <summary>
         /// 获取Resources文件夹下资源所生成的AssetBundle的路径（即可以直接加载的物体）
         /// </summary>

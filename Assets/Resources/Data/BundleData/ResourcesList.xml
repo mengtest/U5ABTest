@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Root>
+  <n>Jellyfish.jpg</n>
+  <p>Assets/Resources/Jellyfish</p>
   <n>Music1.mp3</n>
   <p>Assets/Resources/Music1</p>
   <n>NewMaterial.mat</n>
@@ -82,6 +84,10 @@
   <p>Assets/Resources/Data/BundleData/SceneData/StaticTestLoadScene</p>
   <n>ItemData.xml</n>
   <p>Assets/Resources/Data/GameData/ItemData</p>
+  <n>test.xml</n>
+  <p>Assets/Resources/Data/GameData/test</p>
+  <n>NewLua.txt</n>
+  <p>Assets/Resources/Data/Lua/NewLua</p>
   <n>TestData.protodata.bytes</n>
   <p>Assets/Resources/Data/ProtoBufData/TestData.protodata</p>
   <n>TestData1.protodata.bytes</n>
