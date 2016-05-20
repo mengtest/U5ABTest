@@ -51,11 +51,6 @@ public class Driver : MonoSingleton<Driver> {
         //    ProtoBuf.Serializer.Serialize(file, person);
         //}
 
-        AudioManager.Instance.PlayBGM("BattleBgm.mp3");
-        CoroutineTaskManager.Instance.WaitSecondTodo(() =>
-        {
-            AudioManager.Instance.PlayBGM("MainBgm1.mp3");
-        }, 3);
 	}
    
 

@@ -56,8 +56,11 @@ namespace ResetCore.Asset
                                       select new { Key = list.Key };
                 foreach (var item in unloadResources)
                 {
-                    assetInfoList[item.Key].Unload();
-                    assetInfoList.Remove(item.Key);
+                    if (assetInfoList[item.Key].localResName.EndsWith(".prefab"))
+                    {
+                        assetInfoList[item.Key].Unload();
+                        assetInfoList.Remove(item.Key);
+                    }
                 }
             }
         }

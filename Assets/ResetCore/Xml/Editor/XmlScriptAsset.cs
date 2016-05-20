@@ -6,13 +6,13 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-public class LuaScriptAsset {
+public class XmlScriptAsset {
 
-	[MenuItem("Assets/Create/Lua Script", false, 33)]
+	[MenuItem("Assets/Create/Xml Data", false, 34)]
     public static void CreateNewLua()
     {
         ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, ScriptableObject.CreateInstance<LuaAsset>(),
-            GetSelectedPathOrFallBack() + "/NewLua.txt", null, "Assets/ResetCore/Lua/Editor/LuaAsset.lua");
+            GetSelectedPathOrFallBack() + "/NewData.xml", null, "Assets/ResetCore/Xml/Editor/XmlAsset.xml");
     }
 
     public static string GetSelectedPathOrFallBack()
@@ -31,7 +31,7 @@ public class LuaScriptAsset {
     }
 }
 
-class LuaAsset : EndNameEditAction
+class XmlAsset : EndNameEditAction
 {
     public override void Action(int instanceId, string pathName, string resourceFile)
     {

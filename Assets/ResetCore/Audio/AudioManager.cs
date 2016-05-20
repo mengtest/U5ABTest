@@ -17,8 +17,10 @@ namespace ResetCore.Util
         {
             GameObject bgmPool = new GameObject("BGMPool");
             BGMPool = bgmPool.transform;
+            BGMPool.SetParent(transform);
             GameObject sePool = new GameObject("SEPool");
             SEPool = sePool.transform;
+            SEPool.SetParent(transform);
         }
 
         public void PlayBGM(string clipName)
