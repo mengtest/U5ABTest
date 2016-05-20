@@ -8,6 +8,8 @@
   <p>Assets/Resources/NewMaterial</p>
   <n>TestAudio.mixer</n>
   <p>Assets/Resources/TestAudio</p>
+  <n>Master.mixer</n>
+  <p>Assets/Resources/AudioMixer/Master</p>
   <n>AutoLight.cginc</n>
   <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/AutoLight</p>
   <n>HLSLSupport.cginc</n>
@@ -96,6 +98,42 @@
   <p>Assets/Resources/NGUITest/TestPanel</p>
   <n>Cube.prefab</n>
   <p>Assets/Resources/Prefabs/Cube</p>
+  <n>BattleBgm.mp3</n>
+  <p>Assets/Resources/Sound/BGM/BattleBgm</p>
+  <n>MainBgm1.mp3</n>
+  <p>Assets/Resources/Sound/BGM/MainBgm1</p>
+  <n>MainBgm2.mp3</n>
+  <p>Assets/Resources/Sound/BGM/MainBgm2</p>
+  <n>GearBee_Attack.wav</n>
+  <p>Assets/Resources/Sound/Monster/GearBee_Attack</p>
+  <n>Mos_Attack1.wav</n>
+  <p>Assets/Resources/Sound/Monster/Mos_Attack1</p>
+  <n>Mos_Attack2.wav</n>
+  <p>Assets/Resources/Sound/Monster/Mos_Attack2</p>
+  <n>Spider_Attack.wav</n>
+  <p>Assets/Resources/Sound/Monster/Spider_Attack</p>
+  <n>SE_Boom1.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Boom1</p>
+  <n>SE_Boom2.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Boom2</p>
+  <n>SE_Boom3.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Boom3</p>
+  <n>SE_Boom4.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Boom4</p>
+  <n>SE_Building_Hurt.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Building_Hurt</p>
+  <n>SE_Click1.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Click1</p>
+  <n>SE_Click2.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Click2</p>
+  <n>SE_Mechine_Hurt1.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Mechine_Hurt1</p>
+  <n>SE_Mechine_Hurt2.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Mechine_Hurt2</p>
+  <n>SE_Tip1.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Tip1</p>
+  <n>SE_Tip2.wav</n>
+  <p>Assets/Resources/Sound/SE/SE_Tip2</p>
   <n>Bullet.prefab</n>
   <p>Assets/Resources/TestBehaviorTree/Bullet</p>
   <n>Enemy.prefab</n>

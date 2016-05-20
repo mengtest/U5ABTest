@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public static class ExtensionTransform {
 
@@ -57,6 +58,26 @@ public static class ExtensionTransform {
         }
 
         return children;
+    }
+
+    /// <summary>
+    /// 获得满足特定条件的子物体
+    /// </summary>
+    /// <param name="tran"></param>
+    /// <param name="fitFunc"></param>
+    /// <returns></returns>
+    public static List<Transform> GetChild(this Transform tran, Func<Transform, bool> fitFunc)
+    {
+        List<Transform> tranList = tran.GetAllChildren();
+        List<Transform> result = new List<Transform>();
+        for (int i = 0; i < tranList.Count; i++)
+        {
+            if (fitFunc(tranList[i]))
+            {
+                result.Add(tranList[i]);
+            }
+        }
+        return result;
     }
 
     /// <summary>
