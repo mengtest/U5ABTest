@@ -25,6 +25,25 @@ public static class ExtensionTransform {
     }
 
     /// <summary>
+    /// 将一个物体旋转到指向一个点
+    /// </summary>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
+    /// <returns></returns>
+    public static Quaternion FaceTo(this Transform from, Vector3 to)
+    {
+        float euler = Vector2.Angle(to - from.transform.position, Vector2.up);
+        if (to.x - from.position.x > 0)
+        {
+            return Quaternion.Euler(new Vector3(0, 0, -euler));
+        }
+        else
+        {
+            return Quaternion.Euler(new Vector3(0, 0, euler));
+        }
+    }
+
+    /// <summary>
     /// 将一个向量旋转到指向另一个向量所需的角度（有符号）
     /// </summary>
     /// <param name="from">旋转的向量</param>
@@ -41,6 +60,21 @@ public static class ExtensionTransform {
         {
             return euler;
         }
+    }
+
+    /// <summary>
+    /// 极坐标转换
+    /// </summary>
+    /// <param name="tran"></param>
+    /// <param name="point"></param>
+    /// <param name="angle"></param>
+    /// <param name="distance"></param>
+    public static void PolarCoordinates(this Transform tran, Vector3 point, float angle, float distance)
+    {
+        Vector3 origDirection = new Vector3(0, distance, 0);//地基距离球心半径
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+        tran.rotation = rotation;//垂直于地心
+        tran.position = point + rotation * origDirection;//计算位置
     }
 
     /// <summary>
