@@ -31,7 +31,7 @@ public static class DelegateFactory
 
 		if (!dict.TryGetValue(t, out create))
 		{
-			Debugger.LogError("Delegate {0} not register", t.FullName);
+			uLuaDebugger.LogError("Delegate {0} not register", t.FullName);
 			return null;
 		}
 		return create(func);

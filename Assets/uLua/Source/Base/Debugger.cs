@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public static class Debugger
+public static class uLuaDebugger
 {
     public static void Log(string str, params object[] args)
     {

@@ -23,7 +23,7 @@ public static class WrapFile {
 		_GT(typeof(Util)),
 		_GT(typeof(AppConst)),
         _GT(typeof(LuaEnumType)),
-        _GT(typeof(Debugger)),
+        _GT(typeof(uLuaDebugger)),
         _GT(typeof(DelegateFactory)),
         _GT(typeof(TestLuaDelegate)),
         _GT(typeof(TestDelegateListener)),

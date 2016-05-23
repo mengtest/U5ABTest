@@ -259,7 +259,7 @@ public class LuaScriptMgr
 
     void SendGMmsg(params string[] param)
     {
-        Debugger.Log("SendGMmsg");
+        uLuaDebugger.Log("SendGMmsg");
         string str = "";
         int i = 0;
 
@@ -268,7 +268,7 @@ public class LuaScriptMgr
             if (i >0)
             {
                 str = str +" "+ p;
-                Debugger.Log(p);
+                uLuaDebugger.Log(p);
             }
             i++;
         }
@@ -342,7 +342,7 @@ public class LuaScriptMgr
     {
         if (param.Length != 2)
         {
-            Debugger.Log("PrintLua [ModuleName]");
+            uLuaDebugger.Log("PrintLua [ModuleName]");
             return;
         }
         
@@ -394,7 +394,7 @@ public class LuaScriptMgr
         //arrayMetaRef = LuaDLL.luaL_ref(lua.L, LuaIndexes.LUA_REGISTRYINDEX);
 
         foreach (Type t in checkBaseType) {
-            Debugger.LogWarning("BaseType {0} not register to lua", t.FullName);
+            uLuaDebugger.LogWarning("BaseType {0} not register to lua", t.FullName);
         }
 
         checkBaseType.Clear();
@@ -561,7 +561,7 @@ public class LuaScriptMgr
 
         DelegateFactory.Clear();
         LuaBinder.wrapList.Clear();
-        Debugger.Log("Lua module destroy");        
+        uLuaDebugger.Log("Lua module destroy");        
     }
 
     public object[] DoString(string str)
@@ -629,7 +629,7 @@ public class LuaScriptMgr
             }
             else
             {
-                Debugger.LogError("Lua function {0} not exists", name);
+                uLuaDebugger.LogError("Lua function {0} not exists", name);
             }
 
             LuaDLL.lua_settop(L, oldTop);            
@@ -654,7 +654,7 @@ public class LuaScriptMgr
         }
         else
         {
-            Debugger.LogWarning("Lua function {0} not exists", name);
+            uLuaDebugger.LogWarning("Lua function {0} not exists", name);
         }
 
         LuaDLL.lua_settop(L, oldTop);
@@ -725,7 +725,7 @@ public class LuaScriptMgr
         {
             LuaDLL.lua_settop(L, oldTop);
             LuaDLL.lua_pushnil(L);
-            Debugger.LogError("Push lua table {0} failed", path[0]);
+            uLuaDebugger.LogError("Push lua table {0} failed", path[0]);
             return false;
         }
 
@@ -738,7 +738,7 @@ public class LuaScriptMgr
             if (type != LuaTypes.LUA_TTABLE)
             {
                 LuaDLL.lua_settop(L, oldTop);
-                Debugger.LogError("Push lua table {0} failed", fullPath);
+                uLuaDebugger.LogError("Push lua table {0} failed", fullPath);
                 return false;
             }
         }
@@ -2477,16 +2477,16 @@ public class LuaScriptMgr
             switch(t)
             {
                 case LuaTypes.LUA_TSTRING:
-                    Debugger.Log(LuaDLL.lua_tostring(L, i));
+                    uLuaDebugger.Log(LuaDLL.lua_tostring(L, i));
                     break;
                 case LuaTypes.LUA_TBOOLEAN:
-                    Debugger.Log(LuaDLL.lua_toboolean(L, i).ToString());
+                    uLuaDebugger.Log(LuaDLL.lua_toboolean(L, i).ToString());
                     break;
                 case LuaTypes.LUA_TNUMBER:
-                    Debugger.Log(LuaDLL.lua_tonumber(L, i).ToString());
+                    uLuaDebugger.Log(LuaDLL.lua_tonumber(L, i).ToString());
                     break;                
                 default:
-                    Debugger.Log(t.ToString());
+                    uLuaDebugger.Log(t.ToString());
                     break;
             }
         }

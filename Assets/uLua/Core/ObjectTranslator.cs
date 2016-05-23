@@ -700,7 +700,7 @@ namespace LuaInterface
                 if (LuaDLL.lua_isnil(luaState, -1))
                 {
                     string meta = t.AssemblyQualifiedName;
-                    Debugger.LogWarning("Create not wrap ulua type:" + meta);
+                    uLuaDebugger.LogWarning("Create not wrap ulua type:" + meta);
                     LuaDLL.lua_settop(luaState, -2);
                     LuaDLL.luaL_newmetatable(luaState, meta);
                     LuaDLL.lua_pushstring(luaState, "cache");
@@ -747,7 +747,7 @@ namespace LuaInterface
             if (LuaDLL.lua_isnil(luaState, -1))
             {
                 string meta = t.AssemblyQualifiedName;
-                Debugger.LogWarning("Create not wrap ulua type:" + meta);
+                uLuaDebugger.LogWarning("Create not wrap ulua type:" + meta);
                 LuaDLL.lua_settop(luaState, -2);
                 LuaDLL.luaL_newmetatable(luaState, meta);
                 LuaDLL.lua_pushstring(luaState, "cache");

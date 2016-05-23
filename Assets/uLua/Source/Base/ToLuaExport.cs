@@ -209,7 +209,7 @@ public static class ToLuaExport
 
     public static void Generate(params string[] param)
     {
-        Debugger.Log("Begin Generate lua Wrap for class {0}\r\n", className);
+        uLuaDebugger.Log("Begin Generate lua Wrap for class {0}\r\n", className);
         sb = new StringBuilder();
         usingList.Add("System");
         GetTypeStr(type);       //看是否有命名空间加入
@@ -549,7 +549,7 @@ public static class ToLuaExport
 
             if (m.IsGenericMethod)
             {
-                Debugger.Log("Generic Method {0} cannot be export to lua", m.Name);
+                uLuaDebugger.Log("Generic Method {0} cannot be export to lua", m.Name);
                 continue;
             }
 
@@ -2504,7 +2504,7 @@ public static class ToLuaExport
         }
         else
         {
-            Debugger.LogError("not defined type {0}", t);
+            uLuaDebugger.LogError("not defined type {0}", t);
         }
     }
 

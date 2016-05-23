@@ -24,7 +24,7 @@ public class DebuggerWrap
 		return 0;
 	}
 
-	static Type classType = typeof(Debugger);
+	static Type classType = typeof(uLuaDebugger);
 
 	[MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
 	static int GetClassType(IntPtr L)
@@ -39,7 +39,7 @@ public class DebuggerWrap
 		int count = LuaDLL.lua_gettop(L);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		object[] objs1 = LuaScriptMgr.GetParamsObject(L, 2, count - 1);
-		Debugger.Log(arg0,objs1);
+		uLuaDebugger.Log(arg0,objs1);
 		return 0;
 	}
 
@@ -49,7 +49,7 @@ public class DebuggerWrap
 		int count = LuaDLL.lua_gettop(L);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		object[] objs1 = LuaScriptMgr.GetParamsObject(L, 2, count - 1);
-		Debugger.LogWarning(arg0,objs1);
+		uLuaDebugger.LogWarning(arg0,objs1);
 		return 0;
 	}
 
@@ -59,7 +59,7 @@ public class DebuggerWrap
 		int count = LuaDLL.lua_gettop(L);
 		string arg0 = LuaScriptMgr.GetLuaString(L, 1);
 		object[] objs1 = LuaScriptMgr.GetParamsObject(L, 2, count - 1);
-		Debugger.LogError(arg0,objs1);
+		uLuaDebugger.LogError(arg0,objs1);
 		return 0;
 	}
 }

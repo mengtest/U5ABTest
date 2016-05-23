@@ -34,11 +34,11 @@ namespace ResetCore.AOP
         }
         public void PreProceede(IMessage msg)
         {
-            
+            UnityEngine.Debug.logger.Log("PreProceede");
         }
         public void PostProceede(IMessage msg)
         {
-            
+            UnityEngine.Debug.logger.Log("PostProceede");
         }
 
         public static T CreateProxy()

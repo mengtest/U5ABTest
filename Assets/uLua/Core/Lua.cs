@@ -290,7 +290,7 @@ namespace LuaInterface
             if (text == null)
             {
                 if (!fileName.Contains("mobdebug")) {
-                    Debugger.LogError("Loader lua file failed: {0}", fileName);      
+                    uLuaDebugger.LogError("Loader lua file failed: {0}", fileName);      
                 }
                 LuaDLL.lua_pop(L, 1);
                 return null;
@@ -369,7 +369,7 @@ namespace LuaInterface
 
                     if (type == LuaTypes.LUA_TNIL)
                     {
-                        Debugger.LogError("Table {0} not exists", path[0]);
+                        uLuaDebugger.LogError("Table {0} not exists", path[0]);
                         LuaDLL.lua_settop(L, oldTop);
                         return;
                     }

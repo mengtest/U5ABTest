@@ -9,18 +9,37 @@ namespace ResetCore.Util
 {
     public class AudioManager : MonoSingleton<AudioManager>
     {
+        [SerializeField]
+        private List<AudioMixerGroup> groupList;
+
+        public Dictionary<string, AudioMixerGroup> groupDictionary
+        {
+            get;
+            private set;
+        }
+
+        [SerializeField]
+        private AudioMixerGroup BGMGroup;
+
         private Transform BGMPool;
         private Transform SEPool;
 
-        
-        void Awake()
+
+        public override void Init()
         {
+            base.Init();
+            groupDictionary = new Dictionary<string, AudioMixerGroup>();
+            foreach (AudioMixerGroup group in groupList)
+            {
+                groupDictionary.Add(group.name, group);
+            }
             GameObject bgmPool = new GameObject("BGMPool");
             BGMPool = bgmPool.transform;
             BGMPool.SetParent(transform);
             GameObject sePool = new GameObject("SEPool");
             SEPool = sePool.transform;
             SEPool.SetParent(transform);
+            DontDestroyOnLoad(gameObject);
         }
 
         public void PlayBGM(string clipName)
@@ -43,20 +62,22 @@ namespace ResetCore.Util
             {
                 BGMObject = new GameObject(clipName);
                 BGMObject.transform.SetParent(BGMPool);
-                PlayObject(BGMObject.gameObject, clipName, null, true, true);
+                PlayObject(BGMObject.gameObject, clipName, BGMGroup, true, true);
             }
         }
 
-        public void PlayObjectSE(GameObject go, string clipName, AudioMixerGroup mixerGroup = null)
+        public void PlayObjectSE(GameObject go, string clipName, string mixerGroup = null)
         {
-            PlayObject(go, clipName, mixerGroup, false, false);
+            AudioMixerGroup group = groupDictionary.ContainsKey(mixerGroup) ? groupDictionary[mixerGroup] : null;
+            PlayObject(go, clipName, group, false, false);
         }
 
         
 
-        public void PlayGlobalSE(string clipName, AudioMixerGroup mixerGroup = null)
+        public void PlayGlobalSE(string clipName, string mixerGroup = null)
         {
-            PlayObject(FindOrCreateSEClipObject(clipName, SEPool), clipName, mixerGroup, false, false);
+            AudioMixerGroup group = groupDictionary.ContainsKey(mixerGroup) ? groupDictionary[mixerGroup] : null;
+            PlayObject(FindOrCreateSEClipObject(clipName, SEPool), clipName, group, false, false);
         }
 
         public void PlayObject(GameObject go, string clipName, AudioMixerGroup mixerGroup = null, bool isLoop = false, bool playOnAwake = false, bool fadeIn = false)
