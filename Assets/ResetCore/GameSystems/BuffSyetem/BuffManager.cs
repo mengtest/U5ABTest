@@ -3,15 +3,25 @@ using System.Collections;
 using System.Collections.Generic;
 using ResetCore.Util;
 
-public class BuffManager<T> {
+public class BuffManager<T>
+{
 
     private List<BaseAddBuff<T>> addBuffList = new List<BaseAddBuff<T>>();
     private List<BaseMultBuff<T>> multBuffList = new List<BaseMultBuff<T>>();
     private List<BaseOtherBuff<T>> otherBuffList = new List<BaseOtherBuff<T>>();
 
-    public virtual void InitProperty()
-    {
+    public T effectedObject { get; private set; }
+    private System.Action initAct;
 
+    public BuffManager(T effectedObject, System.Action initAct)
+    {
+        this.effectedObject = effectedObject;
+        this.initAct = initAct;
+    }
+
+    public void InitProperty()
+    {
+        initAct();
     }
 
     public void AddBuff(BaseBuff<T> buff)

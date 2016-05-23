@@ -7,11 +7,18 @@ public enum BuffType
     Beneficial
 }
 
-public abstract class BaseBuff<T> {
+public abstract class BaseBuff<T>
+{
 
-    public BuffManager<T> manager { private get; set; }
+    public BuffManager<T> manager { protected get; set; }
 
-    public abstract float buffTime { get; }
+    public BaseBuff() { }
+    public BaseBuff(BuffManager<T> manager)
+    {
+        this.manager = manager;
+    }
+
+    public float buffTime { get; protected set; }
     public abstract BuffType buffType { get; }
 	
 }
