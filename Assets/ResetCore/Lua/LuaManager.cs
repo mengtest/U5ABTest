@@ -54,14 +54,17 @@ namespace ResetCore.Lua
         {
             if (luaTableDict.ContainsKey(fileName))
             {
+                Debug.logger.Log("重复利用" + fileName);
                 return luaTableDict[fileName];
             }
             else
             {
+                Debug.logger.Log("加载" + fileName);
+                luaTableDict.Add(fileName, null);
                 TextAsset textAsset = ResourcesLoaderHelper.Instance.LoadTextAsset(fileName + ".txt");
                 luaDict.Add(fileName, textAsset.text);
                 LuaTable table = luaScrMgr.DoString(textAsset.text)[0] as LuaTable;
-                luaTableDict.Add(fileName, table);
+                luaTableDict[fileName] = table;
                 return table;
             }
 
@@ -74,18 +77,50 @@ namespace ResetCore.Lua
         /// <param name="args">参数</param>
         public void Call(string fileName, string funcName, params object[] args)
         {
-            if (luaTableDict[fileName] == null)
+            if (!luaTableDict.ContainsKey(fileName))
             {
                 LoadLua(fileName);
             }
 
             LuaFunction func = this.luaTableDict[fileName][funcName] as LuaFunction;
-            
+
             if (func != null)
             {
+                object[] args2 = new object[args.Length + 1];
+                args2[0] = this.luaTableDict[fileName];
+                for (int i = 1; i < args2.Length; i++)
+                {
+                    args2[i] = args[i - 1];
+                }
                 func.Call(args);
             }
                 
+        }
+
+        public void Call(string fileName, string funcName, object arg)
+        {
+            if (!luaTableDict.ContainsKey(fileName))
+            {
+                LoadLua(fileName);
+            }
+
+            LuaFunction func = this.luaTableDict[fileName][funcName] as LuaFunction;
+
+            if (func != null)
+            {
+                func.Call(this.luaTableDict[fileName], arg);
+            }
+
+        }
+
+        public T GetValue<T>(string fileName, string valueName)
+        {
+            if (!luaTableDict.ContainsKey(fileName))
+            {
+                LoadLua(fileName);
+            }
+            //Debug.logger.Log(luaTableDict[fileName][valueName].RefObject().GetType().Name);
+            return (T)(luaTableDict[fileName][valueName].RefObject());
         }
     }
 }

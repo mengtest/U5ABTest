@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using ResetCore.Util;
 
+public enum BuffType
+{
+    Add,
+    Mult,
+    Others
+}
+
 public class BuffManager<T>
 {
 
@@ -22,6 +29,25 @@ public class BuffManager<T>
     public void InitProperty()
     {
         initAct();
+    }
+
+    public void AddBuff(BuffType type, string buffLuaName, float time = -1)
+    {
+        switch(type){
+            case BuffType.Add:
+                {
+                    AddBuff(new BaseAddBuff<T>(this, buffLuaName, time));
+                }break;
+            case BuffType.Mult:
+                {
+                    AddBuff(new BaseMultBuff<T>(this, buffLuaName, time));
+                } break;
+            case BuffType.Others:
+                {
+                    AddBuff(new BaseOtherBuff<T>(this, buffLuaName, time));
+                } break;
+        }
+        //
     }
 
     public void AddBuff(BaseBuff<T> buff)

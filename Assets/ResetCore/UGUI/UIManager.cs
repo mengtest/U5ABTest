@@ -48,9 +48,9 @@ namespace ResetCore.UGUI
 
         private Dictionary<UIConst.UIName, BaseUI> uiDic = new Dictionary<UIConst.UIName, BaseUI>();
 
-        public void ShowUI(UIConst.UIName name, System.Action afterAct, ShowUIArg arg = null)
+        public void ShowUI(UIConst.UIName name, ShowUIArg arg = null, System.Action afterAct = null)
         {
-            if (uiDic.ContainsKey(name))
+            if (uiDic.ContainsKey(name) && uiDic[name] != null)
             {
                 uiDic[name].gameObject.SetActive(true);
                 uiDic[name].transform.SetAsLastSibling();
@@ -72,13 +72,9 @@ namespace ResetCore.UGUI
 
         public void HideUI(UIConst.UIName name, System.Action afterAct = null)
         {
-            if (uiDic.ContainsKey(name))
+            if (uiDic.ContainsKey(name) && uiDic[name] != null)
             {
-                uiDic[name].gameObject.SetActive(false);
-                if (afterAct != null)
-                {
-                    afterAct();
-                }
+                GetUI(name).Hide(afterAct);
             }
         }
 

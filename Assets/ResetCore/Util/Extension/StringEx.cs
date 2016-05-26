@@ -47,7 +47,12 @@ namespace ResetCore.Util
         public static char Spriter1 = ',';
         public static char Spriter2 = ':';
 
-        public static object GetValue(string value, System.Type type)
+        public static T GetValue<T>(this string value)
+        {
+            return (T)GetValue(value, typeof(T));
+        }
+
+        public static object GetValue(this string value, System.Type type)
         {
             //Debug.logger.Log("GetValue " + Spriter1 + "  " + Spriter2);
             if (type != null)
@@ -169,6 +174,21 @@ namespace ResetCore.Util
             }
             Debug.logger.LogWarning("字符转换", "没有适合的转换类型，返回默认值");
             return null;
+        }
+
+        public static float GetRandom(this string str)
+        {
+            string[] strs = str.Split('~');
+            float num1 = strs[0].GetValue<float>();
+            float num2 = strs[1].GetValue<float>();
+            if (str.Length == 1)
+            {
+                return num1;
+            }
+            else
+            {
+                return UnityEngine.Random.Range(Mathf.Min(num1, num2), Mathf.Min(num1, num2));
+            }
         }
 
         public static string ConverToString(object value)
