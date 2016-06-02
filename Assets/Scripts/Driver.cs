@@ -26,7 +26,7 @@ public class Driver : MonoSingleton<Driver> {
         Init();
     }
 	// Use this for initialization
-	void Start () 
+    void Start()
     {
         //ReadXlsxData.ParseXlsx.ReadExcelFile("asdasd");
         //MySQLManager.OpenSql();
@@ -50,10 +50,7 @@ public class Driver : MonoSingleton<Driver> {
         //{
         //    ProtoBuf.Serializer.Serialize(file, person);
         //}
-       
-        
-	}
-   
+    }
 
     public override void Init()
     {

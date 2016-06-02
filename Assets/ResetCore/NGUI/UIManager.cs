@@ -27,6 +27,11 @@ namespace ResetCore.NGUI
         {
             if (uiDic.ContainsKey(name))
             {
+                if (uiDic[name] == null)
+                {
+                    BaseUI newUI = ResourcesLoaderHelper.Instance.LoadAndGetInstance(UIConst.UIPrefabNameDic[name]).GetComponent<BaseUI>();
+                    uiDic[name] = newUI;
+                }
                 uiDic[name].gameObject.SetActive(true);
                 uiDic[name].transform.SetAsLastSibling();
                 uiDic[name].Init(arg);

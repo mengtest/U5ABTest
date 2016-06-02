@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using System.Xml.Linq;
 using ResetCore.Util;
+using System.Linq;
 
 
 namespace ResetCore.Data
@@ -35,7 +36,7 @@ namespace ResetCore.Data
         }
     }
 
-    public abstract class GameData<T> : GameData
+    public abstract class GameData<T> : GameData where T : GameData<T>
     {
         private static Dictionary<int, T> m_dataMap;
 
@@ -53,6 +54,14 @@ namespace ResetCore.Data
             {
                 GameData<T>.m_dataMap = value;
             }
+        }
+
+        public static T Select(Func<T, bool> condition) 
+        {
+            return GameData<T>.dataMap.Values.FirstOrDefault((data) =>
+            {
+                return condition(data);
+            });
         }
     }
 
