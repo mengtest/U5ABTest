@@ -11,6 +11,7 @@ using ResetCore.Util;
 
 namespace ResetCore.BehaviorTree
 {
+    [AddComponentMenu("BehaviorTree/BehaviorRoot")]
     public class BehaviorRoot : MonoBehaviour
     {
 
@@ -35,7 +36,6 @@ namespace ResetCore.BehaviorTree
 
             foreach (string eventName in tickEventsList)
             {
-                //MonoEventDispatcher.GetMonoController(gameObject).AddEventListener(eventName, Tick);
                 EventDispatcher.AddEventListener(eventName, Tick, gameObject);
             }
         }
@@ -44,7 +44,6 @@ namespace ResetCore.BehaviorTree
         {
             foreach (string eventName in tickEventsList)
             {
-                //MonoEventDispatcher.GetMonoController(gameObject).RemoveEventListener(eventName, Tick);
                 EventDispatcher.RemoveEventListener(eventName, Tick, gameObject);
             }
         }
@@ -53,12 +52,6 @@ namespace ResetCore.BehaviorTree
         void Start()
         {
             Tick();
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
         }
 
         private void LoadBehaviorTreeInfo()

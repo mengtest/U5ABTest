@@ -15,7 +15,6 @@ namespace ResetCore.BehaviorTree
 
     public abstract class ActionNode : BaseBehaviorNode
     {
-
         public RunStatus runState { get; protected set; }
         public CoroutineTaskManager.CoroutineTask task;
 
