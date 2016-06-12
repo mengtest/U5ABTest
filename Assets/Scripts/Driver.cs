@@ -50,7 +50,23 @@ public class Driver : MonoSingleton<Driver> {
         //{
         //    ProtoBuf.Serializer.Serialize(file, person);
         //}
-        
+        List<int> test = new List<int>()
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+        };
+
+
+        ActionQueue queue = new ActionQueue();
+        AQAopManager.Aop
+            .Log("haha", "asdasd")
+            .ShowUseTime()
+            .Work(() =>
+            {
+                Debug.logger.Log("zhongjian");
+            })
+            .Submit();
+            
+           
     }
 
     public override void Init()
