@@ -56,16 +56,27 @@ public class Driver : MonoSingleton<Driver> {
         };
 
 
-        ActionQueue queue = new ActionQueue();
-        AQAopManager.Aop
-            .Log("haha", "asdasd")
-            .ShowUseTime()
-            .Work(() =>
-            {
-                Debug.logger.Log("zhongjian");
-            })
-            .Submit();
-            
+        //ActionQueue queue = new ActionQueue();
+        //AQAopManager.Aop
+        //    .Log("haha", "asdasd")
+        //    .ShowUseTime()
+        //    .Work(() =>
+        //    {
+        //        Debug.logger.Log("zhongjian");
+        //    })
+        //    .Submit();
+
+        AQAopManager.Aop.Work(() =>
+        {
+            Debug.logger.Log("zhongjian");
+        }).Work(() =>
+        {
+            Debug.logger.Log("zhongjian");
+        }).WorkAfterTimes(() =>
+        {
+            Debug.logger.Log("zhongjian after 2 sec");
+        }, 2)
+        .Submit();
            
     }
 

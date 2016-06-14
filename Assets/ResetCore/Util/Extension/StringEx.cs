@@ -171,6 +171,19 @@ namespace ResetCore.Util
                     }
                     return obj2;
                 }
+                if (type.IsArray)
+                {
+                    Type elementType = Type.GetType(
+                     type.FullName.Replace("[]", string.Empty));
+                    string[] elStr = value.Split(Spriter1);
+                    Array array = Array.CreateInstance(elementType, elStr.Length);
+
+                    for (int i = 0; i < elStr.Length; i++)
+                    {
+                        array.SetValue(elStr[i].GetValue(elementType), i);
+                    }
+                    return array;
+                }
             }
             Debug.logger.LogWarning("字符转换", "没有适合的转换类型，返回默认值");
             return null;
@@ -275,6 +288,28 @@ namespace ResetCore.Util
 
                 return stringBuilder.ToString();
             }
+            if (type.IsArray)
+            {
+                StringBuilder stringBuilder = new StringBuilder();
+                Type elementType = Type.GetType(
+                     type.FullName.Replace("[]", string.Empty));
+                var array = value as Array;
+                if (array.Length > 0)
+                {
+                    stringBuilder.Append(ConverToString(array.GetValue(0)));
+                    for (int i = 1; i < array.Length; i++)
+                    {
+                        stringBuilder.Append(Spriter1.ToString());
+                        stringBuilder.Append(ConverToString(array.GetValue(i)));
+                    }
+                    return stringBuilder.ToString();
+                }
+                else
+                {
+                    return string.Empty;    
+                }
+                
+            }
             //Debug.logger.LogWarning("字符转换", type.Name + "没有适合的转换类型，返回默认值");
             return value.ToString();
         }
@@ -289,7 +324,6 @@ namespace ResetCore.Util
             typeof(byte), 
             typeof(long), 
             typeof(bool),
-            typeof(long), 
             typeof(short), 
             typeof(uint), 
             typeof(ulong), 
@@ -303,10 +337,49 @@ namespace ResetCore.Util
             typeof(Dictionary<,>),
             typeof(KeyValuePair<,>),
             typeof(List<>),
-            typeof(Enum)
+            typeof(Enum),
+            typeof(Array)
         };
 
-        public static bool IsConvertableType(Type type)
+        public static Type GetTypeByString(this string str)
+        {
+            str = str.Trim();
+            switch (str)
+            {
+                case"int":
+                    return typeof(int);
+                case "string":
+                    return typeof(string);
+                case "double":
+                    return typeof(double);
+                case "byte":
+                    return typeof(byte);
+                case "bool":
+                    return typeof(bool);
+                case "short":
+                    return typeof(short);
+                case "uint":
+                    return typeof(uint);
+                case "ushort":
+                    return typeof(ushort);
+                case "sbyte":
+                    return typeof(sbyte);
+                case "Vector3":
+                    return typeof(Vector3);
+                case "Vector2":
+                    return typeof(Vector2);
+                case "Vector4":
+                    return typeof(Vector4);
+                case "Quaternion":
+                    return typeof(Quaternion);
+                case "Color":
+                    return typeof(Color);
+                default:
+                    return null;
+            }
+        }
+
+        public static bool IsConvertableType(this Type type)
         {
             return convertableTypes.Contains(type);
         }

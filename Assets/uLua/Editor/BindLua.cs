@@ -410,7 +410,6 @@ public static class LuaBinding
     static void BuildLuaBundle(string dir)
     {
         BuildAssetBundleOptions options = BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.CompleteAssets | BuildAssetBundleOptions.DeterministicAssetBundle;
-
         string[] files = Directory.GetFiles("Assets/Lua/Out/" + dir, "*.lua.bytes");
         List<Object> list = new List<Object>();
         string bundleName = dir == null ? "Lua.unity3d" : "Lua_" + dir + ".unity3d";

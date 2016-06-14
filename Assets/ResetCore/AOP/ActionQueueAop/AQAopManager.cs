@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace ResetCore.AOP
 {
+    /// <summary>
+    /// 非即时触发式行为队列，需要Submit之后才进行调用
+    /// </summary>
     public class AQAopManager
     {
 
@@ -18,11 +21,14 @@ namespace ResetCore.AOP
 
         public static AQAopManager Aop { get { return new AQAopManager(); } }
 
-        public AQAopManager Add(Action<Action> act)
+        public AQAopManager Work(Action<Action> act)
         {
             Action callback = () =>
             {
-                queue.Dequeue().Invoke();
+                if (queue.Count > 0)
+                {
+                    queue.Dequeue().Invoke();
+                }
             };
             queue.Enqueue(() => { act(callback); });
             return this;
@@ -30,8 +36,35 @@ namespace ResetCore.AOP
 
         public AQAopManager Work(Action act)
         {
-            queue.Enqueue(act);
+            Action res = () =>
+            {
+                act();
+                if (queue.Count > 0)
+                {
+                    queue.Dequeue().Invoke();
+                }
+            };
+            queue.Enqueue(res);
 
+            return this;
+        }
+
+        public AQAopManager WorkAfterTimes(Action act, float second)
+        {
+            Work(() =>
+            {
+                CoroutineTaskManager.Instance.WaitSecondTodo(act, second);
+            });
+            return this;
+        }
+
+        public AQAopManager WorkAfterTimes(Action<Action> act, float second)
+        {
+            Work((aftAct) =>
+            {
+
+                CoroutineTaskManager.Instance.WaitSecondTodo(() => { act(aftAct); }, second);
+            });
             return this;
         }
 

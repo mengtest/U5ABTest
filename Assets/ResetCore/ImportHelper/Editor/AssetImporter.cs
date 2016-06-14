@@ -62,17 +62,17 @@ namespace ResetCore.Editor.ImportHelper
 
         void OnPreprocessAnimation()
         {
-            var modelImporter = assetImporter as ModelImporter;
+            //var modelImporter = assetImporter as ModelImporter;
         }
 
         void OnPreprocessAudio()
         {
-            AudioImporter audioImport = assetImporter as AudioImporter;
+            //AudioImporter audioImport = assetImporter as AudioImporter;
         }
 
         void OnPreprocessModel()
         {
-            ModelImporter modelImporter = assetImporter as ModelImporter;
+            //ModelImporter modelImporter = assetImporter as ModelImporter;
 
         }
 
@@ -83,7 +83,7 @@ namespace ResetCore.Editor.ImportHelper
 
         void OnPreprocessTexture()
         {
-            TextureImporter textureImporter = (TextureImporter)assetImporter;
+            //TextureImporter textureImporter = (TextureImporter)assetImporter;
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Diagnostics;
 
 namespace ResetCore.AOP
 {
@@ -8,12 +9,14 @@ namespace ResetCore.AOP
 
         public static AQAopManager ShowUseTime(this AQAopManager aqMgr)
         {
-            aqMgr.Add((act) =>
+            aqMgr.Work((act) =>
             {
-                float startTime = Time.realtimeSinceStartup;
+                Stopwatch sw = new Stopwatch();
+                sw.Start();
                 act();
-                float useTime = Time.realtimeSinceStartup - startTime;
-                Debug.logger.Log("一共用时" + useTime);
+                sw.Stop();
+                UnityEngine.Debug.logger.Log("一共用时" + sw.ElapsedMilliseconds + "毫秒");
+
             });
             return aqMgr;
         }

@@ -46,7 +46,7 @@
         private Rect mVideoImageRect = new Rect(15f, 190f, 50f, 50f);
         private Rect mWelcomeIntroRect = new Rect(15f, 12f, 400f, 40f);
         private Texture mWelcomeScreenImage;
-        private Rect mWelcomeScreenImageRect = new Rect(0f, 0f, 340f, 44f);
+        //private Rect mWelcomeScreenImageRect = new Rect(0f, 0f, 340f, 44f);
 
         public void OnEnable() {
             //this.mWelcomeScreenImage = EditorGUIUtility.Load("WelcomeScreenHeader.png") as Texture;

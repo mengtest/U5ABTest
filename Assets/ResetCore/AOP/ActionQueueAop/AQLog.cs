@@ -8,7 +8,7 @@ namespace ResetCore.AOP
 
         public static AQAopManager Log(this AQAopManager aqMgr, string bgMsg, string edMsg)
         {
-            aqMgr.Add((act) =>
+            aqMgr.Work((act) =>
             {
                 if (bgMsg != null)
                     Debug.logger.Log(bgMsg);

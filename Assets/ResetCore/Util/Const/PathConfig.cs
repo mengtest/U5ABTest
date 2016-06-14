@@ -50,9 +50,14 @@ public class PathConfig
     #region GameData相关
     public static readonly string localGameDataExcelPath = Application.dataPath + "/Excel/";
     //存放Xml的地址
-    public static readonly string localGameDataXmlPath = resourcePath + "Data/GameData/";
-    //存放GameData类的地址
-    public static readonly string localGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/";
+    public static readonly string localGameDataXmlPath = resourcePath + "Data/GameData/Xml/";
+    //存放XmlGameData类的地址
+    public static readonly string localXmlGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/Xml/";
+
+    //存放Obj的地址
+    public static readonly string localGameDataObjPath = resourcePath + "Data/GameData/Obj/";
+    //存放ObjGameData类的地址
+    public static readonly string localObjGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/Obj/";
 
     #endregion
 

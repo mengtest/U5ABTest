@@ -5,6 +5,9 @@ using System;
 
 namespace ResetCore.Util
 {
+    /// <summary>
+    /// 即时触发式行为队列，入队的同时就开始调用
+    /// </summary>
     public class ActionQueue
     {
 
