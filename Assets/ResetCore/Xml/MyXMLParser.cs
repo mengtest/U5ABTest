@@ -42,7 +42,6 @@ namespace ResetCore.Data
                             Debug.logger.LogWarning("XMLPraser", "未记录类型信息，将无法自动生成GameData代码" + key);
                         }
                     }
-                    Debug.logger.Log(key);
                     if (!propDic.ContainsKey(key))
                     {
                         propDic.Add(key, propItem.Value);

@@ -106,6 +106,8 @@ namespace ResetCore.Excel
 
             EditorGUILayout.Space();
 
+            if (excelReader == null) return;
+
             using (new GUILayout.HorizontalScope())
             {
                 EditorGUILayout.LabelField("Worksheet: ", GUILayout.Width(100));

@@ -14,6 +14,8 @@ using System.Xml.Linq;
 using ResetCore.MySQL;
 using ResetCore.NetPost;
 using ResetCore.NGUI;
+using ResetCore.UGUI;
+using ResetCore.Data.GameDatas.Xml;
 
 
 //using ResetCore.Data.GameDatas;
@@ -65,19 +67,14 @@ public class Driver : MonoSingleton<Driver> {
         //        Debug.logger.Log("zhongjian");
         //    })
         //    .Submit();
-
-        AQAopManager.Aop.Work(() =>
+        string haha = null;
+        haha.BindData<string>("我的2333", (str) =>
         {
-            Debug.logger.Log("zhongjian");
-        }).Work(() =>
-        {
-            Debug.logger.Log("zhongjian");
-        }).WorkAfterTimes(() =>
-        {
-            Debug.logger.Log("zhongjian after 2 sec");
-        }, 2)
-        .Submit();
-           
+            haha = str;
+            Debug.Log(str);
+        });
+        Debug.logger.Log(hhoho.dataMap[5].test.ConverToString());
+        
     }
 
     public override void Init()

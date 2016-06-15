@@ -204,7 +204,7 @@ namespace ResetCore.Util
             }
         }
 
-        public static string ConverToString(object value)
+        public static string ConverToString(this object value)
         {
             //Debug.logger.Log("ConverToString " + Spriter1 + "  "+ Spriter2);
             System.Type type = value.GetType();
@@ -291,8 +291,6 @@ namespace ResetCore.Util
             if (type.IsArray)
             {
                 StringBuilder stringBuilder = new StringBuilder();
-                Type elementType = Type.GetType(
-                     type.FullName.Replace("[]", string.Empty));
                 var array = value as Array;
                 if (array.Length > 0)
                 {
@@ -375,7 +373,7 @@ namespace ResetCore.Util
                 case "Color":
                     return typeof(Color);
                 default:
-                    return null;
+                    return Type.GetType(str);
             }
         }
 

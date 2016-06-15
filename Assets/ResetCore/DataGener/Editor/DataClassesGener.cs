@@ -45,7 +45,7 @@ public class DataClassesGener {
     private static void GetPropString(string className, GameDataType type)
     {
         importNameSpaces = new string[]{
-                "System","System.Collections.Generic"
+                "System","System.Collections.Generic", "UnityEngine"
             };
         DataClassesGener.className = className;
         if (type == GameDataType.Xml)

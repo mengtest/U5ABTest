@@ -84,10 +84,12 @@
   <p>Assets/Resources/Data/BundleData/SceneData/StaticMain</p>
   <n>StaticTestLoadScene.xml</n>
   <p>Assets/Resources/Data/BundleData/SceneData/StaticTestLoadScene</p>
+  <n>hhoho.xml</n>
+  <p>Assets/Resources/Data/GameData/Xml/hhoho</p>
   <n>ItemData.xml</n>
-  <p>Assets/Resources/Data/GameData/ItemData</p>
-  <n>test.xml</n>
-  <p>Assets/Resources/Data/GameData/test</p>
+  <p>Assets/Resources/Data/GameData/Xml/ItemData</p>
+  <n>TestExcel.xml</n>
+  <p>Assets/Resources/Data/GameData/Xml/TestExcel</p>
   <n>NewLua.txt</n>
   <p>Assets/Resources/Data/Lua/NewLua</p>
   <n>TestData.protodata.bytes</n>

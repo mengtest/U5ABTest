@@ -21,6 +21,7 @@ namespace ResetCore.Util
             isLoading = false;
         }
 
+        #region 主要逻辑
         /// <summary>
         /// 插入行为，用户可以控制下一个行为在该的行为中调用的位置。
         /// </summary>
@@ -109,6 +110,20 @@ namespace ResetCore.Util
             actionCB();
             callBack();
         }
+
+        #endregion
+
+        #region 一些工具
+
+        public void Wait(float second)
+        {
+            AddAction((act) =>
+            {
+                CoroutineTaskManager.Instance.WaitSecondTodo(act, second);
+            });
+        }
+
+        #endregion
 
         public void Clean()
         {

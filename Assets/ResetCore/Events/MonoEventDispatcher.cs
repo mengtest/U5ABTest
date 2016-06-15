@@ -8,8 +8,8 @@ namespace ResetCore.Event
     public class MonoEventDispatcher
     {
 
-        public static Dictionary<GameObject, EventController> monoEventControllerDict = new Dictionary<GameObject, EventController>();
-        public static EventController GetMonoController(GameObject gameObject)
+        public static Dictionary<object, EventController> monoEventControllerDict = new Dictionary<object, EventController>();
+        public static EventController GetMonoController(object gameObject)
         {
             if (gameObject == null) return null;
 

@@ -18,7 +18,7 @@ namespace ResetCore.Event
             }
         }
 
-        public static void AddEventListener(string eventType, Action handler, GameObject bindObject = null)
+        public static void AddEventListener(string eventType, Action handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -31,7 +31,7 @@ namespace ResetCore.Event
 
         }
 
-        public static void AddEventListener<T>(string eventType, Action<T> handler, GameObject bindObject = null)
+        public static void AddEventListener<T>(string eventType, Action<T> handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -44,7 +44,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void AddEventListener<T, U>(string eventType, Action<T, U> handler, GameObject bindObject = null)
+        public static void AddEventListener<T, U>(string eventType, Action<T, U> handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -57,7 +57,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void AddEventListener<T, U, V>(string eventType, Action<T, U, V> handler, GameObject bindObject = null)
+        public static void AddEventListener<T, U, V>(string eventType, Action<T, U, V> handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -70,7 +70,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void AddEventListener<T, U, V, W>(string eventType, Action<T, U, V, W> handler, GameObject bindObject = null)
+        public static void AddEventListener<T, U, V, W>(string eventType, Action<T, U, V, W> handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -82,7 +82,7 @@ namespace ResetCore.Event
             }
         }
 
-        public static void Cleanup(GameObject bindObject = null)
+        public static void Cleanup(object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -96,7 +96,7 @@ namespace ResetCore.Event
         }
 
 
-        public static void MarkAsPermanent(string eventType, GameObject bindObject = null)
+        public static void MarkAsPermanent(string eventType, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -109,7 +109,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void RemoveEventListener(string eventType, Action handler, GameObject bindObject = null)
+        public static void RemoveEventListener(string eventType, Action handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -119,7 +119,7 @@ namespace ResetCore.Event
                 MonoEventDispatcher.GetMonoController(bindObject).RemoveEventListener(eventType, handler);
         }
 
-        public static void RemoveEventListener<T>(string eventType, Action<T> handler, GameObject bindObject = null)
+        public static void RemoveEventListener<T>(string eventType, Action<T> handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -132,7 +132,7 @@ namespace ResetCore.Event
                 
         }
 
-        public static void RemoveEventListener<T, U>(string eventType, Action<T, U> handler, GameObject bindObject = null)
+        public static void RemoveEventListener<T, U>(string eventType, Action<T, U> handler, object bindObject = null)
         {
             if(bindObject == null)
             {
@@ -145,7 +145,7 @@ namespace ResetCore.Event
                
         }
 
-        public static void RemoveEventListener<T, U, V>(string eventType, Action<T, U, V> handler, GameObject bindObject = null)
+        public static void RemoveEventListener<T, U, V>(string eventType, Action<T, U, V> handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -157,7 +157,7 @@ namespace ResetCore.Event
             }
         }
 
-        public static void RemoveEventListener<T, U, V, W>(string eventType, Action<T, U, V, W> handler, GameObject bindObject = null)
+        public static void RemoveEventListener<T, U, V, W>(string eventType, Action<T, U, V, W> handler, object bindObject = null)
         {
             if (bindObject == null)
             {
@@ -169,7 +169,7 @@ namespace ResetCore.Event
             }
         }
 
-        public static void TriggerEvent(string eventType, GameObject triggerObject = null)
+        public static void TriggerEvent(string eventType, object triggerObject = null)
         {
             if (triggerObject == null)
             {
@@ -186,7 +186,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void TriggerEvent<T>(string eventType, T arg1, GameObject triggerObject = null)
+        public static void TriggerEvent<T>(string eventType, T arg1, object triggerObject = null)
         {
             if (triggerObject == null)
             {
@@ -203,7 +203,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void TriggerEvent<T, U>(string eventType, T arg1, U arg2, GameObject triggerObject = null)
+        public static void TriggerEvent<T, U>(string eventType, T arg1, U arg2, object triggerObject = null)
         {
             if (triggerObject == null)
             {
@@ -220,7 +220,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void TriggerEvent<T, U, V>(string eventType, T arg1, U arg2, V arg3, GameObject triggerObject = null)
+        public static void TriggerEvent<T, U, V>(string eventType, T arg1, U arg2, V arg3, object triggerObject = null)
         {
             if (triggerObject == null)
             {
@@ -237,7 +237,7 @@ namespace ResetCore.Event
             
         }
 
-        public static void TriggerEvent<T, U, V, W>(string eventType, T arg1, U arg2, V arg3, W arg4, GameObject triggerObject = null)
+        public static void TriggerEvent<T, U, V, W>(string eventType, T arg1, U arg2, V arg3, W arg4, object triggerObject = null)
         {
             if (triggerObject == null)
             {
