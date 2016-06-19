@@ -111,6 +111,21 @@ namespace ResetCore.Util
             callBack();
         }
 
+        /// <summary>
+        /// 添加异步行为
+        /// </summary>
+        /// <param name="actionCB"></param>
+        /// <returns></returns>
+        public ActionQueue AddAction(IEnumerator actionCB)
+        {
+            return AddAction((act) =>
+            {
+                Action<bool> callBack = (bo) => { act(); };
+                CoroutineTaskManager.Instance.AddTask(actionCB, callBack);
+            });
+            
+        }
+
         #endregion
 
         #region 一些工具

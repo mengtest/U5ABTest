@@ -67,13 +67,7 @@ public class Driver : MonoSingleton<Driver> {
         //        Debug.logger.Log("zhongjian");
         //    })
         //    .Submit();
-        string haha = null;
-        haha.BindData<string>("我的2333", (str) =>
-        {
-            haha = str;
-            Debug.Log(str);
-        });
-        Debug.logger.Log(hhoho.dataMap[5].test.ConverToString());
+        
         
     }
 
