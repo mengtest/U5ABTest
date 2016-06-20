@@ -59,6 +59,11 @@ public class PathConfig
     //存放ObjGameData类的地址
     public static readonly string localObjGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/Obj/";
 
+    //存放Protobuf的地址
+    public static readonly string localGameDataProtobufPath = resourcePath + "Data/GameData/Protobuf/";
+    //存放ProtobufGameData类的地址
+    public static readonly string localProtobufGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/Protobuf/";
+
     #endregion
 
     #region NetPost

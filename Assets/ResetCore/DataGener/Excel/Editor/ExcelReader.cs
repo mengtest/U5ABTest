@@ -19,7 +19,7 @@ namespace ResetCore.Excel
         private readonly IWorkbook workbook = null;
         public ISheet sheet { get; private set; }
         public string filepath { get; private set; }
-        public string sheetName { get; private set; }
+        public string currentSheetName { get; private set; }
 
         public Dictionary<string, Type> fieldDict { get; private set; }
 
@@ -28,7 +28,7 @@ namespace ResetCore.Excel
             try
             {
                 this.filepath = path;
-                this.sheetName = sheetName;
+                this.currentSheetName = sheetName;
 
                 using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
@@ -49,16 +49,16 @@ namespace ResetCore.Excel
                         throw new Exception("Wrong file.");
                     }
 
-                    if (!string.IsNullOrEmpty(sheetName))
+                    if (!string.IsNullOrEmpty(currentSheetName))
                     {
-                        sheet = workbook.GetSheet(sheetName);
+                        sheet = workbook.GetSheet(currentSheetName);
                     }
                     else
                     {
                         if (workbook.GetSheetAt(0) != null)
                         {
                             sheet = workbook.GetSheetAt(0);
-                            sheetName = sheet.SheetName;
+                            currentSheetName = sheet.SheetName;
                         }
                         else
                         {
@@ -182,6 +182,32 @@ namespace ResetCore.Excel
         }
 
         /// <summary>
+        /// 获得完整的表头
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
+        public List<string> GetTitle(int start = 0)
+        {
+            List<string> result = new List<string>();
+            IRow title = sheet.GetRow(start);
+
+            if (title != null)
+            {
+                for (int i = 0; i < title.LastCellNum; i++)
+                {
+                    string total = title.GetCell(i).StringCellValue;
+                    result.Add(total);
+                }
+                return result;
+            }
+            else
+            {
+                Debug.logger.LogError("GetTitle", "行无效");
+                return null;
+            }
+        }
+
+        /// <summary>
         /// 获取标题
         /// </summary>
         public List<string> GetMemberNames(int start = 0)
@@ -263,6 +289,7 @@ namespace ResetCore.Excel
                 return null;
             }
         }
+
         public List<Dictionary<string, string>> GetRows(int start = 2)
         {
             
@@ -290,6 +317,42 @@ namespace ResetCore.Excel
                 {
                     row.GetCell(i).SetCellType(CellType.String);
                     rowDict.Add(tagName[i], row.GetCell(i).StringCellValue);
+                }
+                rows.Add(rowDict);
+                current++;
+            }
+
+            return rows;
+        }
+
+
+        public List<Dictionary<string, object>> GetRowObjs(int start = 2)
+        {
+            List<string> clomnNameList = GetMemberNames();
+            List<Type> typeList = GetMemberTypes();
+            int length = clomnNameList.Count;
+            List<string> tagName = new List<string>();
+            for (int i = 0; i < length; i++)
+            {
+                tagName.Add(clomnNameList[i]);
+            }
+
+            List<Dictionary<string, object>> rows = new List<Dictionary<string, object>>();
+
+            int current = 0;
+            foreach (IRow row in sheet)
+            {
+                if (current < start)
+                {
+                    current++;
+                    continue;
+                }
+
+                Dictionary<string, object> rowDict = new Dictionary<string, object>();
+                for (int i = 0; i < length; i++)
+                {
+                    row.GetCell(i).SetCellType(CellType.String);
+                    rowDict.Add(tagName[i], row.GetCell(i).StringCellValue.GetValue(typeList[i]));
                 }
                 rows.Add(rowDict);
                 current++;

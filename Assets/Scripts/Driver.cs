@@ -16,6 +16,7 @@ using ResetCore.NetPost;
 using ResetCore.NGUI;
 using ResetCore.UGUI;
 using ResetCore.Data.GameDatas.Xml;
+using ResetCore.Data.GameDatas.Protobuf;
 
 
 //using ResetCore.Data.GameDatas;
@@ -57,7 +58,6 @@ public class Driver : MonoSingleton<Driver> {
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10
         };
 
-
         //ActionQueue queue = new ActionQueue();
         //AQAopManager.Aop
         //    .Log("haha", "asdasd")
@@ -67,8 +67,17 @@ public class Driver : MonoSingleton<Driver> {
         //        Debug.logger.Log("zhongjian");
         //    })
         //    .Submit();
-        
-        
+        //List<TestHeihei> res = new List<TestHeihei>();
+        //using (var file = System.IO.File.OpenRead(PathConfig.localGameDataProtobufPath + "TestHeihei.bin"))
+        //{
+        //    Debug.Log(PathConfig.localGameDataProtobufPath + "TestHeihei.bin");
+        //    res = ProtoBuf.Serializer.Deserialize<List<TestHeihei>>(file);
+        //}
+        //Debug.logger.Log(res.ConverToString());
+
+        //Debug.Log(this.GetType().Assembly.FullName);
+        //Debug.Log(typeof(List<TestHeihei>).FullName);
+        Debug.Log(TestHeihei.dataMap[1].asd);
     }
 
     public override void Init()

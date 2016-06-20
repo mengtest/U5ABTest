@@ -33,11 +33,12 @@ namespace ResetCore.Excel
                 EditorGUILayout.Space();
                 ShowExportXml();
                 EditorGUILayout.Space();
+                ShowExportProtobuf();
+                EditorGUILayout.Space();
                 ShowExportObj();
                 EditorGUILayout.Space();
                 ShowExportJson();
-                EditorGUILayout.Space();
-                ShowExportProtobuf();
+                
             }
 
         }
@@ -264,23 +265,24 @@ namespace ResetCore.Excel
         private void ShowExportProtobuf()
         {
             GUIStyle headStyle = GUIHelper.MakeHeader();
-            GUILayout.Label("导出Protobuf(开发中)", headStyle);
+            GUILayout.Label("导出Protobuf", headStyle);
             EditorGUILayout.Space();
 
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("导出Protobuf", GUILayout.Width(100)))
             {
-
+                Excel2Protobuf.GenProtobuf(excelReader);
             }
             if (GUILayout.Button("导出ProtoData.cs", GUILayout.Width(100)))
             {
-
+                Excel2Protobuf.GenCS(excelReader);
             }
             GUILayout.EndHorizontal();
 
             if (GUILayout.Button("全部导出", GUILayout.Width(100)))
             {
-
+                Excel2Protobuf.GenCS(excelReader);
+                Excel2Protobuf.GenProtobuf(excelReader);
             }
         }
 
