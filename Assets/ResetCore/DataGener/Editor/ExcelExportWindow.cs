@@ -194,7 +194,7 @@ namespace ResetCore.Excel
         private void ShowExportXml()
         {
             GUIStyle headStyle = GUIHelper.MakeHeader();
-            GUILayout.Label("导出Xml", headStyle);
+            GUILayout.Label("导出Xml（支持大多数类型）", headStyle);
             EditorGUILayout.Space();
 
             GUILayout.BeginHorizontal();
@@ -265,7 +265,7 @@ namespace ResetCore.Excel
         private void ShowExportProtobuf()
         {
             GUIStyle headStyle = GUIHelper.MakeHeader();
-            GUILayout.Label("导出Protobuf", headStyle);
+            GUILayout.Label("导出Protobuf(仅支持C#内置类型)", headStyle);
             EditorGUILayout.Space();
 
             GUILayout.BeginHorizontal();

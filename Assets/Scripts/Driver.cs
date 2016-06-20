@@ -75,9 +75,9 @@ public class Driver : MonoSingleton<Driver> {
         //}
         //Debug.logger.Log(res.ConverToString());
 
-        //Debug.Log(this.GetType().Assembly.FullName);
-        //Debug.Log(typeof(List<TestHeihei>).FullName);
-        Debug.Log(TestHeihei.dataMap[1].asd);
+        Debug.Log(this.GetType().Assembly.FullName);
+        Debug.Log(typeof(int[]).FullName);
+        Debug.logger.Log("int[,]".GetTypeByString());
     }
 
     public override void Init()

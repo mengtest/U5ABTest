@@ -84,6 +84,8 @@
   <p>Assets/Resources/Data/BundleData/SceneData/StaticMain</p>
   <n>StaticTestLoadScene.xml</n>
   <p>Assets/Resources/Data/BundleData/SceneData/StaticTestLoadScene</p>
+  <n>hhoho.bytes</n>
+  <p>Assets/Resources/Data/GameData/Protobuf/hhoho</p>
   <n>TestHeihei.bytes</n>
   <p>Assets/Resources/Data/GameData/Protobuf/TestHeihei</p>
   <n>hhoho.xml</n>

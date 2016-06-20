@@ -47,6 +47,10 @@ namespace ResetCore.Util
         public static char Spriter1 = ',';
         public static char Spriter2 = ':';
 
+        public static char FBracket1 = '(';
+        public static char BBracket1 = ')';
+
+
         public static T GetValue<T>(this string value)
         {
             return (T)GetValue(value, typeof(T));
@@ -105,11 +109,7 @@ namespace ResetCore.Util
                 }
                 if (type == typeof(bool))
                 {
-                    if (value == "0")
-                    {
-                        return false;
-                    }
-                    return ((value == "1") ? ((object)1) : ((object)bool.Parse(value)));
+                    return bool.Parse(value);
                 }
                 if (type.BaseType == typeof(Enum))
                 {
@@ -214,23 +214,23 @@ namespace ResetCore.Util
             }
             if (type == typeof(Vector3))
             {
-                return ((Vector3)value).x + Spriter1.ToString() + ((Vector3)value).y + Spriter1.ToString() + ((Vector3)value).z;
+                return FBracket1.ToString() + ((Vector3)value).x + Spriter1.ToString() + ((Vector3)value).y + Spriter1.ToString() + ((Vector3)value).z + BBracket1.ToString();
             }
             if (type == typeof(Vector2))
             {
-                return ((Vector2)value).x + Spriter1.ToString() + ((Vector2)value).y;
+                return FBracket1.ToString() + ((Vector2)value).x + Spriter1.ToString() + ((Vector2)value).y + BBracket1.ToString();
             }
             if (type == typeof(Vector4))
             {
-                return ((Vector4)value).x + Spriter1.ToString() + ((Vector4)value).y + Spriter1.ToString() + ((Vector4)value).z + Spriter1.ToString() + ((Vector4)value).w;
+                return FBracket1.ToString() + ((Vector4)value).x + Spriter1.ToString() + ((Vector4)value).y + Spriter1.ToString() + ((Vector4)value).z + Spriter1.ToString() + ((Vector4)value).w + BBracket1.ToString();
             }
             if (type == typeof(Quaternion))
             {
-                return ((Quaternion)value).x + Spriter1.ToString() + ((Quaternion)value).y + Spriter1.ToString() + ((Quaternion)value).z + Spriter1.ToString() + ((Quaternion)value).w;
+                return FBracket1.ToString() + ((Quaternion)value).x + Spriter1.ToString() + ((Quaternion)value).y + Spriter1.ToString() + ((Quaternion)value).z + Spriter1.ToString() + ((Quaternion)value).w + BBracket1.ToString();
             }
             if (type == typeof(Color))
             {
-                return ((Color)value).r + Spriter1.ToString() + ((Color)value).g + Spriter1.ToString() + ((Color)value).b;
+                return FBracket1.ToString() + ((Color)value).r + Spriter1.ToString() + ((Color)value).g + Spriter1.ToString() + ((Color)value).b + BBracket1.ToString();
             }
             if (type.BaseType == typeof(Enum))
             {
@@ -339,6 +339,12 @@ namespace ResetCore.Util
             typeof(Array)
         };
 
+        /// <summary>
+        /// 通过文本获取类型：
+        /// 注意！解析嵌套多泛型类型时会出现问题！
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static Type GetTypeByString(this string str)
         {
             str = str.Trim();
@@ -372,9 +378,32 @@ namespace ResetCore.Util
                     return typeof(Quaternion);
                 case "Color":
                     return typeof(Color);
-                default:
-                    return Type.GetType(str);
             }
+
+            if (str.StartsWith("List"))
+            {
+                Type genType = str.Substring(str.IndexOf('<') + 1, str.IndexOf('>') - str.LastIndexOf('<') - 1).GetTypeByString();
+                return Type.GetType("System.Collections.Generic.List`1[[" + genType.FullName + ", " + genType.Assembly.FullName + "]]");
+            }
+            
+            if (str.StartsWith("Dictionary"))
+            {
+                string[] typeNames = str.Substring(str.IndexOf('<') + 1, str.IndexOf('>') - str.LastIndexOf('<') - 1).Split(',');
+                Type type1 = typeNames[0].Trim().GetTypeByString();
+                Type type2 = typeNames[1].Trim().GetTypeByString();
+                string typeStr = "System.Collections.Generic.Dictionary`2[[" + type1.FullName + ", " + type1.Assembly.FullName + "],[" + type2.FullName + ", " + type2.Assembly.FullName + "]]";
+                return Type.GetType(typeStr);
+            }
+            //仅支持内置类型,支持多维数组
+            if (str.Contains("[") && str.Contains("]"))
+            {
+                string itemTypeStr = str.Substring(0, str.IndexOf('['));
+                string bracketStr = str.Substring(str.IndexOf('['), str.LastIndexOf(']') - str.IndexOf('[') + 1);
+                Type itemType = itemTypeStr.GetTypeByString();
+                string typeStr = itemType.FullName + bracketStr;
+                return Type.GetType(typeStr);
+            }
+            return Type.GetType(str);
         }
 
         public static bool IsConvertableType(this Type type)
@@ -385,6 +414,8 @@ namespace ResetCore.Util
         public static bool ParseColor(string _inputString, out Color result, char colorSpriter = ',')
         {
             string str = _inputString.Trim();
+            str = str.Replace(FBracket1.ToString(), "");
+            str = str.Replace(BBracket1.ToString(), "");
             result = Color.clear;
             if (str.Length < 9)
             {
@@ -452,6 +483,8 @@ namespace ResetCore.Util
         public static bool ParseVector4(string _inputString, out Vector4 result, char vectorSpriter = ',')
         {
             string str = _inputString.Trim();
+            str = str.Replace(FBracket1.ToString(), "");
+            str = str.Replace(BBracket1.ToString(), "");
             result = new Vector4();
             try
             {
@@ -484,6 +517,8 @@ namespace ResetCore.Util
         public static bool ParseVector3(string _inputString, out Vector3 result, char spriter = ',')
         {
             string str = _inputString.Trim();
+            str = str.Replace(FBracket1.ToString(), "");
+            str = str.Replace(BBracket1.ToString(), "");
             result = new Vector3();
             try
             {
@@ -507,6 +542,8 @@ namespace ResetCore.Util
         public static bool ParseVector2(string _inputString, out Vector2 result, char spriter = ',')
         {
             string str = _inputString.Trim();
+            str = str.Replace(FBracket1.ToString(), "");
+            str = str.Replace(BBracket1.ToString(), "");
             result = new Vector2();
             try
             {
