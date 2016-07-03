@@ -76,6 +76,10 @@ namespace ResetCore.DataStruct
             queue[j] = temp;
         }
 
+        /// <summary>
+        /// 上浮
+        /// </summary>
+        /// <param name="k"></param>
         private void Swim(int k)
         {
             while (k > 1 && Less(k / 2, k))
@@ -85,6 +89,10 @@ namespace ResetCore.DataStruct
             }
         }
 
+        /// <summary>
+        /// 下沉
+        /// </summary>
+        /// <param name="k"></param>
         private void Sink(int k)
         {
             while (2 * k <= size)

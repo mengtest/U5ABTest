@@ -200,7 +200,7 @@ namespace ResetCore.Util
             }
             else
             {
-                return UnityEngine.Random.Range(Mathf.Min(num1, num2), Mathf.Min(num1, num2));
+                return UnityEngine.Random.Range(Mathf.Min(num1, num2), Mathf.Max(num1, num2));
             }
         }
 
@@ -304,9 +304,9 @@ namespace ResetCore.Util
                 }
                 else
                 {
-                    return string.Empty;    
+                    return string.Empty;
                 }
-                
+
             }
             //Debug.logger.LogWarning("字符转换", type.Name + "没有适合的转换类型，返回默认值");
             return value.ToString();
@@ -315,22 +315,22 @@ namespace ResetCore.Util
         //可转换类型列表
         public static readonly List<Type> convertableTypes = new List<Type>
         {
-            typeof(int), 
-            typeof(string), 
-            typeof(float), 
-            typeof(double), 
-            typeof(byte), 
-            typeof(long), 
+            typeof(int),
+            typeof(string),
+            typeof(float),
+            typeof(double),
+            typeof(byte),
+            typeof(long),
             typeof(bool),
-            typeof(short), 
-            typeof(uint), 
-            typeof(ulong), 
-            typeof(ushort), 
-            typeof(sbyte), 
-            typeof(Vector3), 
-            typeof(Vector2), 
-            typeof(Vector4), 
-            typeof(Quaternion), 
+            typeof(short),
+            typeof(uint),
+            typeof(ulong),
+            typeof(ushort),
+            typeof(sbyte),
+            typeof(Vector3),
+            typeof(Vector2),
+            typeof(Vector4),
+            typeof(Quaternion),
             typeof(Color),
             typeof(Dictionary<,>),
             typeof(KeyValuePair<,>),
@@ -385,7 +385,7 @@ namespace ResetCore.Util
                 Type genType = str.Substring(str.IndexOf('<') + 1, str.IndexOf('>') - str.LastIndexOf('<') - 1).GetTypeByString();
                 return Type.GetType("System.Collections.Generic.List`1[[" + genType.FullName + ", " + genType.Assembly.FullName + "]]");
             }
-            
+
             if (str.StartsWith("Dictionary"))
             {
                 string[] typeNames = str.Substring(str.IndexOf('<') + 1, str.IndexOf('>') - str.LastIndexOf('<') - 1).Split(',');

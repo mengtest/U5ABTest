@@ -1,37 +1,34 @@
 <DynamicData Name="TestLoadScene" Asset="Assets/TestLoadScene.unity">
   <GameObject PrefabType="None" Name="DynamicData">
     <Children>
-      <GameObject PrefabType="PrefabInstance" Name="Cube.prefab">
-        <Children>
-          <GameObject PrefabType="PrefabInstance" Name="Cube.prefab">
-            <Field>
-              <Transform>
-                <Position X="4.373206" Y="0.2380266" Z="-2.650719" />
-                <Rotation X="0" Y="0" Z="0" />
-                <Scale X="1" Y="1" Z="1" />
-              </Transform>
-            </Field>
-            <Prop>
-              <Transform position="12.73302,1.348198,-4.905738" localPosition="4.373206,0.2380266,-2.650719" />
-            </Prop>
-          </GameObject>
-        </Children>
+      <GameObject PrefabType="PrefabInstance" Name="Assets/Resources/Prefabs/Cube.prefab">
         <Field>
           <Transform>
-            <Position X="6.31" Y="0.2380266" Z="-2.650719" />
+            <Position X="5.41" Y="1" Z="-2.650719" />
             <Rotation X="0" Y="0" Z="0" />
             <Scale X="1" Y="1" Z="1" />
           </Transform>
         </Field>
         <Prop>
-          <Transform position="8.359809,1.110171,-2.255019" localPosition="6.31,0.2380266,-2.650719" />
-          <BoxCollider size="2,2,2" extents="1,1,1" isTrigger="True" />
+          <Transform position="(5.41,1,-2.650719)" localPosition="(5.41,1,-2.650719)" />
+        </Prop>
+      </GameObject>
+      <GameObject PrefabType="PrefabInstance" Name="Assets/Resources/Prefabs/Cube.prefab">
+        <Field>
+          <Transform>
+            <Position X="8.83" Y="1" Z="-2.650719" />
+            <Rotation X="0" Y="0" Z="0" />
+            <Scale X="1" Y="1" Z="1" />
+          </Transform>
+        </Field>
+        <Prop>
+          <Transform position="(8.83,1,-2.650719)" localPosition="(8.83,1,-2.650719)" />
         </Prop>
       </GameObject>
     </Children>
     <Field>
       <Transform>
-        <Position X="2.049809" Y="0.8721446" Z="0.3956995" />
+        <Position X="0" Y="0" Z="0" />
         <Rotation X="0" Y="0" Z="0" />
         <Scale X="1" Y="1" Z="1" />
       </Transform>

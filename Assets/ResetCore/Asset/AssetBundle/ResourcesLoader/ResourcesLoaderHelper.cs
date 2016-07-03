@@ -252,7 +252,15 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public static string GetResourcesBundleNameByObjectName(string objName)
         {
-            return (ResourcesLoaderHelper.resourcesList[objName]).ToLower() + Path.GetExtension(objName) + ExName;
+            if (ResourcesLoaderHelper.resourcesList.ContainsKey(objName))
+            {
+                return (ResourcesLoaderHelper.resourcesList[objName]).ToLower() + Path.GetExtension(objName) + ExName;
+            }
+            else
+            {
+                Debug.logger.Log("找不到资源", objName);
+                return null;
+            }
         }
 
         /// <summary>

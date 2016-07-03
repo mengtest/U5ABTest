@@ -41,6 +41,7 @@ namespace ResetCore.Asset
         {
             //加载路径
             //LoadPathFile();
+            ScenesFixer.FixFolderPosition();
             WriteXml();
             AssetDatabase.Refresh();
         }
@@ -48,6 +49,7 @@ namespace ResetCore.Asset
         [MenuItem("Tools/XmlHelper/场景Xml/导出所有选中场景的Xml")]
         public static void ExportAllSelectedScene()
         {
+            Scene currentScene = EditorSceneManager.GetSceneAt(0);
             var selection = Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.DeepAssets);
             var paths = (from s in selection
                          let path = AssetDatabase.GetAssetPath(s)
@@ -60,12 +62,14 @@ namespace ResetCore.Asset
                 EditorUtility.DisplayCancelableProgressBar("导出中", "这会要一些时间，请耐心等待 " + num + "/" + paths.Length, (float)num / (float)paths.Length);
                 if (!EditorSceneManager.GetSceneByPath(item).isLoaded)
                 {
-                    EditorSceneManager.OpenScene(item);
+                    currentScene = EditorSceneManager.OpenScene(item);
+                    ScenesFixer.FixFolderPosition();
                 }
 
                 WriteXml();
                 num++;
                 Debug.Log("导出场景为" + item);
+                EditorSceneManager.CloseScene(currentScene, true);
             }
             EditorUtility.ClearProgressBar();
         }
@@ -179,7 +183,7 @@ namespace ResetCore.Asset
                     }
                     else
                     {
-                        gameObjectRoot.SetAttribute("Name", obj.name + ".prefab");
+                        gameObjectRoot.SetAttribute("Name", prefabPath);
                     }
                     //写入Transform
                     WriteTransform(xmlDoc, fieldRoot, obj);

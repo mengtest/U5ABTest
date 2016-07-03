@@ -104,6 +104,8 @@
   <p>Assets/Resources/NGUITest/TestPanel</p>
   <n>Cube.prefab</n>
   <p>Assets/Resources/Prefabs/Cube</p>
+  <n>Mat.mat</n>
+  <p>Assets/Resources/Prefabs/Mat</p>
   <n>BattleBgm.mp3</n>
   <p>Assets/Resources/Sound/BGM/BattleBgm</p>
   <n>MainBgm1.mp3</n>

@@ -1,22 +1,22 @@
 <StaticData Name="TestLoadScene" Asset="Assets/TestLoadScene.unity">
   <GameObject PrefabType="None" Name="StaticData">
     <Children>
-      <GameObject PrefabType="PrefabInstance" Name="Cube.prefab">
+      <GameObject PrefabType="PrefabInstance" Name="Assets/Resources/Prefabs/Cube.prefab">
         <Field>
           <Transform>
-            <Position X="4.373206" Y="0.2380266" Z="-2.650719" />
+            <Position X="2.13" Y="1" Z="-2.650719" />
             <Rotation X="0" Y="0" Z="0" />
             <Scale X="1" Y="1" Z="1" />
           </Transform>
         </Field>
         <Prop>
-          <Transform position="6.423015,1.110171,-2.255019" localPosition="4.373206,0.2380266,-2.650719" />
+          <Transform position="(2.13,1,-2.650719)" localPosition="(2.13,1,-2.650719)" />
         </Prop>
       </GameObject>
     </Children>
     <Field>
       <Transform>
-        <Position X="2.049809" Y="0.8721446" Z="0.3956995" />
+        <Position X="0" Y="0" Z="0" />
         <Rotation X="0" Y="0" Z="0" />
         <Scale X="1" Y="1" Z="1" />
       </Transform>

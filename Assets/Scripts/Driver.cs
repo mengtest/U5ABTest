@@ -13,16 +13,24 @@ using ResetCore.Xml;
 using System.Xml.Linq;
 using ResetCore.MySQL;
 using ResetCore.NetPost;
-using ResetCore.NGUI;
 using ResetCore.UGUI;
 using ResetCore.Data.GameDatas.Xml;
 using ResetCore.Data.GameDatas.Protobuf;
+using ResetCore.CodeDom;
+using UnityEngine.UI;
+using ResetCore.Lua;
 
 
 //using ResetCore.Data.GameDatas;
 
 public class Driver : MonoSingleton<Driver> {
 
+    public enum Test
+    {
+        Start,
+        Normal,
+        End
+    }
     
     void Awake()
     {
@@ -31,59 +39,13 @@ public class Driver : MonoSingleton<Driver> {
 	// Use this for initialization
     void Start()
     {
-        //ReadXlsxData.ParseXlsx.ReadExcelFile("asdasd");
-        //MySQLManager.OpenSql();
-        //MySQLManager.ExecuteQuery();
-        //MySQLManager.Close();
-
-        //EventDispatcher.AddEventListener("asdasd", () => { }, gameObject);
-
-        //UIManager.Instance.ShowUI(UIConst.UIName.TestPanel);
-        //var person = new Person
-        //{
-        //    Id = 1,
-        //    Name = "First",
-        //    Address = new Address { Line1 = "Line1", Line2 = "Line2" }
-        //};
-        //if (!Directory.Exists(Application.streamingAssetsPath))
-        //{
-        //    Directory.CreateDirectory(Application.streamingAssetsPath);
-        //}
-        //using (var file = System.IO.File.Create(Application.streamingAssetsPath + "/Person.bin"))
-        //{
-        //    ProtoBuf.Serializer.Serialize(file, person);
-        //}
-        List<int> test = new List<int>()
-        {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-        };
-
-        //ActionQueue queue = new ActionQueue();
-        //AQAopManager.Aop
-        //    .Log("haha", "asdasd")
-        //    .ShowUseTime()
-        //    .Work(() =>
-        //    {
-        //        Debug.logger.Log("zhongjian");
-        //    })
-        //    .Submit();
-        //List<TestHeihei> res = new List<TestHeihei>();
-        //using (var file = System.IO.File.OpenRead(PathConfig.localGameDataProtobufPath + "TestHeihei.bin"))
-        //{
-        //    Debug.Log(PathConfig.localGameDataProtobufPath + "TestHeihei.bin");
-        //    res = ProtoBuf.Serializer.Deserialize<List<TestHeihei>>(file);
-        //}
-        //Debug.logger.Log(res.ConverToString());
-
-        Debug.Log(this.GetType().Assembly.FullName);
-        Debug.Log(typeof(int[]).FullName);
-        Debug.logger.Log("int[,]".GetTypeByString());
+        
+        
     }
 
     public override void Init()
     {
         base.Init();
-        
     }
 
     //private List<GameObject> cubes = new List<GameObject>();
@@ -98,5 +60,10 @@ public class Driver : MonoSingleton<Driver> {
         //Debug.DrawLine(Target.position, Vector3.zero, Color.red);
     }
     
+    IEnumerator heihei(Action act)
+    {
+        yield return new WaitForSeconds(5);
+        act();
+    }
     
 }
