@@ -39,8 +39,7 @@ public class Driver : MonoSingleton<Driver> {
 	// Use this for initialization
     void Start()
     {
-        
-        
+
     }
 
     public override void Init()
@@ -52,6 +51,7 @@ public class Driver : MonoSingleton<Driver> {
 
     void Update()
     {
+        
         //Debug.logger.Log(www.progress);
         //Target.localPosition = Target.NewRotateAround(Vector3.zero, new Vector3(0, 1 * Time.deltaTime, 0));
         //Target.LookAt(Vector3.zero);
