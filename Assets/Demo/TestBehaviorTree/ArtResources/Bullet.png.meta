@@ -7,7 +7,7 @@ TextureImporter:
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -179,7 +179,7 @@ TextureImporter:
       - {x: 1.7065442, y: 3.9783537}
       - {x: 1.8039712, y: 3.99037}
       - {x: 1.9018705, y: 3.997591}
-  spritePackingTag: 
+  spritePackingTag: ArtResources
   userData: 
   assetBundleName: 
   assetBundleVariant: 
