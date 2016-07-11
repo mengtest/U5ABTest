@@ -352,6 +352,8 @@ namespace ResetCore.Util
             {
                 case"int":
                     return typeof(int);
+                case "float":
+                    return typeof(float);
                 case "string":
                     return typeof(string);
                 case "double":
