@@ -12,6 +12,11 @@ public class PathConfig
     #endregion
 
     #region AssetBundle 相关
+    //AssetBundleManifest的文件名
+    public static readonly string assetBundleManifest_FileName = "AssetBundleManifest";
+    //AssetBundleManifest的扩展名
+    public static readonly string assetBundleManifest_ExName = ".manifest";
+    //Resources路径
     public static readonly string resourcePath = Application.dataPath + "/Resources/";
     //Bundle根目录
     public static readonly string resourceBundlePath = "Data/BundleData/";
@@ -21,7 +26,10 @@ public class PathConfig
     public static readonly string sceneXmlRootPath = "Data/BundleData/SceneData/";
     //预置组件信息文件储存目录
     public static readonly string compInfoObjRootPath = "Data/BundleData/PrefabCompData/";
-    
+    //相对于Assets到Resources文件夹的相对路径
+    public static readonly string assetsToResources = "Asset/Resources";
+
+
     //AssetBundle导出文件夹
     public static readonly string bundleFolderName = "AssetBundle";
     public static readonly string AssetRootBundlePath = PathConfig.bundleRootPath + "/" + bundleFolderName;

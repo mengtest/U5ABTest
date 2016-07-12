@@ -61,7 +61,7 @@ namespace ResetCore.Asset
                 {
                     if (mainBundle != null)
                     {
-                        Manifest = (AssetBundleManifest)mainBundle.LoadAsset("AssetBundleManifest");
+                        Manifest = (AssetBundleManifest)mainBundle.LoadAsset(PathConfig.assetBundleManifest_FileName);
                     }
                     else
                     {
@@ -242,7 +242,7 @@ namespace ResetCore.Asset
         /// <returns></returns>
         public static string GetResourcesBundleManifestPathByObjectName(string objName)
         {
-            return GetResourcesBundlePathByObjectName(objName) + ".manifest";
+            return GetResourcesBundlePathByObjectName(objName) + PathConfig.assetBundleManifest_ExName;
         }
 
         /// <summary>
@@ -274,13 +274,13 @@ namespace ResetCore.Asset
         }
 
         /// <summary>
-        /// 相对于Resources文件夹的路径转换为根目录于Assets文件夹的路径
+        /// 相对于Assets文件夹的路径转换为根目录于Ressources文件夹的路径
         /// </summary>
         /// <param name="dataPath"></param>
         /// <returns></returns>
         public static string GetResourcesPath(string dataPath)
         {
-            return dataPath.Replace("Asset/Resources", "");
+            return dataPath.Replace(PathConfig.assetsToResources, "");
         }
 
     }

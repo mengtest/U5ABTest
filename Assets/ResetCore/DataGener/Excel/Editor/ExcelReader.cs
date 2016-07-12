@@ -171,7 +171,12 @@ namespace ResetCore.Excel
                 int numSheets = this.workbook.NumberOfSheets;
                 for (int i = 0; i < numSheets; i++)
                 {
-                    sheetList.Add(this.workbook.GetSheetName(i));
+                    string sheetName = this.workbook.GetSheetName(i);
+                    if (string.IsNullOrEmpty(sheetName))
+                    {
+                        Debug.logger.LogError("ReadExcelError", "SheetName " + i + " is Null or Empty");
+                    }
+                    sheetList.Add(sheetName);
                 }
             }
             else
@@ -195,8 +200,17 @@ namespace ResetCore.Excel
             {
                 for (int i = 0; i < title.LastCellNum; i++)
                 {
-                    string total = title.GetCell(i).StringCellValue;
-                    result.Add(total);
+                    try
+                    {
+                        string total = title.GetCell(i).StringCellValue;
+                        result.Add(total);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.logger.LogException(e);
+                        Debug.logger.LogError("ReadExcelError", "Title " + i + " is Error");
+                    }
+                    
                 }
                 return result;
             }
@@ -219,14 +233,22 @@ namespace ResetCore.Excel
             {
                 for (int i = 0; i < title.LastCellNum; i++)
                 {
-                    string total = title.GetCell(i).StringCellValue;
-                    if (total.Contains("|"))
+                    try
                     {
-                        result.Add(total.Split('|')[0]);
+                        string total = title.GetCell(i).StringCellValue;
+                        if (total.Contains("|"))
+                        {
+                            result.Add(total.Split('|')[0]);
+                        }
+                        else
+                        {
+                            result.Add(total);
+                        }
                     }
-                    else
+                    catch (System.Exception e)
                     {
-                        result.Add(total);
+                        Debug.logger.LogException(e);
+                        Debug.logger.LogError("ReadExcelError", "CellValue " + i + " is Error");
                     }
                 }
                 return result;
@@ -239,7 +261,7 @@ namespace ResetCore.Excel
         }
 
         /// <summary>
-        /// 获取标题
+        /// 获取类型
         /// </summary>
         public List<Type> GetMemberTypes(int start = 0)
         {
@@ -250,15 +272,24 @@ namespace ResetCore.Excel
             {
                 for (int i = 0; i < title.LastCellNum; i++)
                 {
-                    string total = title.GetCell(i).StringCellValue;
-                    if (total.Contains("|"))
+                    try
                     {
-                        result.Add(total.Split('|')[1].GetTypeByString());
+                        string total = title.GetCell(i).StringCellValue;
+                        if (total.Contains("|"))
+                        {
+                            result.Add(total.Split('|')[1].GetTypeByString());
+                        }
+                        else
+                        {
+                            result.Add(typeof(string));
+                        }
                     }
-                    else
+                    catch (System.Exception e)
                     {
-                        result.Add(typeof(string));
+                        Debug.logger.LogException(e);
+                        Debug.logger.LogError("ReadExcelError", "CellValue " + i + " is Error");
                     }
+                   
                 }
                 return result;
             }
@@ -279,7 +310,15 @@ namespace ResetCore.Excel
             {
                 for (int i = 0; i < typeStr.LastCellNum; i++)
                 {
-                    result.Add(typeStr.Cells[i].StringCellValue);
+                    try
+                    {
+                        result.Add(typeStr.Cells[i].StringCellValue);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.logger.LogException(e);
+                        Debug.logger.LogError("ReadExcelError", "Comment " + i + " is Error");
+                    }
                 }
                 return result;
             }
@@ -315,8 +354,17 @@ namespace ResetCore.Excel
                 Dictionary<string, string> rowDict = new Dictionary<string, string>();
                 for (int i = 0; i < length; i++)
                 {
-                    row.GetCell(i).SetCellType(CellType.String);
-                    rowDict.Add(tagName[i], row.GetCell(i).StringCellValue);
+                    try
+                    {
+                        row.GetCell(i).SetCellType(CellType.String);
+                        rowDict.Add(tagName[i], row.GetCell(i).StringCellValue);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        Debug.logger.LogException(ex);
+                        Debug.logger.LogError("ReadExcelError", string.Format("Value in Posistion row[{0}] line[{1}] is Error", current, i));
+                    }
+                    
                 }
                 rows.Add(rowDict);
                 current++;
@@ -351,8 +399,17 @@ namespace ResetCore.Excel
                 Dictionary<string, object> rowDict = new Dictionary<string, object>();
                 for (int i = 0; i < length; i++)
                 {
-                    row.GetCell(i).SetCellType(CellType.String);
-                    rowDict.Add(tagName[i], row.GetCell(i).StringCellValue.GetValue(typeList[i]));
+                    try
+                    {
+                        row.GetCell(i).SetCellType(CellType.String);
+                        rowDict.Add(tagName[i], row.GetCell(i).StringCellValue.GetValue(typeList[i]));
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.logger.LogException(e);
+                        Debug.logger.LogError("ReadExcelError", string.Format("Value in Posistion row[{0}] line[{1}] is Error", current, i));
+                    }
+                    
                 }
                 rows.Add(rowDict);
                 current++;
