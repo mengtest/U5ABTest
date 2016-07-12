@@ -385,7 +385,7 @@ namespace ResetCore.Util
             if (str.StartsWith("List"))
             {
                 Type genType = str.Substring(str.IndexOf('<') + 1, str.IndexOf('>') - str.LastIndexOf('<') - 1).GetTypeByString();
-                return Type.GetType("System.Collections.Generic.List`1[[" + genType.FullName + ", " + genType.Assembly.FullName + "]]");
+                return Type.GetType("System.Collections.Generic.List`1[[" + genType.FullName + ", " + genType.Assembly.FullName + "]], " + typeof(List<>).Assembly.FullName);
             }
 
             if (str.StartsWith("Dictionary"))
@@ -393,7 +393,9 @@ namespace ResetCore.Util
                 string[] typeNames = str.Substring(str.IndexOf('<') + 1, str.IndexOf('>') - str.LastIndexOf('<') - 1).Split(',');
                 Type type1 = typeNames[0].Trim().GetTypeByString();
                 Type type2 = typeNames[1].Trim().GetTypeByString();
-                string typeStr = "System.Collections.Generic.Dictionary`2[[" + type1.FullName + ", " + type1.Assembly.FullName + "],[" + type2.FullName + ", " + type2.Assembly.FullName + "]]";
+                string typeStr = "System.Collections.Generic.Dictionary`2[[" + type1.FullName + ", " + type1.Assembly.FullName + "]"+
+                    ",[" + type2.FullName + ", " + type2.Assembly.FullName + "]], " +
+                    typeof(Dictionary<,>).Assembly.FullName;
                 return Type.GetType(typeStr);
             }
             //仅支持内置类型,支持多维数组

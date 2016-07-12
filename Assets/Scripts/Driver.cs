@@ -39,12 +39,14 @@ public class Driver : MonoSingleton<Driver> {
 	// Use this for initialization
     void Start()
     {
-
+        Debug.logger.Log(typeof(List<float>).ToString());
+        Debug.logger.Log("List<float>".GetTypeByString().ToString());
     }
 
     public override void Init()
     {
         base.Init();
+
     }
 
     //private List<GameObject> cubes = new List<GameObject>();
@@ -58,6 +60,7 @@ public class Driver : MonoSingleton<Driver> {
         //Target.NewLookAt(Vector3.zero);
         //Target.eulerAngles = Target.NewLookAt(Vector3.zero, new Vector3(0, 5, 0));
         //Debug.DrawLine(Target.position, Vector3.zero, Color.red);
+       
     }
     
     IEnumerator heihei(Action act)
