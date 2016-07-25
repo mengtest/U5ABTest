@@ -2,7 +2,6 @@
 using System.Collections;
 using ResetCore.Util;
 using ResetCore.Asset;
-using ResetCore.Lua;
 
 namespace ResetCore.Util
 {

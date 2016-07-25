@@ -32,6 +32,10 @@ namespace ResetCore.Excel
             }
 
             string outputPath = PathConfig.localGameDataXmlPath + Path.GetFileNameWithoutExtension(excelReader.currentSheetName) + ".xml";
+            if (!Directory.Exists(Path.GetDirectoryName(outputPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+            }
 
             xDoc.Save(outputPath);
             AssetDatabase.Refresh();

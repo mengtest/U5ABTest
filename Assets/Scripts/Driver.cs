@@ -16,7 +16,6 @@ using ResetCore.NetPost;
 using ResetCore.UGUI;
 using ResetCore.Data.GameDatas.Xml;
 using ResetCore.Data.GameDatas.Protobuf;
-using ResetCore.CodeDom;
 using UnityEngine.UI;
 using ResetCore.Lua;
 
