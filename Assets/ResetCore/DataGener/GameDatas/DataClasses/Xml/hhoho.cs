@@ -20,15 +20,15 @@ namespace ResetCore.Data.GameDatas.Xml
         
         public static String fileName = "hhoho";
         
-        private Vector3 _test;
+        private string _test;
         
-        private Int32 _asd;
+        private int _asd;
         
-        private Int32 _sad;
+        private float _sad;
         
-        private Int32 _zxc;
+        private int _zxc;
         
-        public Vector3 test
+        public string test
         {
             get
             {
@@ -40,7 +40,7 @@ namespace ResetCore.Data.GameDatas.Xml
             }
         }
         
-        public Int32 asd
+        public int asd
         {
             get
             {
@@ -52,7 +52,7 @@ namespace ResetCore.Data.GameDatas.Xml
             }
         }
         
-        public Int32 sad
+        public float sad
         {
             get
             {
@@ -64,7 +64,7 @@ namespace ResetCore.Data.GameDatas.Xml
             }
         }
         
-        public Int32 zxc
+        public int zxc
         {
             get
             {

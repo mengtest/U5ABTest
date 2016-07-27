@@ -353,7 +353,7 @@ public static class LuaBinding
         });
 
         HashSet<Type> set = beAutoGen ? ToLuaExport.eventSet : GetCustomDelegateTypes();                
-        List<Type> typeList = new List<Type>();
+        //List<Type> typeList = new List<Type>();
 
         foreach (Type t in set)
         {

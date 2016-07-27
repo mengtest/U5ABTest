@@ -21,13 +21,12 @@ public class ScenesFixer {
                      where File.Exists(path) && path.EndsWith(".unity")
                      select path).ToArray();
 
-        List<string> exportedListTemp = new List<string>();
         int sceneNum = 0;
         foreach (string item in paths)
         {
             process = (float)sceneNum / (float)paths.Length;
-            EditorUtility.DisplayProgressBar("查找中", "正在修正" + EditorApplication.currentScene + "场景文件，是第" + sceneNum + "个场景", process);
-            UnityEditor.EditorApplication.OpenScene(item);
+            EditorUtility.DisplayProgressBar("查找中", "正在修正" + EditorSceneManager.GetActiveScene() + "场景文件，是第" + sceneNum + "个场景", process);
+            EditorSceneManager.OpenScene(item, OpenSceneMode.Single);
             FixFolderPosition();
 
             sceneNum++;

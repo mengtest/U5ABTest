@@ -8,6 +8,7 @@ using System;
 using System.Reflection;
 using System.Linq;
 using System.IO;
+using ResetCore.Data.GameDatas.Protobuf;
 
 namespace ResetCore.Excel
 {
@@ -55,6 +56,8 @@ namespace ResetCore.Excel
             if (ProtoBuf.Serializer.NonGeneric.CanSerialize(protobufDataType))
             {
                 string resPath = PathConfig.localGameDataProtobufPath + className + ProtobufData.ex;
+                string root = Path.GetDirectoryName(resPath);
+                PathEx.MakeDirectoryExist(root);
                 using (var file = System.IO.File.Create(resPath))
                 {
                     ProtoBuf.Serializer.NonGeneric.Serialize(file, result);
@@ -72,7 +75,7 @@ namespace ResetCore.Excel
 
         public static void GenCS(ExcelReader excelReader)
         {
-            ExcelReader exReader = excelReader;
+
 
             string className = excelReader.currentSheetName;
 
@@ -100,7 +103,7 @@ namespace ResetCore.Excel
                     member.AddMemberCostomAttribute("ProtoBuf.ProtoMember", (i+1).ToString());
                 });
             });
-
+            PathEx.MakeDirectoryExist(PathConfig.localProtobufGameDataClassPath);
             protobufBaseGener.GenCSharp(PathConfig.localProtobufGameDataClassPath);
 
             

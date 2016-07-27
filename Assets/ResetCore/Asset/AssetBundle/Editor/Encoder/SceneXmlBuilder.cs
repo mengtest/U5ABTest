@@ -36,7 +36,7 @@ namespace ResetCore.Asset
             get { return PathConfig.resourcePath + PathConfig.sceneXmlRootPath; }
         }
 
-        [MenuItem("Tools/XmlHelper/场景Xml/导出场景Xml")]
+        [MenuItem("Assets/DataHelper/场景Xml/导出场景Xml")]
         public static void ExportScene()
         {
             //加载路径
@@ -46,7 +46,7 @@ namespace ResetCore.Asset
             AssetDatabase.Refresh();
         }
 
-        [MenuItem("Tools/XmlHelper/场景Xml/导出所有选中场景的Xml")]
+        [MenuItem("Assets/DataHelper/场景Xml/导出所有选中场景的Xml")]
         public static void ExportAllSelectedScene()
         {
             Scene currentScene = EditorSceneManager.GetSceneAt(0);

@@ -57,20 +57,26 @@ public class PathConfig
 
     #region GameData相关
     public static readonly string localGameDataExcelPath = Application.dataPath + "/Excel/";
+
+    //游戏数据根目录
+    public static readonly string localGameDataSourceRoot = resourcePath + "Data/GameData/";
+    //游戏数据类文件根目录
+    public static readonly string localGameDataClassRoot = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/";
+
     //存放Xml的地址
-    public static readonly string localGameDataXmlPath = resourcePath + "Data/GameData/Xml/";
+    public static readonly string localGameDataXmlPath = localGameDataSourceRoot + "Xml/";
     //存放XmlGameData类的地址
-    public static readonly string localXmlGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/Xml/";
+    public static readonly string localXmlGameDataClassPath = localGameDataClassRoot + "Xml/";
 
     //存放Obj的地址
-    public static readonly string localGameDataObjPath = resourcePath + "Data/GameData/Obj/";
+    public static readonly string localGameDataObjPath = localGameDataSourceRoot + "Obj/";
     //存放ObjGameData类的地址
-    public static readonly string localObjGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/Obj/";
+    public static readonly string localObjGameDataClassPath = localGameDataClassRoot + "Obj/";
 
     //存放Protobuf的地址
-    public static readonly string localGameDataProtobufPath = resourcePath + "Data/GameData/Protobuf/";
+    public static readonly string localGameDataProtobufPath = localGameDataSourceRoot + "Protobuf/";
     //存放ProtobufGameData类的地址
-    public static readonly string localProtobufGameDataClassPath = Application.dataPath + "/ResetCore/DataGener/GameDatas/DataClasses/Protobuf/";
+    public static readonly string localProtobufGameDataClassPath = localGameDataClassRoot + "Protobuf/";
 
     #endregion
 

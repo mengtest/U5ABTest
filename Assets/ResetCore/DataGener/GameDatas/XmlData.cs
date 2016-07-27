@@ -8,7 +8,7 @@ using ResetCore.Util;
 using System.Linq;
 
 
-namespace ResetCore.Data
+namespace ResetCore.Data.GameDatas.Xml
 {
     public abstract class XmlData : BaseData
     {

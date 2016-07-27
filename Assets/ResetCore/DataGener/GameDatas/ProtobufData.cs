@@ -8,7 +8,7 @@ using ResetCore.Util;
 using ResetCore.Asset;
 using System.IO;
 
-namespace ResetCore.Data
+namespace ResetCore.Data.GameDatas.Protobuf
 {
     public class ProtobufData : BaseData
     {

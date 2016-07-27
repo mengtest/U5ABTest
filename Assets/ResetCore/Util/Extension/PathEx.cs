@@ -6,9 +6,10 @@ public class PathEx {
 
     public static void MakeDirectoryExist(string path)
     {
-        if (!Directory.Exists(path))
+        string root = Path.GetDirectoryName(path);
+        if (!Directory.Exists(root))
         {
-            Directory.CreateDirectory(path);
+            Directory.CreateDirectory(root);
         }
     }
 }

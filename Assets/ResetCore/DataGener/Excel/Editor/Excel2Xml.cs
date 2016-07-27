@@ -43,7 +43,7 @@ namespace ResetCore.Excel
 
         public static void GenCS(ExcelReader excelReader)
         {
-            string className = Path.GetFileNameWithoutExtension(excelReader.currentSheetName);
+            string className = excelReader.currentSheetName;
             DataClassesGener.CreateNewClass(className, excelReader.fieldDict, GameDataType.Xml);
         }
        

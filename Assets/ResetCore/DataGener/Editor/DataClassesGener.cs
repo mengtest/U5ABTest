@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using System;
 using ResetCore.Data;
 using UnityEditor;
-
+using ResetCore.Data.GameDatas.Xml;
+using ResetCore.Data.GameDatas.Obj;
 
 public enum GameDataType
 {
@@ -148,6 +149,7 @@ public class DataClassesGener {
         //空行
         options.BlankLinesBetweenMembers = true;
 
+        PathEx.MakeDirectoryExist(outputFile);
         using (System.IO.StreamWriter sw = new System.IO.StreamWriter(outputFile))
         {
             Debug.Log("生成代码" + outputFile);

@@ -22,6 +22,17 @@ namespace ResetCore.Excel
             window.Show();
         }
 
+        [MenuItem("Tools/GameData/清空所有GameData数据文件")]
+        static void CleanGameData()
+        {
+            Debug.Log(PathConfig.localGameDataSourceRoot);
+            Debug.Log(PathConfig.localGameDataClassRoot);
+
+            Directory.Delete(PathConfig.localGameDataSourceRoot, true);
+            Directory.Delete(PathConfig.localGameDataClassRoot, true);
+            AssetDatabase.Refresh();
+        }
+
         ExcelReader excelReader;
         void OnGUI()
         {

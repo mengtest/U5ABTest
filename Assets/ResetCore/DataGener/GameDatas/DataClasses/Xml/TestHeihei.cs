@@ -20,15 +20,15 @@ namespace ResetCore.Data.GameDatas.Xml
         
         public static String fileName = "TestHeihei";
         
-        private Int32 _test;
+        private int _test;
         
-        private Int32 _asd;
+        private int _asd;
         
-        private Int32 _sad;
+        private int _sad;
         
-        private Int32 _zxc;
+        private int _zxc;
         
-        public Int32 test
+        public int test
         {
             get
             {
@@ -40,7 +40,7 @@ namespace ResetCore.Data.GameDatas.Xml
             }
         }
         
-        public Int32 asd
+        public int asd
         {
             get
             {
@@ -52,7 +52,7 @@ namespace ResetCore.Data.GameDatas.Xml
             }
         }
         
-        public Int32 sad
+        public int sad
         {
             get
             {
@@ -64,7 +64,7 @@ namespace ResetCore.Data.GameDatas.Xml
             }
         }
         
-        public Int32 zxc
+        public int zxc
         {
             get
             {
