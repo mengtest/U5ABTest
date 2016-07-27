@@ -33,7 +33,7 @@ namespace ResetCore.UGUI
 
         public virtual void Hide(System.Action afterAct = null)
         {
-            UIManager.Instance.HideUI(uiName, afterAct);
+            gameObject.SetActive(false);
         }
     }
 }

@@ -137,7 +137,7 @@ public static class ExtensionTransform {
     {
         tran.DoToAllChildren((child) =>
         {
-            GameObject.Destroy(child);
+            GameObject.Destroy(child.gameObject);
         });
     }
 }

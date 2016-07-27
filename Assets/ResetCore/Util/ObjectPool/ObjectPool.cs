@@ -206,6 +206,14 @@ namespace ResetCore.Util
             }
         }
 
+        public void CleanAllPool()
+        {
+            transform.DoToAllChildren((child) =>
+            {
+                child.DeleteAllChild();
+            });
+        }
+
     }
 }
 
