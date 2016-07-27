@@ -115,11 +115,11 @@ public class DataClassesGener {
         foreach (KeyValuePair<string, Type> pair in fieldDic)
         {
             string propName = pair.Key;
-            string propType = pair.Value.Name;
+            Type propType = pair.Value;
 
             //添加字段
 
-            CodeMemberField field = new CodeMemberField(propType, "_" + propName);
+            CodeMemberField field = new CodeMemberField(pair.Value, "_" + propName);
             field.Attributes = MemberAttributes.Private;
 
             NewClass.Members.Add(field);

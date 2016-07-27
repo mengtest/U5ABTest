@@ -52,12 +52,12 @@ namespace ResetCore.Editor.ImportHelper
 
         void OnPostprocessTexture(Texture2D texture)
         {
-            Debug.Log("Texture2D: (" + texture.width + "x" + texture.height + ")");
-            string AtlasName = new DirectoryInfo(Path.GetDirectoryName(assetPath)).Name;
-            TextureImporter textureImporter = assetImporter as TextureImporter;
-            textureImporter.textureType = TextureImporterType.Sprite;
-            textureImporter.spritePackingTag = AtlasName;
-            textureImporter.mipmapEnabled = false;
+            //Debug.Log("Texture2D: (" + texture.width + "x" + texture.height + ")");
+            //string AtlasName = new DirectoryInfo(Path.GetDirectoryName(assetPath)).Name;
+            //TextureImporter textureImporter = assetImporter as TextureImporter;
+            //textureImporter.textureType = TextureImporterType.Sprite;
+            //textureImporter.spritePackingTag = AtlasName;
+            //textureImporter.mipmapEnabled = false;
         }
 
         void OnPreprocessAnimation()

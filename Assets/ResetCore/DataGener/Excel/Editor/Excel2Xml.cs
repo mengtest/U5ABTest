@@ -32,6 +32,10 @@ namespace ResetCore.Excel
             }
 
             string outputPath = PathConfig.localGameDataXmlPath + Path.GetFileNameWithoutExtension(excelReader.currentSheetName) + ".xml";
+            if (!Directory.Exists(Path.GetDirectoryName(outputPath)))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+            }
 
             xDoc.Save(outputPath);
             AssetDatabase.Refresh();
@@ -40,7 +44,6 @@ namespace ResetCore.Excel
         public static void GenCS(ExcelReader excelReader)
         {
             string className = Path.GetFileNameWithoutExtension(excelReader.currentSheetName);
-            Debug.logger.Log(className);
             DataClassesGener.CreateNewClass(className, excelReader.fieldDict, GameDataType.Xml);
         }
        

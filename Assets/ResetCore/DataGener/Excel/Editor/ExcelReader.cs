@@ -171,7 +171,8 @@ namespace ResetCore.Excel
                 int numSheets = this.workbook.NumberOfSheets;
                 for (int i = 0; i < numSheets; i++)
                 {
-                    string sheetName = this.workbook.GetSheetName(i);
+                    string sheetName = this.workbook.GetSheetName(i).Trim();
+                    if (string.IsNullOrEmpty(sheetName)) break;
                     if (string.IsNullOrEmpty(sheetName))
                     {
                         Debug.logger.LogError("ReadExcelError", "SheetName " + i + " is Null or Empty");
@@ -202,7 +203,8 @@ namespace ResetCore.Excel
                 {
                     try
                     {
-                        string total = title.GetCell(i).StringCellValue;
+                        string total = title.GetCell(i).StringCellValue.Trim();
+                        if (string.IsNullOrEmpty(total)) return result;
                         result.Add(total);
                     }
                     catch (Exception e)
@@ -235,7 +237,8 @@ namespace ResetCore.Excel
                 {
                     try
                     {
-                        string total = title.GetCell(i).StringCellValue;
+                        string total = title.GetCell(i).StringCellValue.Trim();
+                        if (string.IsNullOrEmpty(total)) return result;
                         if (total.Contains("|"))
                         {
                             result.Add(total.Split('|')[0]);
@@ -274,7 +277,8 @@ namespace ResetCore.Excel
                 {
                     try
                     {
-                        string total = title.GetCell(i).StringCellValue;
+                        string total = title.GetCell(i).StringCellValue.Trim();
+                        if (string.IsNullOrEmpty(total)) return result;
                         if (total.Contains("|"))
                         {
                             result.Add(total.Split('|')[1].GetTypeByString());
@@ -357,7 +361,17 @@ namespace ResetCore.Excel
                     try
                     {
                         row.GetCell(i).SetCellType(CellType.String);
-                        rowDict.Add(tagName[i], row.GetCell(i).StringCellValue);
+                        string cellStr = row.GetCell(i).StringCellValue.Trim();
+                        if (!string.IsNullOrEmpty(cellStr))
+                        {
+                            rowDict.Add(tagName[i], row.GetCell(i).StringCellValue);
+                        }
+                        else
+                        {
+                            Debug.logger.LogError("ReadExcelError", string.Format("Value in Posistion row[{0}] line[{1}] is Error", current, i));
+                            return rows;
+                        }
+                        
                     }
                     catch (System.Exception ex)
                     {
@@ -402,7 +416,17 @@ namespace ResetCore.Excel
                     try
                     {
                         row.GetCell(i).SetCellType(CellType.String);
-                        rowDict.Add(tagName[i], row.GetCell(i).StringCellValue.GetValue(typeList[i]));
+                        string cellStr = row.GetCell(i).StringCellValue.Trim();
+                        if (!string.IsNullOrEmpty(cellStr))
+                        {
+                            rowDict.Add(tagName[i], row.GetCell(i).StringCellValue.GetValue(typeList[i]));
+                        }
+                        else
+                        {
+                            Debug.logger.LogError("ReadExcelError", string.Format("Value in Posistion row[{0}] line[{1}] is Error", current, i));
+                            return rows;
+                        }
+                        
                     }
                     catch (Exception e)
                     {

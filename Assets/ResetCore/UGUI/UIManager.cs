@@ -81,6 +81,10 @@ namespace ResetCore.UGUI
             {
                 GetUI(name).Hide(afterAct);
             }
+            if(afterAct != null)
+            {
+                afterAct();
+            }
         }
 
         public BaseUI GetUI(UIConst.UIName name)
