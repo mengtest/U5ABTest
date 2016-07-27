@@ -11,7 +11,7 @@ public class XmlScriptAsset {
 	[MenuItem("Assets/Create/Xml Data", false, 34)]
     public static void CreateNewLua()
     {
-        ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, ScriptableObject.CreateInstance<LuaAsset>(),
+        ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, ScriptableObject.CreateInstance<XmlAsset>(),
             GetSelectedPathOrFallBack() + "/NewData.xml", null, "Assets/ResetCore/Xml/Editor/XmlAsset.xml");
     }
 
