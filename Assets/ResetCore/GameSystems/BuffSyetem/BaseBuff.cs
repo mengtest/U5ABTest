@@ -1,24 +1,30 @@
 ﻿using UnityEngine;
 using System.Collections;
-using ResetCore.Lua;
+using ResetCore.Data.GameDatas.Xml;
+using System.Collections.Generic;
+using System;
+using ResetCore.Util;
+
+public enum BuffType
+{
+    Add, 
+    Mult, 
+    Other
+}
 
 public abstract class BaseBuff<T>
 {
+    
 
+    public abstract BuffType type { get; }
     public BuffManager<T> manager { protected get; set; }
 
-    protected string luaName;
-    public BaseBuff() { }
-    public BaseBuff(BuffManager<T> manager, string luaName, float time = -1)
-    {
-        this.manager = manager;
-        this.luaName = luaName;
-        if (time < 0)
-        {
-            this.buffTime = (float)LuaManager.instance.GetValue<System.Double>(luaName, "BuffTime");
-        }
-    }
+    protected BaseBuff() { }
 
-    public float buffTime { get; protected set; }
-	
+    public float buffTime { get; set; }
+    public Action removeCallback { get; set; }
+    public CoroutineTaskManager.CoroutineTask task { get; set; }
+
+    public abstract void BuffFunc(T effectObject);
+    public virtual void RemoveBuffFunc(T effectObject){}
 }

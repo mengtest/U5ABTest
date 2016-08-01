@@ -2,26 +2,50 @@
 using System.Collections;
 using System.Collections.Generic;
 using ResetCore.Util;
-
-public enum BuffType
-{
-    Add,
-    Mult,
-    Others
-}
+using System;
+using ResetCore.Event;
+using ResetCore.Data.GameDatas.Xml;
 
 public class BuffManager<T>
 {
+    private Dictionary<BuffType, List<BaseBuff<T>>> buffListDict;
 
-    private List<BaseAddBuff<T>> addBuffList = new List<BaseAddBuff<T>>();
-    private List<BaseMultBuff<T>> multBuffList = new List<BaseMultBuff<T>>();
-    private List<BaseOtherBuff<T>> otherBuffList = new List<BaseOtherBuff<T>>();
+    private List<BaseBuff<T>> addBuffList = new List<BaseBuff<T>>();
+    private List<BaseBuff<T>> multBuffList = new List<BaseBuff<T>>();
+    private List<BaseBuff<T>> otherBuffList = new List<BaseBuff<T>>();
+
+    private Dictionary<System.Type, BaseBuff<T>> buffInstanceDict = new Dictionary<System.Type, BaseBuff<T>>();
+    private V GetBuff<V>(BuffManager<T> manager) where V : BaseBuff<T>
+    {
+        Type buffType = typeof(V);
+        if (buffInstanceDict.ContainsKey(buffType))
+        {
+            return buffInstanceDict[buffType] as V;
+        }
+        else
+        {
+            V buff = Activator.CreateInstance<V>();
+            buff.manager = manager;
+            buff.buffTime = BuffData.Select((data) =>
+            {
+                return data.BuffName == buffType.Name;
+            }).BuffTime;
+            buffInstanceDict.Add(buffType, buff);
+            return buffInstanceDict[buffType] as V;
+        }
+    }
 
     public T effectedObject { get; private set; }
     private System.Action initAct;
 
     public BuffManager(T effectedObject, System.Action initAct)
     {
+        buffListDict = new Dictionary<BuffType, List<BaseBuff<T>>>()
+        {
+            {BuffType.Add, addBuffList },
+            {BuffType.Mult, multBuffList },
+            {BuffType.Other, otherBuffList },
+        };
         this.effectedObject = effectedObject;
         this.initAct = initAct;
     }
@@ -31,86 +55,77 @@ public class BuffManager<T>
         initAct();
     }
 
-    public void AddBuff(BuffType type, string buffLuaName, float time = -1)
+    //添加Buff
+    public void AddBuff<V>(Action callBack = null) where V:BaseBuff<T>
     {
-        switch(type){
-            case BuffType.Add:
-                {
-                    AddBuff(new BaseAddBuff<T>(this, buffLuaName, time));
-                }break;
-            case BuffType.Mult:
-                {
-                    AddBuff(new BaseMultBuff<T>(this, buffLuaName, time));
-                } break;
-            case BuffType.Others:
-                {
-                    AddBuff(new BaseOtherBuff<T>(this, buffLuaName, time));
-                } break;
+        V buff = GetBuff<V>(this);
+        List<BaseBuff<T>> buffList = buffListDict[buff.type];
+        //添加buff
+        if (buffList.Contains(buff))
+        {
+            RemoveBuff<V>();
         }
-        //
-    }
+        buffList.Add(buff);
+        //添加时间
+        if (buff.buffTime <= 0) return;
+        
+        buff.removeCallback = () =>
+        {
 
-    public void AddBuff(BaseBuff<T> buff)
+            if (!buffList.Contains(buff)) return;
+            if (effectedObject == null) return;
+
+            buff.RemoveBuffFunc(effectedObject);
+            buffList.Remove(buff);
+
+            if (callBack != null)
+                callBack();
+            Recalculate();
+
+            if (buff.task != null)
+                buff.task.Stop();
+        };
+
+        buff.task =  CoroutineTaskManager.Instance.WaitSecondTodo(buff.removeCallback, buff.buffTime);
+
+        Recalculate();
+
+    }
+    //删除Buff
+    public void RemoveBuff<V>() where V : BaseBuff<T>
     {
-        buff.manager = this;
-        if (buff is BaseAddBuff<T>)
+        V buff = GetBuff<V>(this);
+        List<BaseBuff<T>> buffList = buffListDict[buff.type];
+        if (buffList.Contains(buff))
         {
-            BaseAddBuff<T> addBuff = buff as BaseAddBuff<T>;
-            addBuffList.Add(addBuff);
-            if(buff.buffTime > 0)
-            {
-                CoroutineTaskManager.Instance.WaitSecondTodo(() =>
-                {
-                    addBuffList.Remove(addBuff);
-                    Recalculate();
-                }, buff.buffTime);
-            }
-            
-        }
-        if (buff is BaseMultBuff<T>)
-        {
-            BaseMultBuff<T> multBuff = buff as BaseMultBuff<T>;
-            multBuffList.Add(multBuff);
-            if (buff.buffTime > 0)
-            {
-                CoroutineTaskManager.Instance.WaitSecondTodo(() =>
-                {
-                    multBuffList.Remove(multBuff);
-                    Recalculate();
-                }, buff.buffTime);
-            }
-        }
-        if (buff is BaseOtherBuff<T>)
-        {
-            BaseOtherBuff<T> otherBuff = buff as BaseOtherBuff<T>;
-            otherBuffList.Add(otherBuff);
-            if (buff.buffTime > 0)
-            {
-                CoroutineTaskManager.Instance.WaitSecondTodo(() =>
-                {
-                    otherBuffList.Remove(otherBuff);
-                    Recalculate();
-                }, buff.buffTime);
-            }
+            buff.removeCallback();
         }
         Recalculate();
     }
 
-    private void Recalculate()
+    public void Recalculate()
+    {
+        if (effectedObject == null) return;
+        InitProperty();
+        foreach (BaseBuff<T> buff in addBuffList)
+        {
+            buff.BuffFunc(effectedObject);
+        }
+        foreach (BaseBuff<T> buff in multBuffList)
+        {
+            buff.BuffFunc(effectedObject);
+        }
+        foreach (BaseBuff<T> buff in otherBuffList)
+        {
+            buff.BuffFunc(effectedObject);
+        }
+    }
+
+    
+
+    public void ClearAllBuff()
     {
         InitProperty();
-        foreach (BaseAddBuff<T> buff in addBuffList)
-        {
-            buff.AddProperty();
-        }
-        foreach (BaseMultBuff<T> buff in multBuffList)
-        {
-            buff.MultProperty();
-        }
-        foreach (BaseOtherBuff<T> buff in otherBuffList)
-        {
-            buff.OtherEffect();
-        }
     }
 	
 }
