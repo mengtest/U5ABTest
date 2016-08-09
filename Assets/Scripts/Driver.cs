@@ -16,6 +16,7 @@ using ResetCore.UGUI;
 using UnityEngine.UI;
 using ResetCore.Lua;
 using ResetCore.Data.GameDatas.Xml;
+using Unity.Linq;
 
 
 //using ResetCore.Data.GameDatas;
@@ -28,17 +29,18 @@ public class Driver : MonoSingleton<Driver> {
     {
         Init();
     }
-	// Use this for initialization
+    // Use this for initialization
     void Start()
     {
-        DownloadManager.instance.AddNewDownloadTask(Path.Combine(PathConfig.wwwPath, "a.pdf"), @"C:\Users\hzcm1\Desktop\test.pdf", null, (x) =>
-        {
-            Debug.logger.Log(x.ToString());
-        }, () =>
-        {
-            Debug.logger.Log("finish");
-        })
-        .CheckDownLoadList();
+        //DownloadManager.instance.AddNewDownloadTask(Path.Combine(PathConfig.wwwPath, "a.pdf"), @"C:\Users\hzcm1\Desktop\test.pdf", null, (x) =>
+        //{
+        //    Debug.logger.Log(x.ToString());
+        //}, () =>
+        //{
+        //    Debug.logger.Log("finish");
+        //})
+        //.CheckDownLoadList();
+
     }
 
     public override void Init()
