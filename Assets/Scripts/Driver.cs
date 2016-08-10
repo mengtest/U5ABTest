@@ -23,7 +23,10 @@ using Unity.Linq;
 
 public class Driver : MonoSingleton<Driver> {
 
-
+    class tt
+    {
+        public int a = 0;
+    }
     
     void Awake()
     {
@@ -40,7 +43,13 @@ public class Driver : MonoSingleton<Driver> {
         //    Debug.logger.Log("finish");
         //})
         //.CheckDownLoadList();
+        tt asd = new tt();
+        asd.a = 1;
+        Debug.Log(asd.a);
+        asd.BindField<tt, int>("asds", "a");
 
+        DataBind.ChangeData("asds", 5);
+        Debug.Log(asd.a);
     }
 
     public override void Init()
