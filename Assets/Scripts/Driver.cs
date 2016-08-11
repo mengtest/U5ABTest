@@ -23,11 +23,7 @@ using Unity.Linq;
 
 public class Driver : MonoSingleton<Driver> {
 
-    class tt
-    {
-        public int a = 0;
-    }
-    
+
     void Awake()
     {
         Init();
@@ -35,26 +31,17 @@ public class Driver : MonoSingleton<Driver> {
     // Use this for initialization
     void Start()
     {
-        //DownloadManager.instance.AddNewDownloadTask(Path.Combine(PathConfig.wwwPath, "a.pdf"), @"C:\Users\hzcm1\Desktop\test.pdf", null, (x) =>
-        //{
-        //    Debug.logger.Log(x.ToString());
-        //}, () =>
-        //{
-        //    Debug.logger.Log("finish");
-        //})
-        //.CheckDownLoadList();
-        tt asd = new tt();
-        asd.a = 1;
-        Debug.Log(asd.a);
-        asd.BindField<tt, int>("asds", "a");
 
-        DataBind.ChangeData("asds", 5);
-        Debug.Log(asd.a);
+        CoroutineTaskManager.Instance.LoopTodoByTime(() =>
+        {
+            Debug.Log("haha");
+        }, 1, 5);
     }
 
     public override void Init()
     {
         base.Init();
+       
     }
 
     //private List<GameObject> cubes = new List<GameObject>();

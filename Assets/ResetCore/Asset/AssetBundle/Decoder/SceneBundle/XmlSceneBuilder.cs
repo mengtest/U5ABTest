@@ -13,7 +13,11 @@ namespace ResetCore.Asset
 {
     public class XmlSceneBuilder : MonoSingleton<XmlSceneBuilder>
     {
-
+        public override void Init()
+        {
+            base.Init();
+            gameObject.hideFlags |= HideFlags.HideAndDontSave;
+        }
 
         private static Action<Boolean> loadedAction;
         private static Action<int> processAction;
