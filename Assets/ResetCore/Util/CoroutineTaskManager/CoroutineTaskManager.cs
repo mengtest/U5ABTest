@@ -144,6 +144,8 @@ namespace ResetCore.Util
         {
             base.Init();
             taskList = new Dictionary<string, CoroutineTask>();
+            GameObject.DontDestroyOnLoad(gameObject);
+            gameObject.hideFlags |= HideFlags.HideAndDontSave;
         }
 
 

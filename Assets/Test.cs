@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestComp : MonoBehaviour {
-
-    public int heihei = 1;
+public class Test : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

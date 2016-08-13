@@ -29,9 +29,5 @@ public static class GameObjectEx {
         return newPosition;
     }
 
-    //public static Vector3 NewLookAt(this Transform tran, Vector3 worldpos)
-    //{
-    //    Quaternion rotation = Quaternion.Euler(euler) * tran.rotation;
-    //    return rotation.eulerAngles;
-    //}
+   
 }

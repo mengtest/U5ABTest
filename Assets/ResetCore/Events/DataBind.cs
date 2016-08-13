@@ -1,5 +1,8 @@
 ﻿using UnityEngine.UI;
 using ResetCore.Event;
+using ResetCore.Util;
+using System.Reflection;
+using UnityEngine;
 
 namespace ResetCore.Event
 {
@@ -14,37 +17,82 @@ namespace ResetCore.Event
         /// <param name="text"></param>
         /// <param name="dataId"></param>
         /// <param name="func"></param>
-        public static void BindData<T, V>(this Text text, string dataId, System.Func<T, V> func = null)
+        public static void BindData<T>(this Text text, string dataId, System.Func<T, string> func = null)
         {
             EventDispatcher.AddEventListener<T>(dataId, (data) =>
             {
                 if (func == null)
                 {
-                    text.text = data.ToString();
+                    text.text = data.ConverToString();
                 }
                 else
                 {
-                    text.text = func(data).ToString();
+                    text.text = func(data);
                 }
                 
-            }, text.gameObject);
+            }, text);
         }
 
         /// <summary>
-        /// 绑定数据到任意对象
+        /// 绑定事件到任意对象域
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="obj"></param>
-        /// <param name="dataId"></param>
-        /// <param name="act"></param>
-        public static void BindData<T>(this object obj, string dataId, System.Action<T> act)
+        /// <typeparam name="T">对象类型</typeparam>
+        /// <typeparam name="V">域类型</typeparam>
+        /// <param name="obj">绑定的对象</param>
+        /// <param name="dataId">绑定的事件</param>
+        /// <param name="fieldName">域名</param>
+        /// <param name="act">处理传递值的函数</param>
+        public static void BindField<T, V>(this T obj, string dataId, string fieldName, System.Func<V, V> act = null)
         {
-            EventDispatcher.AddEventListener<T>(dataId, (data) =>
+            System.Type fieldType = obj.GetType();
+            if(fieldType != typeof(V))
             {
-                act(data);
+                Debug.logger.LogError("数据绑定错误", "域类型为" + fieldType.Name + "函数返回类型为" + typeof(V).Name);
+            }
+            EventDispatcher.AddEventListener<V>(dataId, (data) =>
+            {
+                FieldInfo field = fieldType.GetField(fieldName);
+                if(act != null)
+                {
+                    field.SetValue(obj, act(data));
+                }
+                else
+                {
+                    field.SetValue(obj, data);
+                }
             }, obj);
         }
 
+        
+        /// <summary>
+        /// 绑定任意对象中的属性
+        /// </summary>
+        /// <typeparam name="T">对象类型</typeparam>
+        /// <typeparam name="V">属性类型</typeparam>
+        /// <param name="obj">绑定的对象</param>
+        /// <param name="dataId">绑定的事件Id</param>
+        /// <param name="propertyName">绑定的属性名</param>
+        /// <param name="act">处理属性的函数</param>
+        public static void BindProperty<T, V>(this T obj, string dataId, string propertyName, System.Func<V, V> act = null)
+        {
+            System.Type propertyType = obj.GetType();
+            if (propertyType != typeof(V))
+            {
+                Debug.logger.LogError("数据绑定错误", "属性类型为" + propertyType.Name + "函数返回类型为" + typeof(V).Name);
+            }
+            EventDispatcher.AddEventListener<V>(dataId, (data) =>
+            {
+                PropertyInfo field = propertyType.GetProperty(propertyName);
+                if (act != null)
+                {
+                    field.SetValue(obj, act(data), null);
+                }
+                else
+                {
+                    field.SetValue(obj, data, null);
+                }
+            }, obj);
+        }
         /// <summary>
         /// 改变数据
         /// </summary>

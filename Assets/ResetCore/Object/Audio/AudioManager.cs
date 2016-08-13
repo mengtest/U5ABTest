@@ -28,11 +28,16 @@ namespace ResetCore.Util
         public override void Init()
         {
             base.Init();
+
             groupDictionary = new Dictionary<string, AudioMixerGroup>();
-            foreach (AudioMixerGroup group in groupList)
+            if (groupList != null)
             {
-                groupDictionary.Add(group.name, group);
+                foreach (AudioMixerGroup group in groupList)
+                {
+                    groupDictionary.Add(group.name, group);
+                }
             }
+
             GameObject bgmPool = new GameObject("BGMPool");
             BGMPool = bgmPool.transform;
             BGMPool.SetParent(transform);
@@ -41,7 +46,10 @@ namespace ResetCore.Util
             SEPool.SetParent(transform);
             DontDestroyOnLoad(gameObject);
         }
-
+        /// <summary>
+        /// 播放背景音乐
+        /// </summary>
+        /// <param name="clipName">音频资源名(带后缀</param>
         public void PlayBGM(string clipName)
         {
             GameObject BGMObject = null;
@@ -51,7 +59,7 @@ namespace ResetCore.Util
                 if (source.clip.name == clipName && !source.isPlaying)
                 {
                     BGMObject = source.gameObject;
-                    PlayObject(BGMObject, clipName, null, true, true);
+                    PlayObject(BGMObject, clipName, 1, -1, null, true, true);
                 }
                 if (source.isPlaying)
                 {
@@ -62,33 +70,77 @@ namespace ResetCore.Util
             {
                 BGMObject = new GameObject(clipName);
                 BGMObject.transform.SetParent(BGMPool);
-                PlayObject(BGMObject.gameObject, clipName, BGMGroup, true, true);
+                PlayObject(BGMObject.gameObject, clipName, 1, -1, BGMGroup, true, true);
             }
         }
 
-        public void PlayObjectSE(GameObject go, string clipName, string mixerGroup = null)
+        /// <summary>
+        /// 播放局部音效
+        /// </summary>
+        /// <param name="go">绑定的物体</param>
+        /// <param name="clipName">音频资源名（带后缀</param>
+        /// <param name="mixerGroup"></param>
+        /// <param name="isLoop"></param>
+        /// <param name="playOnAwake"></param>
+        /// <param name="fadeIn"></param>
+        public AudioSource PlayObjectSE(GameObject go, string clipName, float volume = 1, float time = -1, string mixerGroup = "")
         {
             AudioMixerGroup group = groupDictionary.ContainsKey(mixerGroup) ? groupDictionary[mixerGroup] : null;
-            PlayObject(go, clipName, group, false, false);
+            AudioSource source = PlayObject(go, clipName, volume, time, group);
+
+            return source;
         }
 
-        
-
-        public void PlayGlobalSE(string clipName, string mixerGroup = null)
+        /// <summary>
+        /// 播放3D局部音效
+        /// </summary>
+        /// <param name="go">绑定的物体</param>
+        /// <param name="clipName">音频资源名</param>
+        /// <param name="volume">音量</param>
+        /// <param name="maxDistance">最大距离</param>
+        /// <param name="time">持续时间</param>
+        /// <param name="mixerGroup">混合器组</param>
+        /// <returns></returns>
+        public AudioSource Play3DObjectSE(GameObject go, string clipName, float volume = 1, float maxDistance = 500, float time = -1, string mixerGroup = "")
         {
             AudioMixerGroup group = groupDictionary.ContainsKey(mixerGroup) ? groupDictionary[mixerGroup] : null;
-            PlayObject(FindOrCreateSEClipObject(clipName, SEPool), clipName, group, false, false);
+            AudioSource source = PlayObject(go, clipName, volume, time, group);
+            source.spatialBlend = 1;
+            source.maxDistance = maxDistance;
+            return source;
         }
 
-        public void PlayObject(GameObject go, string clipName, AudioMixerGroup mixerGroup = null, bool isLoop = false, bool playOnAwake = false, bool fadeIn = false)
+
+        /// <summary>
+        /// 播放全局音效
+        /// </summary>
+        /// <param name="clipName">音频资源名（带后缀</param>
+        /// <param name="mixerGroup">混音器名</param>
+        public AudioSource PlayGlobalSE(string clipName, float volume = 1, float time = -1, string mixerGroup = "")
+        {
+            AudioMixerGroup group = groupDictionary.ContainsKey(mixerGroup) ? groupDictionary[mixerGroup] : null;
+            AudioSource source = PlayObject(FindOrCreateSEClipObject(clipName, SEPool), clipName, volume, time, group, false, false);
+            return source;
+        }
+
+
+        private AudioSource PlayObject(GameObject go, string clipName, float volume, float time, AudioMixerGroup mixerGroup = null, bool isLoop = false, bool fadeIn = false)
         {
             AudioSource audioSource = go.GetOrCreateComponent<AudioSource>();
             audioSource.clip = ResourcesLoaderHelper.Instance.LoadResource<AudioClip>(clipName);
-            audioSource.playOnAwake = playOnAwake;
             audioSource.outputAudioMixerGroup = mixerGroup;
             audioSource.loop = isLoop;
-            audioSource.volume = 1;
+            audioSource.volume = volume;
             audioSource.Play();
+            if (time > 0)
+            {
+                CoroutineTaskManager.Instance.WaitSecondTodo(() =>
+                {
+                    if (audioSource == null) return;
+                    audioSource.Stop();
+                }, time);
+            }
+            return audioSource;
         }
 
         private GameObject FindOrCreateSEClipObject(string clipName, Transform pool)

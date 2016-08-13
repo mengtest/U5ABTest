@@ -10,15 +10,20 @@ using System.Linq;
 
 public class DownloadTask
 {
+    //下载地址
     public string Url { get; set; }
+    //储存路径
     public string FileName { get; set; }
     public Action<int> Progress { get; set; }
     public String MD5 { get; set; }
     public Action Finished { get; set; }
     public Action<Exception> Error { get; set; }
 
+    public bool hasMD5 = true;
     public bool bFineshed = false;//文件是否下载完成
     public bool bDownloadAgain = false;//是否需要从新下载，如果下载出错的时候会从新下
+
+    public int tryTimes = 0;//重试次数
 
     public void OnProgress(int p)
     {
@@ -45,7 +50,35 @@ public class DownloadManager : Singleton<DownloadManager> {
 
     private readonly WebClient webClient = new WebClient ();
 
-    public List<DownloadTask> taskList = new List<DownloadTask>();
+    public List<DownloadTask> taskList { get; set; }
+
+    public static readonly int MaxTryTime = 5;
+
+    public override void Init()
+    {
+        base.Init();
+        taskList = new List<DownloadTask>();
+    }
+    /// <summary>
+    /// 添加新的下载任务
+    /// </summary>
+    /// <param name="url">下载地址</param>
+    /// <param name="filePath">文件路径</param>
+    /// <param name="md5">MD5（为空时则没有MD5检查）</param>
+    /// <param name="progress">下载进度回调</param>
+    /// <param name="finished">结束回调</param>
+    public DownloadManager AddNewDownloadTask(string url, string filePath, string md5 = null, Action<int> progress = null, Action finished = null)
+    {
+        DownloadTask task = new DownloadTask();
+        task.Url = url;
+        task.FileName = filePath;
+        task.MD5 = md5;
+        task.hasMD5 = (md5 != null);
+        task.Progress = progress;
+        task.Finished = finished;
+        taskList.Add(task);
+        return this;
+    }
     /// <summary>
     /// 检查当前下载列表
     /// </summary>
@@ -140,7 +173,7 @@ public class DownloadManager : Singleton<DownloadManager> {
         }
         catch (Exception ex)
         {
-            Debug.Log("DownloadFileBreakPoint Error：" + ex.Message);
+            Debug.LogException(ex);
             this.TaskFinish(task, ex);
         }
     }
@@ -240,6 +273,7 @@ public class DownloadManager : Singleton<DownloadManager> {
         if (e != null)
         {
             Debug.Log("下载出错" + e.Message);
+            Debug.LogException(e);
             task.OnError(e);
         }
         else
@@ -298,15 +332,26 @@ public class DownloadManager : Singleton<DownloadManager> {
         var md5Compute = MD5Utils.BuildFileMd5(task.FileName);
 #endif
 
-        if (md5Compute.Trim() != task.MD5.Trim())
+        if (task.hasMD5 && md5Compute.Trim() != task.MD5.Trim())
         {
-            if (File.Exists(task.FileName))
-                File.Delete(task.FileName);
+            task.tryTimes++;
+            if (task.tryTimes > MaxTryTime)
+            {
+                Debug.logger.Log("重试" + MaxTryTime + "无效, 停止重试");
+                task.bDownloadAgain = false;
+                task.bFineshed = true;
+                task.OnError(new Exception("md5验证失败，下载失败"));
+            }
+            else
+            {
+                if (File.Exists(task.FileName))
+                    File.Delete(task.FileName);
 
-            Debug.Log("断点MD5验证失败，从新下载：" + task.FileName + "--" + md5Compute + " vs " + task.MD5);
+                Debug.Log("断点MD5验证失败，第" + task.tryTimes + "次重试，从新下载：" + task.FileName + "--" + md5Compute + " vs " + task.MD5);
 
-            task.bDownloadAgain = true;
-            task.bFineshed = false;
+                task.bDownloadAgain = true;
+                task.bFineshed = false;
+            }
         }
         else
         {
@@ -324,7 +369,6 @@ public class DownloadManager : Singleton<DownloadManager> {
         Action action = () =>
         {
             var u = url;
-            Debug.Log("after AsynDownLoadText");
             var result = DownLoadText(u);
             if (String.IsNullOrEmpty(result))
             {

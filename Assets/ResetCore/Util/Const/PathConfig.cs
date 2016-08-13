@@ -29,6 +29,8 @@ public class PathConfig
     //相对于Assets到Resources文件夹的相对路径
     public static readonly string assetsToResources = "Asset/Resources";
 
+    //资源下载根目录
+    public static readonly string wwwPath = "http://127.0.0.1/Test";
 
     //AssetBundle导出文件夹
     public static readonly string bundleFolderName = "AssetBundle";

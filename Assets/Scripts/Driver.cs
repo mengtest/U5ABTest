@@ -16,6 +16,7 @@ using ResetCore.UGUI;
 using UnityEngine.UI;
 using ResetCore.Lua;
 using ResetCore.Data.GameDatas.Xml;
+using Unity.Linq;
 
 
 //using ResetCore.Data.GameDatas;
@@ -23,20 +24,24 @@ using ResetCore.Data.GameDatas.Xml;
 public class Driver : MonoSingleton<Driver> {
 
 
-    
     void Awake()
     {
         Init();
     }
-	// Use this for initialization
+    // Use this for initialization
     void Start()
     {
 
+        CoroutineTaskManager.Instance.LoopTodoByTime(() =>
+        {
+            Debug.Log("haha");
+        }, 1, 5);
     }
 
     public override void Init()
     {
         base.Init();
+       
     }
 
     //private List<GameObject> cubes = new List<GameObject>();

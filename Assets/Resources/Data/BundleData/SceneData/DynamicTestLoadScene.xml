@@ -9,9 +9,6 @@
             <Scale X="1" Y="1" Z="1" />
           </Transform>
         </Field>
-        <Prop>
-          <Transform position="(5.41,1,-2.650719)" localPosition="(5.41,1,-2.650719)" />
-        </Prop>
       </GameObject>
       <GameObject PrefabType="PrefabInstance" Name="Assets/Resources/Prefabs/Cube.prefab">
         <Field>
@@ -20,6 +17,7 @@
             <Rotation X="0" Y="0" Z="0" />
             <Scale X="1" Y="1" Z="1" />
           </Transform>
+          <Test a="3" />
         </Field>
         <Prop>
           <Transform position="(8.83,1,-2.650719)" localPosition="(8.83,1,-2.650719)" />

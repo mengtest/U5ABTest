@@ -81,7 +81,7 @@ namespace ResetCore.Asset
             base.Init();
             localLoader = new LocalResourcesLoader(this);
             bundleLoader = new BundleResourcesLoader(this);
-            
+            gameObject.hideFlags |= HideFlags.HideAndDontSave;
         }
 
         /// <summary>

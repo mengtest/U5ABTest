@@ -8,6 +8,7 @@
             <Rotation X="0" Y="0" Z="0" />
             <Scale X="1" Y="1" Z="1" />
           </Transform>
+          <Test a="4" />
         </Field>
         <Prop>
           <Transform position="(2.13,1,-2.650719)" localPosition="(2.13,1,-2.650719)" />
