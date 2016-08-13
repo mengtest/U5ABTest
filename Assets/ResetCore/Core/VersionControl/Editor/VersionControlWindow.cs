@@ -5,22 +5,21 @@ using ResetCore.Asset;
 using System;
 using ResetCore.Util;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ResetCore.VersionControl
 {
     public class VersionControlWindow : EditorWindow
     {
         private static Dictionary<VERSION_SYMBOL, bool> isImportDict;
-        private VersionControl versionControl = new VersionControl();
 
         private static bool inited = false;
 
         [MenuItem("Window/ResetCore Module Controller")]
         static void ShowMainWindow()
         {
-            Rect wr = new Rect(0,0,800,800);
             VersionControlWindow window =
-                EditorWindow.GetWindowWithRect(typeof(VersionControlWindow), wr, false, "Module Controller") as VersionControlWindow;
+                EditorWindow.GetWindow(typeof(VersionControlWindow), false, "Module Controller") as VersionControlWindow;
             window.Show();
         }
 
@@ -76,6 +75,10 @@ namespace ResetCore.VersionControl
             if (GUILayout.Button("Apply", GUILayout.Width(200)))
             {
                 VersionControl.ApplySymbol(isImportDict);
+            }
+            if (GUILayout.Button("Refresh Backup", GUILayout.Width(200)))
+            {
+                VersionControl.RefreshBackUp();
             }
         }
 

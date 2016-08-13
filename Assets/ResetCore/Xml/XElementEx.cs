@@ -18,7 +18,8 @@ namespace ResetCore.Xml
         {
             if (!_el.HasElements) return 0;
             int num = 0;
-            foreach (XElement el in _el.Elements())
+            IEnumerator e = _el.Elements().GetEnumerator();
+            while (e.MoveNext())
             {
                 ++num;
             }

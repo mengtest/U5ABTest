@@ -35,7 +35,8 @@ namespace ResetCore.Asset
                 new XElement("Root")
                 );
             XElement rootEl = resourceListDoc.Element("Root");
-            
+
+            PathEx.MakeDirectoryExist(PathConfig.resourcePath);
             DirectoryInfo resourceFolder = new DirectoryInfo(PathConfig.resourcePath);
             FileInfo[] fileInfos = resourceFolder.GetFiles("*", SearchOption.AllDirectories);
 

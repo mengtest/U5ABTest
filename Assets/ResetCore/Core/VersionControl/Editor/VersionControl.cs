@@ -17,7 +17,7 @@ namespace ResetCore.VersionControl
             static ResetCoreLoad()
             {
                 bool inited = EditorPrefs.GetBool("ResetCoreInited", false);
-                
+
                 if (inited == false)
                 {
                     foreach (VERSION_SYMBOL symbol in VersionConst.defaultSymbol)
@@ -34,11 +34,12 @@ namespace ResetCore.VersionControl
         {
             Array symbolArr = Enum.GetValues(typeof(VERSION_SYMBOL));
             List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
-            
-            for (int i = 0; i < symbolArr.Length; i ++)
+            bool needRestart = false;
+
+            for (int i = 0; i < symbolArr.Length; i++)
             {
                 VERSION_SYMBOL symbol = (VERSION_SYMBOL)symbolArr.GetValue(i);
-                EditorUtility.DisplayProgressBar("Check Modules", "Checking Modules " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
+                EditorUtility.DisplayProgressBar("Check Modules", "Checking Modules " + symbol.ToString() + " " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
                 //检查模块备份
                 if (!Directory.Exists(VersionConst.GetSymbolTempPath(symbol)))
                 {
@@ -58,15 +59,21 @@ namespace ResetCore.VersionControl
                 {
                     AddModule(symbol);
                     EditorUtility.DisplayProgressBar("Check Modules", "Add Module " + symbol.ToString() + "to ResetCore " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
+                    needRestart = true;
                 }
                 //不存在宏定义 但是存在实际模块 移除模块
                 if (!symbols.Contains(VersionConst.SymbolName[symbol]) && Directory.Exists(VersionConst.GetSymbolPath(symbol)))
                 {
                     RemoveModule(symbol);
                     EditorUtility.DisplayProgressBar("Check Modules", "Remove Module " + symbol.ToString() + "from ResetCore " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
+                    needRestart = true;
                 }
             }
             EditorUtility.ClearProgressBar();
+            if (needRestart)
+            {
+                EditorApplication.OpenProject(PathConfig.projectPath);
+            }
         }
 
         //检查是否存在该模块
@@ -98,18 +105,17 @@ namespace ResetCore.VersionControl
             symbols.Remove(symbolName);
             string defines = symbols.ListConvertToString(';');
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
+
         }
 
         //添加模块
         public static bool AddModule(VERSION_SYMBOL symbol)
         {
-            string symbolName = VersionConst.SymbolName[symbol];
-            List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
 
             //检查目录如果不存在则拷贝
             if (!Directory.Exists(VersionConst.GetSymbolPath(symbol)))
             {
-                if(Directory.Exists(VersionConst.GetSymbolTempPath(symbol)))
+                if (Directory.Exists(VersionConst.GetSymbolTempPath(symbol)))
                 {
                     PathEx.MakeDirectoryExist(VersionConst.GetSymbolPath(symbol));
                     DirectoryEx.DirectoryCopy(VersionConst.GetSymbolTempPath(symbol), VersionConst.GetSymbolPath(symbol), true);
@@ -120,7 +126,6 @@ namespace ResetCore.VersionControl
                     return false;
                 }
             }
-
             AddSymbol(symbol);
 
             return true;
@@ -129,8 +134,6 @@ namespace ResetCore.VersionControl
         //移除模块
         public static bool RemoveModule(VERSION_SYMBOL symbol)
         {
-            string symbolName = VersionConst.SymbolName[symbol];
-            List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
 
             //如果找不到备份文件夹则复制到备份文件夹，如果备份文件夹中有了，则直接删除
             if (!Directory.Exists(VersionConst.GetSymbolTempPath(symbol)))
@@ -143,7 +146,6 @@ namespace ResetCore.VersionControl
             {
                 Directory.Delete(VersionConst.GetSymbolPath(symbol), true);
             }
-
             RemoveSymbol(symbol);
 
             return true;
@@ -164,6 +166,13 @@ namespace ResetCore.VersionControl
             }
 
             CheckAllSymbol();
+        }
+
+        public static void RefreshBackUp()
+        {
+            VersionControl.CheckAllSymbol();
+            Directory.Delete(PathConfig.ResetCoreBackUpPath);
+            VersionControl.CheckAllSymbol();
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if DATA_GENER
+using UnityEngine;
 using System.Collections;
 using ResetCore.Data.GameDatas.Xml;
 using System.Collections.Generic;
@@ -28,3 +29,4 @@ public abstract class BaseBuff<T>
     public abstract void BuffFunc(T effectObject);
     public virtual void RemoveBuffFunc(T effectObject){}
 }
+#endif
