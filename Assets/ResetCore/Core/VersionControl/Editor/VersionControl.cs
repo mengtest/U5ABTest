@@ -45,7 +45,8 @@ namespace ResetCore.VersionControl
                 {
                     if (!Directory.Exists(VersionConst.GetSymbolPath(symbol)))
                     {
-                        Debug.logger.LogError("ResetCoreError", "Lose the module" + symbol.ToString());
+                        Debug.logger.LogError("ResetCoreError", "Lose the module " + symbol.ToString());
+                        return;
                     }
                     else
                     {
@@ -171,7 +172,7 @@ namespace ResetCore.VersionControl
         public static void RefreshBackUp()
         {
             VersionControl.CheckAllSymbol();
-            Directory.Delete(PathConfig.ResetCoreBackUpPath);
+            Directory.Delete(PathConfig.ResetCoreBackUpPath, true);
             VersionControl.CheckAllSymbol();
         }
 

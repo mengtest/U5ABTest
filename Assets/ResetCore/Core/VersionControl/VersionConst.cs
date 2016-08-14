@@ -30,14 +30,14 @@ namespace ResetCore.VersionControl
         SHADER,
         TEST,
         UGUI,
-        XML
+        XML,
+
+        AR,
+        VR_VIVE
     }
 
     public static class VersionConst
     {
-
-        
-
         public static readonly List<VERSION_SYMBOL> defaultSymbol = new List<VERSION_SYMBOL>()
         {
             VERSION_SYMBOL.EVENT,
@@ -71,6 +71,9 @@ namespace ResetCore.VersionControl
             {VERSION_SYMBOL.TEST,"TEST"},
             {VERSION_SYMBOL.UGUI,"UGUI"},
             {VERSION_SYMBOL.XML,"XML"},
+
+            {VERSION_SYMBOL.AR,"AR"},
+            {VERSION_SYMBOL.VR_VIVE,"VR_VIVE"},
         };
 
         public static readonly Dictionary<VERSION_SYMBOL, string> SymbolFoldNames = new Dictionary<VERSION_SYMBOL, string>()
@@ -99,6 +102,9 @@ namespace ResetCore.VersionControl
             {VERSION_SYMBOL.TEST, "Test"},
             {VERSION_SYMBOL.UGUI, "UGUI"},
             {VERSION_SYMBOL.XML, "Xml"},
+
+            {VERSION_SYMBOL.AR, "ARToolKit"},
+            {VERSION_SYMBOL.VR_VIVE, "VR_Vive"},
         };
         //模块注释
         public static readonly Dictionary<VERSION_SYMBOL, string> SymbolComments = new Dictionary<VERSION_SYMBOL, string>()
@@ -108,25 +114,28 @@ namespace ResetCore.VersionControl
             {VERSION_SYMBOL.EVENT,"事件分发器"},
 
             {VERSION_SYMBOL.AOP,"Aop扩展"},
-            {VERSION_SYMBOL.BEHAVIOR_TREE,"行为树框架"},
-            {VERSION_SYMBOL.CSTOOL,"基于控制台的工具"},
+            {VERSION_SYMBOL.BEHAVIOR_TREE,"行为树框架（开发中）"},
+            {VERSION_SYMBOL.CSTOOL,"基于控制台的工具（开发中）"},
             {VERSION_SYMBOL.DATA_GENER, "游戏数据生成器"},
-            {VERSION_SYMBOL.DATA_STRUCT, "数据结构"},
-            {VERSION_SYMBOL.DEBUG, "Debug扩展"},
-            {VERSION_SYMBOL.DLLMANAGER, "Dll管理器"},
-            {VERSION_SYMBOL.FSM,"有限状态机"},
+            {VERSION_SYMBOL.DATA_STRUCT, "数据结构（开发中）"},
+            {VERSION_SYMBOL.DEBUG, "Debug扩展（开发中）"},
+            {VERSION_SYMBOL.DLLMANAGER, "Dll管理器（开发中）"},
+            {VERSION_SYMBOL.FSM,"有限状态机（来自github）"},
             {VERSION_SYMBOL.GAMESYSTEMS, "游戏系统"},
-            {VERSION_SYMBOL.IMPORT_HELPER, "导入助手"},
-            {VERSION_SYMBOL.LUA, "Lua扩展"},
-            {VERSION_SYMBOL.MYSQL, "对MySQL进行支持"},
+            {VERSION_SYMBOL.IMPORT_HELPER, "导入助手（来自Infinite Code）"},
+            {VERSION_SYMBOL.LUA, "Lua扩展(开发中)"},
+            {VERSION_SYMBOL.MYSQL, "对MySQL进行支持（开发中）"},
             {VERSION_SYMBOL.NETPOST, "NetPost基本HTTP框架"},
             {VERSION_SYMBOL.NGUI, "NGUI基本UI框架"},
             {VERSION_SYMBOL.OBJECT, "游戏场景中对物体的控制"},
-            {VERSION_SYMBOL.PLATFORM_HELPER, "对各个导出平台进行支持"},
-            {VERSION_SYMBOL.SHADER, "对Shader的扩展"},
+            {VERSION_SYMBOL.PLATFORM_HELPER, "对各个导出平台进行支持（开发中）"},
+            {VERSION_SYMBOL.SHADER, "对Shader的扩展（开发中）"},
             {VERSION_SYMBOL.TEST, "测试模块"},
             {VERSION_SYMBOL.UGUI, "UGUI基本UI框架"},
             {VERSION_SYMBOL.XML, "对Xml的扩展支持"},
+
+            {VERSION_SYMBOL.AR, "对ARToolKit的扩展支持（开发中）"},
+            {VERSION_SYMBOL.VR_VIVE, "对SteamVR的扩展支持（开发中）"},
         };
 
 
