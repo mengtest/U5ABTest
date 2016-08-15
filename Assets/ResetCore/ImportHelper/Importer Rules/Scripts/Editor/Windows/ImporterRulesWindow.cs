@@ -257,7 +257,7 @@ public class ImporterRulesWindow : EditorWindow
         Process.Start("http://infinity-code.com/docs/importer-rules");
     }
 
-    [MenuItem("Window/Infinity Code/Importer Rules/Rules Manager", false, 0)]
+    [MenuItem("Tools/Importer Rules/Rules Manager", false, 0)]
     public static void OpenWindow()
     {
         wnd = GetWindow<ImporterRulesWindow>(false, "Importer Rules", true);

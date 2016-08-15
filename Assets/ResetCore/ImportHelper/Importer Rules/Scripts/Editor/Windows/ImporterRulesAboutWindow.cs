@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ImporterRulesAboutWindow:EditorWindow
 {
-    [MenuItem("Window/Infinity Code/Importer Rules/About", false, 1)]
+    [MenuItem("Tools/Importer Rules/About", false, 1)]
     public static void OpenWindow()
     {
         ImporterRulesAboutWindow window = GetWindow<ImporterRulesAboutWindow>(true, "About", true);
