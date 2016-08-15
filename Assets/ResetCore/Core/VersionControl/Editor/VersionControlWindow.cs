@@ -15,7 +15,7 @@ namespace ResetCore.VersionControl
 
         private static bool inited = false;
 
-        [MenuItem("Window/ResetCore Module Controller")]
+        [MenuItem("Tools/ResetCore Module Controller")]
         static void ShowMainWindow()
         {
             VersionControlWindow window =
@@ -75,10 +75,17 @@ namespace ResetCore.VersionControl
             if (GUILayout.Button("Apply", GUILayout.Width(200)))
             {
                 VersionControl.ApplySymbol(isImportDict);
+                inited = false;
             }
             if (GUILayout.Button("Refresh Backup", GUILayout.Width(200)))
             {
                 VersionControl.RefreshBackUp();
+                inited = false;
+            }
+            if (GUILayout.Button("Remove ResetCore", GUILayout.Width(200)))
+            {
+                VersionControl.RemoveResetCore();
+                inited = false;
             }
         }
 

@@ -12,7 +12,7 @@ public class CustomFontMaker : EditorWindow
     private Font font;
     private TextAsset xmlText;
 
-    [MenuItem("Window/CustomFontMaker")]
+    [MenuItem("Tools/UGUI/CustomFontMaker")]
     static void AddWindow()
     {
         //创建窗口

@@ -27,7 +27,7 @@ namespace ResetCore.Asset
 
         private static readonly string[] ignoreFliter = new string[] { ".meta", ".unity", ".shader" };
 
-        public const string menuItemName = "Tools/更新资源列表";
+        public const string menuItemName = "Tools/Assets/Refresh Resource List";
         [MenuItem(menuItemName)]
         public static void UpdateResourcesList()
         {
@@ -43,7 +43,7 @@ namespace ResetCore.Asset
             
             int currentNum = 0;
             int total = fileInfos.Length;
-            EditorUtility.DisplayProgressBar("更新本地资源列表中", "0/" + total, 0);
+            EditorUtility.DisplayProgressBar("Refreshing Resource List", "0/" + total, 0);
             foreach (FileInfo info in fileInfos)
             {
                 string name = info.Name;
@@ -57,7 +57,7 @@ namespace ResetCore.Asset
                     rootEl.Add(new XElement("p", path));
                 }
                 currentNum++;
-                EditorUtility.DisplayProgressBar("更新本地资源列表中", currentNum + "/" + total + info.Name, (float)currentNum/(float)total);
+                EditorUtility.DisplayProgressBar("Refreshing Resource List", currentNum + "/" + total + info.Name, (float)currentNum/(float)total);
             }
 
             EditorUtility.ClearProgressBar();
@@ -69,7 +69,7 @@ namespace ResetCore.Asset
 
             resourceListDoc.Save(PathConfig.resourcePath + PathConfig.resourceListDocPath + ".xml");
             AssetDatabase.Refresh();
-            Debug.logger.Log("更新本地资源列表完成");
+            Debug.logger.Log("Finish Refresh Resource List");
             
         }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using ResetCore.Util;
 using System.IO;
 using System;
+using System.Reflection;
 
 namespace ResetCore.VersionControl
 {
@@ -20,6 +21,7 @@ namespace ResetCore.VersionControl
 
                 if (inited == false)
                 {
+                    Array symbolArr = Enum.GetValues(typeof(VERSION_SYMBOL));
                     foreach (VERSION_SYMBOL symbol in VersionConst.defaultSymbol)
                     {
                         AddModule(symbol);
@@ -39,48 +41,66 @@ namespace ResetCore.VersionControl
             for (int i = 0; i < symbolArr.Length; i++)
             {
                 VERSION_SYMBOL symbol = (VERSION_SYMBOL)symbolArr.GetValue(i);
+                string tempPath = VersionConst.GetSymbolTempPath(symbol);
+                string modulePath = VersionConst.GetSymbolPath(symbol);
+
                 EditorUtility.DisplayProgressBar("Check Modules", "Checking Modules " + symbol.ToString() + " " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
                 //检查模块备份
-                if (!Directory.Exists(VersionConst.GetSymbolTempPath(symbol)))
+                if (!Directory.Exists(tempPath))
                 {
-                    if (!Directory.Exists(VersionConst.GetSymbolPath(symbol)))
+                    if (!Directory.Exists(modulePath))
                     {
                         Debug.logger.LogError("ResetCoreError", "Lose the module " + symbol.ToString());
-                        return;
                     }
                     else
                     {
-                        PathEx.MakeDirectoryExist(VersionConst.GetSymbolTempPath(symbol));
-                        DirectoryEx.DirectoryCopy(VersionConst.GetSymbolPath(symbol), VersionConst.GetSymbolTempPath(symbol), true);
-                        EditorUtility.DisplayProgressBar("Check Modules", "Copy Module " + symbol.ToString() + "to backup " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
+                        PathEx.MakeDirectoryExist(tempPath);
+                        DirectoryEx.DirectoryCopy(modulePath, tempPath, true);
+                        EditorUtility.DisplayProgressBar("Check Modules", "Copy Module " + 
+                            symbol.ToString() + "to backup " + i + "/" + 
+                            symbolArr.Length, (float)i / (float)symbolArr.Length);
                     }
                 }
                 //存在宏定义 但是不存在实际模块
-                if (symbols.Contains(VersionConst.SymbolName[symbol]) && !Directory.Exists(VersionConst.GetSymbolPath(symbol)))
+                if (symbols.Contains(VersionConst.SymbolName[symbol]) 
+                    && (!Directory.Exists(modulePath)
+                    || Directory.GetFiles(modulePath).Length == 0))
                 {
                     AddModule(symbol);
-                    EditorUtility.DisplayProgressBar("Check Modules", "Add Module " + symbol.ToString() + "to ResetCore " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
+                    EditorUtility.DisplayProgressBar("Check Modules", "Add Module " + 
+                        symbol.ToString() + "to ResetCore " + i + "/" + 
+                        symbolArr.Length, (float)i / (float)symbolArr.Length);
                     needRestart = true;
                 }
                 //不存在宏定义 但是存在实际模块 移除模块
-                if (!symbols.Contains(VersionConst.SymbolName[symbol]) && Directory.Exists(VersionConst.GetSymbolPath(symbol)))
+                if (!symbols.Contains(VersionConst.SymbolName[symbol]) 
+                    && Directory.Exists(modulePath)
+                    && Directory.GetFiles(modulePath).Length != 0)
                 {
                     RemoveModule(symbol);
-                    EditorUtility.DisplayProgressBar("Check Modules", "Remove Module " + symbol.ToString() + "from ResetCore " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
+                    EditorUtility.DisplayProgressBar("Check Modules", "Remove Module " + 
+                        symbol.ToString() + "from ResetCore " + i + "/" + 
+                        symbolArr.Length, (float)i / (float)symbolArr.Length);
                     needRestart = true;
                 }
+
             }
+            AssetDatabase.Refresh();
+
             EditorUtility.ClearProgressBar();
+
             if (needRestart)
             {
-                EditorApplication.OpenProject(PathConfig.projectPath);
+                EditorUtility.DisplayDialog("Need Restart Project",
+                    "You may need to Restart the project to apply your setting", "Ok");
             }
         }
 
         //检查是否存在该模块
         public static bool ContainSymbol(VERSION_SYMBOL symbol)
         {
-            List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
+            List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(
+                EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
             return symbols.Contains(VersionConst.SymbolName[symbol]);
         }
 
@@ -88,7 +108,8 @@ namespace ResetCore.VersionControl
         public static void AddSymbol(VERSION_SYMBOL symbol)
         {
             string symbolName = VersionConst.SymbolName[symbol];
-            List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
+            List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(
+                EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
             if (symbols.Contains(symbolName)) return;
 
             symbols.Add(symbolName);
@@ -112,18 +133,20 @@ namespace ResetCore.VersionControl
         //添加模块
         public static bool AddModule(VERSION_SYMBOL symbol)
         {
+            string tempPath = VersionConst.GetSymbolTempPath(symbol);
+            string modulePath = VersionConst.GetSymbolPath(symbol);
 
             //检查目录如果不存在则拷贝
-            if (!Directory.Exists(VersionConst.GetSymbolPath(symbol)))
+            if (!Directory.Exists(modulePath))
             {
-                if (Directory.Exists(VersionConst.GetSymbolTempPath(symbol)))
+                if (Directory.Exists(tempPath))
                 {
-                    PathEx.MakeDirectoryExist(VersionConst.GetSymbolPath(symbol));
-                    DirectoryEx.DirectoryCopy(VersionConst.GetSymbolTempPath(symbol), VersionConst.GetSymbolPath(symbol), true);
+                    PathEx.MakeDirectoryExist(modulePath);
+                    DirectoryEx.DirectoryCopy(tempPath, modulePath, true);
                 }
                 else
                 {
-                    Debug.logger.Log("can't find the module path" + VersionConst.GetSymbolPath(symbol));
+                    Debug.logger.Log("can't find the module path" + modulePath);
                     return false;
                 }
             }
@@ -135,17 +158,23 @@ namespace ResetCore.VersionControl
         //移除模块
         public static bool RemoveModule(VERSION_SYMBOL symbol)
         {
+            string tempPath = VersionConst.GetSymbolTempPath(symbol);
+            string modulePath = VersionConst.GetSymbolPath(symbol);
 
             //如果找不到备份文件夹则复制到备份文件夹，如果备份文件夹中有了，则直接删除
-            if (!Directory.Exists(VersionConst.GetSymbolTempPath(symbol)))
+            if (!Directory.Exists(tempPath))
             {
-                PathEx.MakeDirectoryExist(VersionConst.GetSymbolTempPath(symbol));
+                PathEx.MakeDirectoryExist(tempPath);
                 Debug.logger.Log("can't find the temp directory, will move the module to the temp directory");
-                Directory.Move(VersionConst.GetSymbolPath(symbol), VersionConst.GetSymbolTempPath(symbol));
+                if (Directory.Exists(modulePath))
+                {
+                    Directory.Move(modulePath, tempPath);
+                    Directory.Delete(modulePath, true);
+                }
             }
             else
             {
-                Directory.Delete(VersionConst.GetSymbolPath(symbol), true);
+                Directory.Delete(modulePath, true);
             }
             RemoveSymbol(symbol);
 
@@ -174,6 +203,17 @@ namespace ResetCore.VersionControl
             VersionControl.CheckAllSymbol();
             Directory.Delete(PathConfig.ResetCoreBackUpPath, true);
             VersionControl.CheckAllSymbol();
+        }
+
+        public static void RemoveResetCore()
+        {
+            if (EditorUtility.DisplayDialog("Remove ResetCore",
+                    "Do you want to remove the ResetCore? it can't be undo.", "Ok", "No"))
+            {
+                Directory.Delete(PathConfig.ResetCorePath, true);
+                Directory.Delete(PathConfig.ResetCoreBackUpPath, true);
+                EditorApplication.OpenProject(PathConfig.projectPath);
+            }
         }
 
     }

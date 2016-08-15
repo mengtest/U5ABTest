@@ -12,7 +12,7 @@ public class HandleCompOnAllPrefab {
     private static Dictionary<string, string> ResourcesList;
     private static readonly string ComponentInfoObjectRootPath = PathConfig.assetResourcePath + PathConfig.compInfoObjRootPath;
 
-    [MenuItem("Tools/生成预置组件信息")]
+    [MenuItem("Tools/Assets/Gen Prefab Info")]
     public static void GenCompInfoXml()
     {
         ResourcesList = ResourcesLoaderHelper.LoadResourcesListFile();

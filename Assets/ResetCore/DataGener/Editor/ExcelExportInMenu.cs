@@ -9,7 +9,7 @@ namespace ResetCore.Excel
     public class ExcelExportInMenu
     {
 
-        [MenuItem("Assets/DataHelper/Xml/导出选中的Excel")]
+        [MenuItem("Assets/DataHelper/Xml/Export Selected Excel")]
         public static void ExportAllSelectedExcelToXml()
         {
             var selection = Selection.GetFiltered(typeof(UnityEngine.Object), SelectionMode.DeepAssets);
