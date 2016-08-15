@@ -28,9 +28,17 @@ namespace ResetCore.VersionControl
             if (inited) return;
             isImportDict = new Dictionary<VERSION_SYMBOL, bool>();
             Array versionSymbols = Enum.GetValues(typeof(VERSION_SYMBOL));
+            
             foreach (VERSION_SYMBOL symbol in versionSymbols)
             {
-                isImportDict.Add(symbol, VersionControl.ContainSymbol(symbol));
+                if (!VersionControl.isDevelopMode)
+                {
+                    isImportDict.Add(symbol, VersionControl.ContainSymbol(symbol));
+                }
+                else
+                {
+                    isImportDict.Add(symbol, true);
+                }
             }
             inited = true;
         }
@@ -38,9 +46,17 @@ namespace ResetCore.VersionControl
         void OnGUI()
         {
             Init();
+            ShowDeveloperMode();
             ShowSymbols();
             EditorGUILayout.Space();
             ShowFunctionButton();
+        }
+
+        private void ShowDeveloperMode()
+        {
+            GUILayout.Label("Do you want to open develop mode", GUIHelper.MakeHeader(30));
+            EditorGUILayout.Space();
+            VersionControl.isDevelopMode = EditorGUILayout.Toggle("Open Develop Mode", VersionControl.isDevelopMode, GUILayout.Width(200));
         }
 
         private void ShowSymbols()
@@ -52,41 +68,56 @@ namespace ResetCore.VersionControl
             foreach (VERSION_SYMBOL symbol in versionSymbols)
             {
                 EditorGUILayout.BeginHorizontal();
-                if (VersionConst.defaultSymbol.Contains(symbol))
+                if (!VersionControl.isDevelopMode)
                 {
-                    GUILayout.Label("核心：" + VersionConst.SymbolName[symbol], GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                    if (VersionConst.defaultSymbol.Contains(symbol))
+                    {
+                        GUILayout.Label("Core：" + VersionConst.SymbolName[symbol], GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                    }
+                    else
+                    {
+                        isImportDict[symbol] = EditorGUILayout.Toggle(VersionConst.SymbolName[symbol], isImportDict[symbol], GUILayout.Width(200));
+                    }
                 }
                 else
                 {
-                    isImportDict[symbol] = EditorGUILayout.Toggle(VersionConst.SymbolName[symbol], isImportDict[symbol], GUILayout.Width(200));
+                    if (VersionConst.defaultSymbol.Contains(symbol))
+                    {
+                        GUILayout.Label("Core：" + VersionConst.SymbolName[symbol], GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                    }
+                    else
+                    {
+                        GUILayout.Label("Other：" + VersionConst.SymbolName[symbol], GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                    }
                 }
+               
                 GUILayout.Label(VersionConst.SymbolComments[symbol]);
                 EditorGUILayout.EndHorizontal();
             }
         }
 
-        private void ShowTitles()
-        {
-            
-        }
 
         private void ShowFunctionButton()
         {
-            if (GUILayout.Button("Apply", GUILayout.Width(200)))
+            if (!VersionControl.isDevelopMode)
             {
-                VersionControl.ApplySymbol(isImportDict);
-                inited = false;
+                if (GUILayout.Button("Apply", GUILayout.Width(200)))
+                {
+                    VersionControl.ApplySymbol(isImportDict);
+                    inited = false;
+                }
+                if (GUILayout.Button("Refresh Backup", GUILayout.Width(200)))
+                {
+                    VersionControl.RefreshBackUp();
+                    inited = false;
+                }
+                if (GUILayout.Button("Remove ResetCore", GUILayout.Width(200)))
+                {
+                    VersionControl.RemoveResetCore();
+                    inited = false;
+                }
             }
-            if (GUILayout.Button("Refresh Backup", GUILayout.Width(200)))
-            {
-                VersionControl.RefreshBackUp();
-                inited = false;
-            }
-            if (GUILayout.Button("Remove ResetCore", GUILayout.Width(200)))
-            {
-                VersionControl.RemoveResetCore();
-                inited = false;
-            }
+           
         }
 
        

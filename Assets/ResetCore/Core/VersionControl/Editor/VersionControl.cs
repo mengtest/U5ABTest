@@ -11,12 +11,36 @@ namespace ResetCore.VersionControl
 {
     public class VersionControl
     {
+        
+        public static bool isDevelopMode
+        {
+            get
+            {
+                return ContainSymbol(VersionConst.DeveloperSymbolName);
+            }
+            set
+            {
+                if (value == true)
+                {
+                    AddSymbol(VersionConst.DeveloperSymbolName);
+                }
+                else
+                {
+                    RemoveSymbol(VersionConst.DeveloperSymbolName);
+                }
+            }
+        }
+
+
 
         [InitializeOnLoad]
         public class ResetCoreLoad
         {
             static ResetCoreLoad()
             {
+                //如果为开发者模式则关闭自动检查模块功能
+                if (isDevelopMode) return;
+
                 bool inited = EditorPrefs.GetBool("ResetCoreInited", false);
 
                 if (inited == false)
@@ -101,15 +125,23 @@ namespace ResetCore.VersionControl
         //检查是否存在该模块
         public static bool ContainSymbol(VERSION_SYMBOL symbol)
         {
+            return ContainSymbol(VersionConst.SymbolName[symbol]);
+        }
+        public static bool ContainSymbol(string symbol)
+        {
             List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(
                 EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
-            return symbols.Contains(VersionConst.SymbolName[symbol]);
+            return symbols.Contains(symbol);
         }
 
         //添加预编译宏
         public static void AddSymbol(VERSION_SYMBOL symbol)
         {
             string symbolName = VersionConst.SymbolName[symbol];
+            AddSymbol(symbolName);
+        }
+        public static void AddSymbol(string symbolName)
+        {
             List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(
                 EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
             if (symbols.Contains(symbolName)) return;
@@ -119,17 +151,22 @@ namespace ResetCore.VersionControl
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
         }
 
-        //添加预编译宏
+
+        //移除预编译宏
         public static void RemoveSymbol(VERSION_SYMBOL symbol)
         {
             string symbolName = VersionConst.SymbolName[symbol];
+            RemoveSymbol(symbolName);
+        }
+
+        public static void RemoveSymbol(string symbolName)
+        {
             List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
 
             if (!symbols.Contains(symbolName)) return;
             symbols.Remove(symbolName);
             string defines = symbols.ListConvertToString(';');
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, defines);
-
         }
 
         //添加模块

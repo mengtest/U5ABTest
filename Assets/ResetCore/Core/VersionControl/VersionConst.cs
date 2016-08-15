@@ -45,6 +45,8 @@ namespace ResetCore.VersionControl
             VERSION_SYMBOL.UTIL,
         };
 
+        public static readonly string DeveloperSymbolName = "RESET_DEVELOPER";
+
         public static readonly Dictionary<VERSION_SYMBOL, string> SymbolName = new Dictionary<VERSION_SYMBOL, string>()
         {
             {VERSION_SYMBOL.ASSET,"ASSET"},
