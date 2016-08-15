@@ -11,6 +11,10 @@ public class PathConfig
     public static string ResetCorePath = Application.dataPath + "/ResetCore/";
     //ResetCore备份根目录
     public static string ResetCoreBackUpPath = Path.Combine(projectPath, "ResetCoreTemp");
+    //Extra工具包内目录
+    public static string ExtraToolPathInPackage = Path.Combine(ResetCorePath, "ExtraTool");
+    //Extra工具根目录
+    public static string ExtraToolPath = Path.Combine(projectPath, "ExtraTool");
 
     //工程目录
     public static string projectPath
@@ -113,7 +117,7 @@ public class PathConfig
     //Xml模板资源路径
     public static readonly string xmlScriptAssetPath = ResetCorePath + "Xml/Editor/XmlAsset.xml".Replace(projectPath, "");
 
-    public static readonly string csToolPath = ResetCorePath + "CSTool/Editor/ExcelDataManager.exe";
+    public static readonly string csToolPath = ExtraToolPath + "C#Tools/ExcelDataManager.exe";
     public static readonly string csTool_GameDataViaExcel = "GameDataGen";
     #endregion
 }

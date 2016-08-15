@@ -25,6 +25,8 @@ namespace ResetCore.VersionControl
                     foreach (VERSION_SYMBOL symbol in VersionConst.defaultSymbol)
                     {
                         AddModule(symbol);
+                        //将额外工具移至工程目录
+                        MoveToolsToProject();
                     }
                 }
 
@@ -205,15 +207,38 @@ namespace ResetCore.VersionControl
             VersionControl.CheckAllSymbol();
         }
 
+        
+
         public static void RemoveResetCore()
         {
             if (EditorUtility.DisplayDialog("Remove ResetCore",
                     "Do you want to remove the ResetCore? it can't be undo.", "Ok", "No"))
             {
-                Directory.Delete(PathConfig.ResetCorePath, true);
-                Directory.Delete(PathConfig.ResetCoreBackUpPath, true);
+                if(Directory.Exists(PathConfig.ResetCorePath))
+                    Directory.Delete(PathConfig.ResetCorePath, true);
+
+                if (Directory.Exists(PathConfig.ResetCoreBackUpPath))
+                    Directory.Delete(PathConfig.ResetCoreBackUpPath, true);
+
+                DeleteTools();
+
                 EditorApplication.OpenProject(PathConfig.projectPath);
             }
+        }
+
+        private static void MoveToolsToProject()
+        {
+            if (Directory.Exists(PathConfig.ExtraToolPathInPackage))
+            {
+                PathEx.MakeDirectoryExist(PathConfig.ExtraToolPath);
+                Directory.Move(PathConfig.ExtraToolPathInPackage, PathConfig.ExtraToolPath);
+            }
+        }
+
+        private static void DeleteTools()
+        {
+            if (Directory.Exists(PathConfig.ExtraToolPath))
+                Directory.Delete(PathConfig.ExtraToolPath, true);
         }
 
     }

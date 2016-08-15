@@ -10,7 +10,7 @@ namespace ResetCore.AR
     public class GenTexDataWindow
     {
         public static readonly string arTexDataBuilderPath = 
-            Path.Combine(PathConfig.ResetCorePath, "ARToolKit/Editor/Tools/genTexData.exe");
+            Path.Combine(PathConfig.ExtraToolPath, "ARToolKit/Editor/Tools/genTexData.exe");
 
 
         [MenuItem("Assets/ARToolKit/AR Texture Data Builder")]
