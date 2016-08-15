@@ -67,7 +67,7 @@ namespace ResetCore.VersionControl
 
         private void ShowTitles()
         {
-
+            
         }
 
         private void ShowFunctionButton()

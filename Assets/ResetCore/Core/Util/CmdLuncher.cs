@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace ResetCore.Util
 {
-    public class CmdLuncher : MonoBehaviour
+    public class CmdLuncher
     {
         /// <summary>
         /// 运行可执行程序

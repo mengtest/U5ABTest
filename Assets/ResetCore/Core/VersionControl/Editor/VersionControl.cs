@@ -246,15 +246,17 @@ namespace ResetCore.VersionControl
             }
         }
 
+        //将额外工具解压到工程目录下
         private static void MoveToolsToProject()
         {
             if (Directory.Exists(PathConfig.ExtraToolPathInPackage))
             {
                 PathEx.MakeDirectoryExist(PathConfig.ExtraToolPath);
-                Directory.Move(PathConfig.ExtraToolPathInPackage, PathConfig.ExtraToolPath);
+                CompressHelper.DecompressToDirectory(PathConfig.ExtraToolPath, PathConfig.ExtraToolPathInPackage);
             }
         }
 
+        //删除额外工具
         private static void DeleteTools()
         {
             if (Directory.Exists(PathConfig.ExtraToolPath))

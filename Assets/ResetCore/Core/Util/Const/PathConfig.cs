@@ -12,7 +12,7 @@ public class PathConfig
     //ResetCore备份根目录
     public static string ResetCoreBackUpPath = Path.Combine(projectPath, "ResetCoreTemp");
     //Extra工具包内目录
-    public static string ExtraToolPathInPackage = Path.Combine(ResetCorePath, "ExtraTool");
+    public static string ExtraToolPathInPackage = Path.Combine(ResetCorePath, "ExtraTool.zip");
     //Extra工具根目录
     public static string ExtraToolPath = Path.Combine(projectPath, "ExtraTool");
 
