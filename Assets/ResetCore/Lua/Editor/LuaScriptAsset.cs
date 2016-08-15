@@ -12,7 +12,7 @@ public class LuaScriptAsset {
     public static void CreateNewLua()
     {
         ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, ScriptableObject.CreateInstance<LuaAsset>(),
-            GetSelectedPathOrFallBack() + "/NewLua.txt", null, "Assets/ResetCore/Lua/Editor/LuaAsset.lua");
+            GetSelectedPathOrFallBack() + "/NewLua.txt", null, PathConfig.luaScriptAssetPath);
     }
 
     public static string GetSelectedPathOrFallBack()

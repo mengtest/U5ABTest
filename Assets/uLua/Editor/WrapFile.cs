@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using ResetCore.Lua;
+
 
 public static class WrapFile {
 
@@ -114,8 +114,6 @@ public static class WrapFile {
         _GT(typeof(UIAtlas)),*/    
      
         //ResetCore
-        _GT(typeof(LuaComponent)),
-        _GT(typeof(LuaManager)),
     };
 
     public static BindType _GT(Type t) {

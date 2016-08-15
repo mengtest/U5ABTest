@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if LUA
+using UnityEngine;
 using System.Collections;
 using LuaInterface;
 
@@ -113,3 +114,4 @@ namespace ResetCore.Lua
     }
 
 }
+#endif

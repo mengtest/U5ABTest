@@ -3,20 +3,6 @@ using System.Collections;
 using ResetCore.Asset;
 using ResetCore.Util;
 using System.Collections.Generic;
-using ResetCore.Data;
-using System;
-using System.IO;
-using ResetCore.AOP;
-using ResetCore.Event;
-using ResetCore.Xml;
-using System.Xml.Linq;
-using ResetCore.MySQL;
-using ResetCore.NetPost;
-using ResetCore.UGUI;
-using UnityEngine.UI;
-using ResetCore.Lua;
-using ResetCore.Data.GameDatas.Xml;
-using Unity.Linq;
 
 
 //using ResetCore.Data.GameDatas;
@@ -32,10 +18,6 @@ public class Driver : MonoSingleton<Driver> {
     void Start()
     {
 
-        CoroutineTaskManager.Instance.LoopTodoByTime(() =>
-        {
-            Debug.Log("haha");
-        }, 1, 5);
     }
 
     public override void Init()

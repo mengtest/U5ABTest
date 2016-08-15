@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if DATA_GENER
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using ResetCore.Util;
@@ -129,3 +130,4 @@ public class BuffManager<T>
     }
 	
 }
+#endif

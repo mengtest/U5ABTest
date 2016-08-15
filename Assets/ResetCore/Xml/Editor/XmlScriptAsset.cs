@@ -12,7 +12,7 @@ public class XmlScriptAsset {
     public static void CreateNewLua()
     {
         ProjectWindowUtil.StartNameEditingIfProjectWindowExists(0, ScriptableObject.CreateInstance<XmlAsset>(),
-            GetSelectedPathOrFallBack() + "/NewData.xml", null, "Assets/ResetCore/Xml/Editor/XmlAsset.xml");
+            GetSelectedPathOrFallBack() + "/NewData.xml", null, PathConfig.xmlScriptAssetPath);
     }
 
     public static string GetSelectedPathOrFallBack()
