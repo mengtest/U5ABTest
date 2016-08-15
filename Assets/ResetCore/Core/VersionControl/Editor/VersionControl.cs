@@ -200,6 +200,7 @@ namespace ResetCore.VersionControl
             CheckAllSymbol();
         }
 
+        //刷新备份文件夹
         public static void RefreshBackUp()
         {
             VersionControl.CheckAllSymbol();
@@ -208,21 +209,40 @@ namespace ResetCore.VersionControl
         }
 
         
-
+        //删除ResetCore
         public static void RemoveResetCore()
         {
             if (EditorUtility.DisplayDialog("Remove ResetCore",
                     "Do you want to remove the ResetCore? it can't be undo.", "Ok", "No"))
             {
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Main Finder", 0f);
+
                 if(Directory.Exists(PathConfig.ResetCorePath))
                     Directory.Delete(PathConfig.ResetCorePath, true);
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Backup Finder", 0.5f);
 
                 if (Directory.Exists(PathConfig.ResetCoreBackUpPath))
                     Directory.Delete(PathConfig.ResetCoreBackUpPath, true);
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Backup Finder", 0.7f);
 
+                //移除额外工具
                 DeleteTools();
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Extra Tools", 0.9f);
 
-                EditorApplication.OpenProject(PathConfig.projectPath);
+                //移除所有预编译
+                Array symbolArr = Enum.GetValues(typeof(VERSION_SYMBOL));
+                foreach(VERSION_SYMBOL symbol in symbolArr)
+                {
+                    RemoveSymbol(symbol);
+                }
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Symbols Finder", 1f);
+
+                if(EditorUtility.DisplayDialog("Need Restart Project",
+                    "You may need to Restart the project to apply your setting", "Ok", "No"))
+                {
+                    EditorApplication.OpenProject(PathConfig.projectPath);
+
+                }
             }
         }
 
