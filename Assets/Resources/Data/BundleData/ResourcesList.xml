@@ -2,14 +2,8 @@
 <Root>
   <n>Jellyfish.jpg</n>
   <p>Assets/Resources/Jellyfish</p>
-  <n>Music1.mp3</n>
-  <p>Assets/Resources/Music1</p>
   <n>NewMaterial.mat</n>
   <p>Assets/Resources/NewMaterial</p>
-  <n>TestAudio.mixer</n>
-  <p>Assets/Resources/TestAudio</p>
-  <n>Master.mixer</n>
-  <p>Assets/Resources/AudioMixer/Master</p>
   <n>AutoLight.cginc</n>
   <p>Assets/Resources/builtin_shaders-5.3.4f1/CGIncludes/AutoLight</p>
   <n>HLSLSupport.cginc</n>
@@ -98,8 +92,6 @@
   <p>Assets/Resources/Data/ProtoBufData/TestData.protodata</p>
   <n>TestData1.protodata.bytes</n>
   <p>Assets/Resources/Data/ProtoBufData/TestData1.protodata</p>
-  <n>TestPanel.prefab</n>
-  <p>Assets/Resources/NGUITest/TestPanel</p>
   <n>Cube.prefab</n>
   <p>Assets/Resources/Prefabs/Cube</p>
   <n>Mat.mat</n>

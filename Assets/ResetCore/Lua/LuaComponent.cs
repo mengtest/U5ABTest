@@ -5,7 +5,7 @@ using LuaInterface;
 
 namespace ResetCore.Lua
 {
-    [AddComponentMenu("Lua/LuaComponent")]
+    [AddComponentMenu("Toos/Lua/LuaComponent")]
     public class LuaComponent : MonoBehaviour
     {
 

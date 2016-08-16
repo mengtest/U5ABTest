@@ -50,9 +50,9 @@ namespace ResetCore.Asset
                 string[] buildAssetNames = new string[] { path };
                 //buildAssetNames = objPath;
                 buildMap[i].assetNames = buildAssetNames;
-                Debug.logger.Log("AssetBundleGen", "导出中：" + path);
+                Debug.logger.Log("AssetBundleGen", "Exporting：" + path);
                 BuildPipeline.BuildAssetBundles(targetPath, buildMap, options, buildTarget);
-                Debug.logger.Log("AssetBundleGen", "导出成功：" + path);
+                Debug.logger.Log("AssetBundleGen", "Export Success:" + path);
                 i++;
             }
 

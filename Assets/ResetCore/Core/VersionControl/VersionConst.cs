@@ -45,6 +45,8 @@ namespace ResetCore.VersionControl
             VERSION_SYMBOL.UTIL,
         };
 
+        public static readonly string DeveloperSymbolName = "RESET_DEVELOPER";
+
         public static readonly Dictionary<VERSION_SYMBOL, string> SymbolName = new Dictionary<VERSION_SYMBOL, string>()
         {
             {VERSION_SYMBOL.ASSET,"ASSET"},
@@ -123,10 +125,10 @@ namespace ResetCore.VersionControl
             {VERSION_SYMBOL.FSM,"有限状态机（来自github）"},
             {VERSION_SYMBOL.GAMESYSTEMS, "游戏系统"},
             {VERSION_SYMBOL.IMPORT_HELPER, "导入助手（来自Infinite Code）"},
-            {VERSION_SYMBOL.LUA, "Lua扩展(开发中)"},
+            {VERSION_SYMBOL.LUA, "Lua扩展(开发中,使用前请先安装NeedPlugin中的插件)"},
             {VERSION_SYMBOL.MYSQL, "对MySQL进行支持（开发中）"},
             {VERSION_SYMBOL.NETPOST, "NetPost基本HTTP框架"},
-            {VERSION_SYMBOL.NGUI, "NGUI基本UI框架"},
+            {VERSION_SYMBOL.NGUI, "NGUI基本UI框架, 已经包含NGUI插件"},
             {VERSION_SYMBOL.OBJECT, "游戏场景中对物体的控制"},
             {VERSION_SYMBOL.PLATFORM_HELPER, "对各个导出平台进行支持（开发中）"},
             {VERSION_SYMBOL.SHADER, "对Shader的扩展（开发中）"},
@@ -134,8 +136,8 @@ namespace ResetCore.VersionControl
             {VERSION_SYMBOL.UGUI, "UGUI基本UI框架"},
             {VERSION_SYMBOL.XML, "对Xml的扩展支持"},
 
-            {VERSION_SYMBOL.AR, "对ARToolKit的扩展支持（开发中）"},
-            {VERSION_SYMBOL.VR_VIVE, "对SteamVR的扩展支持（开发中）"},
+            {VERSION_SYMBOL.AR, "对ARToolKit的扩展支持（开发中,使用前请先安装NeedPlugin中的插件）"},
+            {VERSION_SYMBOL.VR_VIVE, "对SteamVR的扩展支持（开发中,使用前请先安装NeedPlugin中的插件）"},
         };
 
 

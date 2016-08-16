@@ -11,6 +11,16 @@ using ResetCore.Util;
 
 public static class CompressHelper
 {
+    /// <summary>
+    /// 压缩目标目录
+    /// </summary>
+    /// <param name="sourcePath">压缩目录</param>
+    /// <param name="outputFilePath">压缩文件输出路径</param>
+    /// <param name="zipLevel"></param>
+    public static void CompressDirectory(string sourcePath, string outputFilePath, int zipLevel = 0)
+    {
+        new FileStream(outputFilePath, FileMode.OpenOrCreate).CompressDirectory(sourcePath, zipLevel);
+    }
 
     public static void CompressDirectory(this Stream target, string sourcePath, int zipLevel = 0)
     {
@@ -46,6 +56,13 @@ public static class CompressHelper
         }
     }
 
+    /// <summary>
+    /// 压缩目标目录中的文件
+    /// </summary>
+    /// <param name="sourcePath">压缩目录</param>
+    /// <param name="filePath">需要压缩的文件</param>
+    /// <param name="outputFilePath">目标目录</param>
+    /// <param name="zipLevel"></param>
     public static void CompressFiles(string sourcePath, string[] filePath, string outputFilePath, int zipLevel = 0)
     {
         Stream target = new FileStream(outputFilePath, FileMode.OpenOrCreate);
@@ -79,17 +96,28 @@ public static class CompressHelper
         }
     }
 
-    public static void CompressDirectory(string sourcePath, string outputFilePath, int zipLevel = 0)
+    /// <summary>
+    /// 解压文件到目标目录
+    /// </summary>
+    /// <param name="targetPath">目标目录</param>
+    /// <param name="zipFilePath">压缩文件路径</param>
+    public static void DecompressToDirectory(string targetPath, string zipFilePath)
     {
-        new FileStream(outputFilePath, FileMode.OpenOrCreate).CompressDirectory(sourcePath, zipLevel);
+        if (File.Exists(zipFilePath))
+        {
+            File.OpenRead(zipFilePath).DecompressToDirectory(targetPath);
+        }
+        else
+        {
+            Debug.Log("Zip不存在: " + zipFilePath);
+        }
     }
 
-    public static System.Random CreateRandom()
-    {
-        long ticks = DateTime.Now.Ticks;
-        return new System.Random(((int)(((ulong)ticks) & 0xffffffffL)) | ((int)(ticks >> 0x20)));
-    }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="source"></param>
+    /// <param name="targetPath"></param>
     public static void DecompressToDirectory(this Stream source, string targetPath)
     {
         targetPath = Path.GetFullPath(targetPath);
@@ -133,15 +161,5 @@ public static class CompressHelper
         }
     }
 
-    public static void DecompressToDirectory(string targetPath, string zipFilePath)
-    {
-        if (File.Exists(zipFilePath))
-        {
-            File.OpenRead(zipFilePath).DecompressToDirectory(targetPath);
-        }
-        else
-        {
-            Debug.Log("Zip不存在: " + zipFilePath);
-        }
-    }
+   
 }
