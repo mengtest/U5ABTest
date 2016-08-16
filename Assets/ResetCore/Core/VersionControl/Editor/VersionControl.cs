@@ -66,7 +66,7 @@ namespace ResetCore.VersionControl
             List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
             bool needRestart = false;
 
-            for (int i = 0; i < symbolArr.Length; i++)
+            for (int i = 1; i <= symbolArr.Length; i++)
             {
                 VERSION_SYMBOL symbol = (VERSION_SYMBOL)symbolArr.GetValue(i);
                 string tempPath = VersionConst.GetSymbolTempPath(symbol);
