@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Xml.Linq;
 
 using ResetCore.Asset;
+using ResetCore.Util;
 
 namespace ResetCore.Data
 {
     public class MyXMLParser
     {
-
+        //创建表
         public static bool LoadIntMap(string fileName, out Dictionary<int, Dictionary<string, string>> dicFromXml)
         {
             TextAsset textAsset = ResourcesLoaderHelper.Instance.LoadTextAsset(fileName);
@@ -30,18 +31,6 @@ namespace ResetCore.Data
                 foreach (XElement propItem in item.Elements())
                 {
                     string key = propItem.Name.LocalName;
-                    //忽略后缀
-                    if (key.Contains("_"))
-                    {
-                        key = key.Split('_')[0];
-                    }
-                    else
-                    {
-                        if (Application.platform == RuntimePlatform.WindowsEditor)
-                        {
-                            Debug.logger.LogWarning("XMLPraser", "未记录类型信息，将无法自动生成GameData代码" + key);
-                        }
-                    }
                     if (!propDic.ContainsKey(key))
                     {
                         propDic.Add(key, propItem.Value);
@@ -54,6 +43,36 @@ namespace ResetCore.Data
                 }
                 dicFromXml.Add(id, propDic);
                 id++;
+            }
+            return true;
+        }
+        
+        //创建Instance
+        public static bool LoadInstance(string fileName, out Dictionary<string, string> dicFromXml)
+        {
+            TextAsset textAsset = ResourcesLoaderHelper.Instance.LoadTextAsset(fileName);
+            Debug.logger.Log(ResourcesLoaderHelper.resourcesList[fileName]);
+            if (textAsset == null)
+            {
+                Debug.logger.LogError("XMLParser", fileName + " 文本加载失败");
+            }
+            XDocument xDoc = XDocument.Parse(textAsset.text);
+            XElement root = xDoc.Root;
+            dicFromXml = new Dictionary<string, string>();
+
+            if (Alert.AlertIfNull(xDoc, "Cant Prase your xml!")) return false;
+
+            foreach (XElement item in root.Elements())
+            {
+                string key = item.Name.LocalName;
+                if (!dicFromXml.ContainsKey(key))
+                {
+                    dicFromXml.Add(key, item.Value);
+                }
+                else
+                {
+                    Debug.logger.LogError("XMLPraser", "已经拥有相同的键值" + key);
+                }
             }
             return true;
         }

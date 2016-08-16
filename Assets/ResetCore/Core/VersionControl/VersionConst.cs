@@ -150,8 +150,6 @@ namespace ResetCore.VersionControl
         {
             return Path.Combine(PathConfig.ResetCoreBackUpPath, SymbolFoldNames[symbol]);
         }
-
-       
         
     }
 

@@ -4,6 +4,7 @@ using ResetCore.Asset;
 using ResetCore.Util;
 using System.Collections.Generic;
 using System.IO;
+using ResetCore.Data.GameDatas.Xml;
 
 
 //using ResetCore.Data.GameDatas;

@@ -13,11 +13,6 @@ using UnityEditor;
 using ResetCore.Data.GameDatas.Xml;
 using ResetCore.Data.GameDatas.Obj;
 
-public enum GameDataType
-{
-    Xml,
-    Obj
-}
 public class DataClassesGener {
 
     //
@@ -29,9 +24,9 @@ public class DataClassesGener {
 
     
 
-    public static void CreateNewClass(string className, Dictionary<string, Type> fieldDict, GameDataType type)
+    public static void CreateNewClass(string className, Type baseType, Dictionary<string, Type> fieldDict)
     {
-        GetPropString(className, type);
+        GetPropString(className, baseType);
 
         CodeCompileUnit unit;
         CodeTypeDeclaration NewClass;
@@ -43,15 +38,16 @@ public class DataClassesGener {
 
     }
 
-    private static void GetPropString(string className, GameDataType type)
+    private static void GetPropString(string className, Type baseType)
     {
         importNameSpaces = new string[]{
                 "System","System.Collections.Generic", "UnityEngine"
             };
         DataClassesGener.className = className;
-        if (type == GameDataType.Xml)
+        baseClassName = baseType.Name + "<" + className + ">";
+
+        if (baseType == typeof(XmlData))
         {
-            baseClassName = typeof(XmlData).Name + "<" + className + ">";
             nameSpace = XmlData.nameSpace;
             if (!Directory.Exists(PathConfig.localXmlGameDataClassPath))
             {
@@ -60,9 +56,8 @@ public class DataClassesGener {
             outputFile = PathConfig.localXmlGameDataClassPath + className + ".cs";
             
         }
-        else if (type == GameDataType.Obj)
+        else if (baseType == typeof(ObjData))
         {
-            baseClassName = typeof(ObjData).Name + "<" + className + ">";
             nameSpace = ObjData.nameSpace;
             if (!Directory.Exists(PathConfig.localObjGameDataClassPath))
             {
@@ -70,20 +65,20 @@ public class DataClassesGener {
             }
             outputFile = PathConfig.localObjGameDataClassPath + className + ".cs";
         }
+        else if (baseType == typeof(PrefData))
+        {
+            nameSpace = PrefData.nameSpace;
+            if (!Directory.Exists(PathConfig.localPrefDataClassPath))
+            {
+                Directory.CreateDirectory(PathConfig.localPrefDataClassPath);
+            }
+            outputFile = PathConfig.localPrefDataClassPath + className + ".cs";
+        }
         else
         {
             Debug.logger.LogError("GameData", "无效的数据类型");
         }
         
-    }
-    private static XDocument LoadXml(string filePath)
-    {
-        XDocument xDoc = XDocument.Load(filePath);
-        if (xDoc == null)
-        {
-            Debug.logger.LogError("创建GameData", "没有成功加载Xml");
-        }
-        return xDoc;
     }
     private static void CreateNewClass(out CodeCompileUnit unit, out CodeTypeDeclaration NewClass)
     {
@@ -111,6 +106,7 @@ public class DataClassesGener {
         fileNameField.InitExpression = new CodeSnippetExpression("\"" + className + "\"");
         NewClass.Members.Add(fileNameField);
     }
+
     private static void AddProp(Dictionary<string, Type> fieldDic, CodeTypeDeclaration NewClass)
     {
         foreach (KeyValuePair<string, Type> pair in fieldDic)
@@ -138,6 +134,7 @@ public class DataClassesGener {
             NewClass.Members.Add(property);
         }
     }
+
     private static void GenCSharp(string outputFile, CodeCompileUnit unit)
     {
         //生成代码

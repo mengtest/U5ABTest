@@ -13,23 +13,25 @@ namespace ResetCore.Excel
     {
 
         //显示窗口的函数
-        [MenuItem("Tools/GameData/Excel导出工具")]
+        [MenuItem("Tools/GameData/Excel Exporter")]
         static void ShowMainWindow()
         {
-            Rect wr = new Rect(0, 0, 800, 800);
             ExcelExportWindow window =
-                EditorWindow.GetWindowWithRect(typeof(ExcelExportWindow), wr, true, "Excel导出工具") as ExcelExportWindow;
+                EditorWindow.GetWindow(typeof(ExcelExportWindow), true, "Excel Exporter") as ExcelExportWindow;
             window.Show();
         }
 
-        [MenuItem("Tools/GameData/清空所有GameData数据文件")]
+        [MenuItem("Tools/GameData/Clear All GameData files")]
         static void CleanGameData()
         {
             Debug.Log(PathConfig.localGameDataSourceRoot);
             Debug.Log(PathConfig.localGameDataClassRoot);
 
-            Directory.Delete(PathConfig.localGameDataSourceRoot, true);
-            Directory.Delete(PathConfig.localGameDataClassRoot, true);
+            if (Directory.Exists(PathConfig.localGameDataSourceRoot))
+                Directory.Delete(PathConfig.localGameDataSourceRoot, true);
+
+            if (Directory.Exists(PathConfig.localGameDataClassRoot))
+                Directory.Delete(PathConfig.localGameDataClassRoot, true);
             AssetDatabase.Refresh();
         }
 
@@ -38,21 +40,40 @@ namespace ResetCore.Excel
         {
             ShowOpenExcel();
             EditorGUILayout.Space();
+
             if (excelReader != null)
             {
                 ShowSetType();
                 EditorGUILayout.Space();
-                ShowExportXml();
-                EditorGUILayout.Space();
-                ShowExportProtobuf();
-                EditorGUILayout.Space();
-                ShowExportObj();
-                EditorGUILayout.Space();
-                ShowExportJson();
-                
+
+                switch (currentExcelType)
+                {
+                    case ExcelType.Normal:
+                        {
+                            
+                            ShowExportXml();
+                            EditorGUILayout.Space();
+                            ShowExportProtobuf();
+                            EditorGUILayout.Space();
+                            ShowExportObj();
+                            EditorGUILayout.Space();
+                            ShowExportJson();
+                        }
+                        break;
+                    case ExcelType.Pref:
+                        {
+                            ShowExportPrf();
+                        }
+                        break;
+                    default:
+                        break;
+                }
             }
 
         }
+
+        
+        private ExcelType currentExcelType = ExcelType.Normal;
 
         string excelFilePath = "";
         string fileName = "";
@@ -63,7 +84,7 @@ namespace ResetCore.Excel
         private void ShowOpenExcel()
         {
             GUIStyle headStyle = GUIHelper.MakeHeader();
-            GUILayout.Label("选择文件", headStyle);
+            GUILayout.Label("Select File", headStyle);
             EditorGUILayout.Space();
 
             GUILayout.BeginHorizontal();
@@ -124,6 +145,7 @@ namespace ResetCore.Excel
             {
                 EditorGUILayout.LabelField("Worksheet: ", GUILayout.Width(100));
                 currentSheetIndex = EditorGUILayout.Popup(currentSheetIndex, sheetsNames, GUILayout.Width(60));
+                currentExcelType = (ExcelType)EditorGUILayout.EnumPopup(currentExcelType, GUILayout.Width(60));
                 if (sheetsNames != null)
                 {
                     currentSheetName = sheetsNames[currentSheetIndex];
@@ -131,7 +153,9 @@ namespace ResetCore.Excel
                 if (GUILayout.Button("Refresh", GUILayout.Width(60)))
                 {
                     // reopen the excel file e.g) new worksheet is added so need to reopen.
-                    excelReader = new ExcelReader(path, currentSheetName);
+                    excelReader = new ExcelReader(path, currentSheetName, currentExcelType);
+                    Debug.logger.Log("Current Path： " + path + "\nCurrent Sheet: " + currentSheetName
+                        + "\nCurrent Excel Type: " + currentExcelType.ToString());
                     sheetsNames = excelReader.GetSheetNames();
 
                     // one of worksheet was removed, so reset the selected worksheet index
@@ -145,6 +169,8 @@ namespace ResetCore.Excel
                     }
                 }
             }
+
+            
 
         }
 
@@ -297,6 +323,29 @@ namespace ResetCore.Excel
             }
         }
 
+        private void ShowExportPrf()
+        {
+            GUIStyle headStyle = GUIHelper.MakeHeader();
+            GUILayout.Label("Export PrefData", headStyle);
+            EditorGUILayout.Space();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Export PrefData", GUILayout.Width(100)))
+            {
+                Excel2PrefData.GenPref(excelReader);
+            }
+            if (GUILayout.Button("Export PrefData.cs", GUILayout.Width(100)))
+            {
+                Excel2PrefData.GenCS(excelReader);
+            }
+            GUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Export ALL", GUILayout.Width(100)))
+            {
+                Excel2PrefData.GenPref(excelReader);
+                Excel2PrefData.GenCS(excelReader);
+            }
+        }
     }
 
 }

@@ -27,10 +27,10 @@ public class BuffManager<T>
         {
             V buff = Activator.CreateInstance<V>();
             buff.manager = manager;
-            buff.buffTime = BuffData.Select((data) =>
-            {
-                return data.BuffName == buffType.Name;
-            }).BuffTime;
+            //buff.buffTime = BuffData.Select((data) =>
+            //{
+            //    return data.BuffName == buffType.Name;
+            //}).BuffTime;
             buffInstanceDict.Add(buffType, buff);
             return buffInstanceDict[buffType] as V;
         }

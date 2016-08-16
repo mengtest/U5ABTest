@@ -36,8 +36,12 @@ namespace ResetCore.VersionControl
         [InitializeOnLoad]
         public class ResetCoreLoad
         {
+
             static ResetCoreLoad()
             {
+                //检查核心数据
+                CheckCoreData();
+
                 //如果为开发者模式则关闭自动检查模块功能
                 if (isDevelopMode) return;
 
@@ -45,6 +49,9 @@ namespace ResetCore.VersionControl
 
                 if (inited == false)
                 {
+                    //将核心数据拷贝至Resources下
+                    CheckCoreData();
+                    //初始化模块
                     Array symbolArr = Enum.GetValues(typeof(VERSION_SYMBOL));
                     foreach (VERSION_SYMBOL symbol in VersionConst.defaultSymbol)
                     {
@@ -54,9 +61,11 @@ namespace ResetCore.VersionControl
                     MoveToolsToProject();
                     //将SDK移至工程目录备份
                     MoveSDKToTemp();
+
                 }
 
                 CheckAllSymbol();
+               
             }
         }
 
@@ -289,6 +298,25 @@ namespace ResetCore.VersionControl
             }
         }
 
+        //将核心数据拷贝至Resources下
+        private static void CheckCoreData()
+        {
+            if (!Directory.Exists(PathConfig.localCoreDataPath) && 
+                Directory.GetFiles(PathConfig.localCoreDataBackupPath).Length > 0)
+            {
+                if (Directory.Exists(PathConfig.localCoreDataBackupPath))
+                {
+                    PathEx.MakeDirectoryExist(PathConfig.localCoreDataPath);
+                    DirectoryEx.DirectoryCopy(PathConfig.localCoreDataBackupPath, 
+                        PathConfig.localCoreDataPath, true);
+                }
+                else
+                {
+                    Debug.logger.LogError("Core Data Error", "You Lost Your Core Data");
+                }
+            }
+        }
+
         //将额外工具解压到工程目录下
         private static void MoveToolsToProject()
         {
@@ -308,6 +336,7 @@ namespace ResetCore.VersionControl
                 CompressHelper.DecompressToDirectory(PathConfig.SDKBackupPath, PathConfig.SDKPathInPackage);
             }
         }
+
 
     }
 

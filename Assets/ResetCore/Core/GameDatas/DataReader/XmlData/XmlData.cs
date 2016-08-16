@@ -13,6 +13,7 @@ namespace ResetCore.Data.GameDatas.Xml
     public abstract class XmlData : BaseData
     {
         public static readonly string nameSpace = "ResetCore.Data.GameDatas.Xml";
+        public static readonly string m_fileExtention = ".xml";
         protected static Dictionary<int, T> GetDataMap<T>()
         {
             Type type = typeof(T);
@@ -52,6 +53,11 @@ namespace ResetCore.Data.GameDatas.Xml
             }
         }
 
+        /// <summary>
+        /// 选择满足条件的
+        /// </summary>
+        /// <param name="condition"></param>
+        /// <returns></returns>
         public static T Select(Func<T, bool> condition) 
         {
             return XmlData<T>.dataMap.Values.FirstOrDefault((data) =>
@@ -66,13 +72,13 @@ namespace ResetCore.Data.GameDatas.Xml
 
         protected readonly string m_resourcePath = PathConfig.localGameDataXmlPath;
 
-        protected readonly string m_fileExtention = ".xml";
+        
 
         private static XmlDataController m_instance;
 
         public object FormatData(string fileName, Type dicType, Type type)
         {
-            return this.FormatXMLData(fileName + this.m_fileExtention, dicType, type);
+            return this.FormatXMLData(fileName + XmlData.m_fileExtention, dicType, type);
         }
 
         private object FormatXMLData(string fileName, Type dicType, Type type)
@@ -111,7 +117,7 @@ namespace ResetCore.Data.GameDatas.Xml
                         }
                         else
                         {
-                            Debug.logger.LogError("添加新值", propInfo.Name + "不存在于Xml中");
+                            Debug.logger.LogError("Add New Value", propInfo.Name + "Not in the Xml");
                         }
                     }
                     dicType.GetMethod("Add").Invoke(dataDic, new object[]

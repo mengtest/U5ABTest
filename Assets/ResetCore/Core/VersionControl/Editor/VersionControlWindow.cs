@@ -6,6 +6,7 @@ using System;
 using ResetCore.Util;
 using System.Collections.Generic;
 using System.IO;
+using ResetCore.Data.GameDatas.Xml;
 
 namespace ResetCore.VersionControl
 {
@@ -68,29 +69,31 @@ namespace ResetCore.VersionControl
             foreach (VERSION_SYMBOL symbol in versionSymbols)
             {
                 EditorGUILayout.BeginHorizontal();
+                string symbolName = VersionConst.SymbolName[symbol];
+
                 if (!VersionControl.isDevelopMode)
                 {
                     if (VersionConst.defaultSymbol.Contains(symbol))
                     {
-                        GUILayout.Label("Core：" + VersionConst.SymbolName[symbol], GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                        GUILayout.Label("Core：" + symbolName, GUIHelper.MakeHeader(30), GUILayout.Width(200));
                     }
                     else
                     {
-                        isImportDict[symbol] = EditorGUILayout.Toggle(VersionConst.SymbolName[symbol], isImportDict[symbol], GUILayout.Width(200));
+                        isImportDict[symbol] = EditorGUILayout.Toggle(symbolName, isImportDict[symbol], GUILayout.Width(200));
                     }
                 }
                 else
                 {
                     if (VersionConst.defaultSymbol.Contains(symbol))
                     {
-                        GUILayout.Label("Core：" + VersionConst.SymbolName[symbol], GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                        GUILayout.Label("Core：" + symbolName, GUIHelper.MakeHeader(30), GUILayout.Width(200));
                     }
                     else
                     {
-                        GUILayout.Label("Other：" + VersionConst.SymbolName[symbol], GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                        GUILayout.Label("Other：" + symbolName, GUIHelper.MakeHeader(30), GUILayout.Width(200));
                     }
                 }
-               
+
                 GUILayout.Label(VersionConst.SymbolComments[symbol]);
                 EditorGUILayout.EndHorizontal();
             }

@@ -13,9 +13,15 @@ using ResetCore.Util;
 
 namespace ResetCore.Excel
 {
+    public enum ExcelType
+    {
+        Normal,
+        Pref
+    }
+
     public class ExcelReader
     {
-
+        private ExcelType excelType = ExcelType.Normal;
         private readonly IWorkbook workbook = null;
         public ISheet sheet { get; private set; }
         public string filepath { get; private set; }
@@ -23,12 +29,13 @@ namespace ResetCore.Excel
 
         public Dictionary<string, Type> fieldDict { get; private set; }
 
-        public ExcelReader(string path, string sheetName = "")
+        public ExcelReader(string path, string sheetName = "", ExcelType type = ExcelType.Normal)
         {
             try
             {
                 this.filepath = path;
                 this.currentSheetName = sheetName;
+                this.excelType = type;
 
                 using (FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
@@ -93,6 +100,107 @@ namespace ResetCore.Excel
 
             return false;
         }
+
+        
+        /// <summary>
+        /// 获得完整的表头
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
+        public List<string> GetTitle(int start = 0)
+        {
+            List<string> result = new List<string>();
+
+            if (excelType == ExcelType.Normal)
+            {
+                #region Normal
+                return GetRow(start);
+                #endregion
+            }
+            else if(excelType == ExcelType.Pref)
+            {
+                #region Pref
+                return GetLine(start);
+                #endregion
+            }
+            else
+            {
+                return result;
+            }
+            
+        }
+
+        /// <summary>
+        /// 获取标题
+        /// </summary>
+        public List<string> GetMemberNames(int start = 0)
+        {
+            List<string> title = GetTitle(start);
+            List<string> result = new List<string>();
+            title.ForEach((tit) =>
+            {
+                if (tit.Contains("|"))
+                {
+                    result.Add(tit.Split('|')[0]);
+                }
+                else
+                {
+                    result.Add(tit);
+                }
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 获取类型
+        /// </summary>
+        public List<Type> GetMemberTypes(int start = 0)
+        {
+            List<string> title = GetTitle(start);
+            List<Type> result = new List<Type>();
+
+            title.ForEach((tit) =>
+            {
+                if (tit.Contains("|"))
+                {
+                    result.Add(tit.Split('|')[1].GetTypeByString());
+                }
+                else
+                {
+                    result.Add(typeof(string));
+                }
+            });
+            return result;
+        }
+
+        /// <summary>
+        /// 获取注释
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
+        public List<string> GetComment(int start = 1)
+        {
+            List<string> result = new List<string>();
+            if(excelType == ExcelType.Normal)
+            {
+                #region Normal
+                return GetRow(start);
+                #endregion
+            }
+            else if (excelType == ExcelType.Pref)
+            {
+                #region Pref
+                return GetLine(start);
+                #endregion
+            }
+            else
+            {
+                return result;
+            }
+
+        }
+
+        #region Normal
 
         /// <summary>
         /// 得到表头
@@ -187,152 +295,12 @@ namespace ResetCore.Excel
             return (sheetList.Count > 0) ? sheetList.ToArray() : null;
         }
 
+
         /// <summary>
-        /// 获得完整的表头
+        /// 获取每一行数据
         /// </summary>
         /// <param name="start"></param>
         /// <returns></returns>
-        public List<string> GetTitle(int start = 0)
-        {
-            List<string> result = new List<string>();
-            IRow title = sheet.GetRow(start);
-
-            if (title != null)
-            {
-                for (int i = 0; i < title.LastCellNum; i++)
-                {
-                    try
-                    {
-                        string total = title.GetCell(i).StringCellValue.Trim();
-                        if (string.IsNullOrEmpty(total)) return result;
-                        result.Add(total);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.logger.LogException(e);
-                        Debug.logger.LogError("ReadExcelError", "Title " + i + " is Error");
-                    }
-                    
-                }
-                return result;
-            }
-            else
-            {
-                Debug.logger.LogError("GetTitle", "行无效");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// 获取标题
-        /// </summary>
-        public List<string> GetMemberNames(int start = 0)
-        {
-            List<string> result = new List<string>();
-
-            IRow title = sheet.GetRow(start);
-            if (title != null)
-            {
-                for (int i = 0; i < title.LastCellNum; i++)
-                {
-                    try
-                    {
-                        string total = title.GetCell(i).StringCellValue.Trim();
-                        if (string.IsNullOrEmpty(total)) return result;
-                        if (total.Contains("|"))
-                        {
-                            result.Add(total.Split('|')[0]);
-                        }
-                        else
-                        {
-                            result.Add(total);
-                        }
-                    }
-                    catch (System.Exception e)
-                    {
-                        Debug.logger.LogException(e);
-                        Debug.logger.LogError("ReadExcelError", "CellValue " + i + " is Error");
-                    }
-                }
-                return result;
-            }
-            else
-            {
-                Debug.logger.LogError("GetTitle", "行无效");
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// 获取类型
-        /// </summary>
-        public List<Type> GetMemberTypes(int start = 0)
-        {
-            List<Type> result = new List<Type>();
-
-            IRow title = sheet.GetRow(start);
-            if (title != null)
-            {
-                for (int i = 0; i < title.LastCellNum; i++)
-                {
-                    try
-                    {
-                        string total = title.GetCell(i).StringCellValue.Trim();
-                        if (string.IsNullOrEmpty(total)) return result;
-                        if (total.Contains("|"))
-                        {
-                            result.Add(total.Split('|')[1].GetTypeByString());
-                        }
-                        else
-                        {
-                            result.Add(typeof(string));
-                        }
-                    }
-                    catch (System.Exception e)
-                    {
-                        Debug.logger.LogException(e);
-                        Debug.logger.LogError("ReadExcelError", "CellValue " + i + " is Error");
-                    }
-                   
-                }
-                return result;
-            }
-            else
-            {
-                Debug.logger.LogError("GetTitle", "行无效");
-                return null;
-            }
-        }
-
-
-        public List<string> GetComment(int start = 1)
-        {
-            List<string> result = new List<string>();
-
-            IRow typeStr = sheet.GetRow(start);
-            if (typeStr != null)
-            {
-                for (int i = 0; i < typeStr.LastCellNum; i++)
-                {
-                    try
-                    {
-                        result.Add(typeStr.Cells[i].StringCellValue);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.logger.LogException(e);
-                        Debug.logger.LogError("ReadExcelError", "Comment " + i + " is Error");
-                    }
-                }
-                return result;
-            }
-            else
-            {
-                Debug.logger.LogError("GetClomnType", "行无效");
-                return null;
-            }
-        }
-
         public List<Dictionary<string, string>> GetRows(int start = 2)
         {
             
@@ -387,7 +355,71 @@ namespace ResetCore.Excel
             return rows;
         }
 
+        /// <summary>
+        /// 得到一行
+        /// </summary>
+        /// <param name="rowNum"></param>
+        /// <returns></returns>
+        public List<string> GetRow(int rowNum)
+        {
+            List<string> result = new List<string>();
+            IRow typeStr = sheet.GetRow(rowNum);
+            if (typeStr != null)
+            {
+                for (int i = 0; i < typeStr.LastCellNum; i++)
+                {
+                    try
+                    {
+                        typeStr.Cells[i].SetCellType(CellType.String);
+                        result.Add(typeStr.Cells[i].StringCellValue);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.logger.LogException(e);
+                        Debug.logger.LogError("ReadExcelError", "Comment " + i + " is Error");
+                    }
+                }
+                return result;
+            }
+            else
+            {
+                Debug.logger.LogError("GetClomnType", "行无效");
+                return null;
+            }
+        }
 
+        /// <summary>
+        /// 得到一列
+        /// </summary>
+        /// <param name="lineNum"></param>
+        /// <returns></returns>
+        public List<string> GetLine(int lineNum)
+        {
+            List<string> result = new List<string>();
+            int lastRowNum = sheet.LastRowNum;
+            for (int row = 0; row <= lastRowNum; row++)
+            {
+                try
+                {
+                    sheet.GetRow(row).GetCell(lineNum).SetCellType(CellType.String);
+                    string total = sheet.GetRow(row).GetCell(lineNum).StringCellValue.Trim();
+                    if (string.IsNullOrEmpty(total)) return result;
+                    result.Add(total);
+                }
+                catch (Exception e)
+                {
+                    Debug.logger.LogException(e);
+                    Debug.logger.LogError("ReadExcelError", "Title " + row + " is Error");
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 获得每一行数据
+        /// </summary>
+        /// <param name="start"></param>
+        /// <returns></returns>
         public List<Dictionary<string, object>> GetRowObjs(int start = 2)
         {
             List<string> clomnNameList = GetMemberNames();
@@ -441,6 +473,8 @@ namespace ResetCore.Excel
 
             return rows;
         }
+
+        #endregion
     }
 
 }

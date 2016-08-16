@@ -110,6 +110,18 @@ public class PathConfig
     //存放ProtobufGameData类的地址
     public static readonly string localProtobufGameDataClassPath = localGameDataClassRoot + "Protobuf/";
 
+    //存放PrefData的地址
+    public static readonly string localPrefDataPath = localGameDataSourceRoot + "Pref/";
+    //存放PrefData GameData类的地址
+    public static readonly string localPrefDataClassPath = localGameDataClassRoot + "Pref/";
+
+    //存放核心数据备份的地址
+    public static readonly string localCoreDataBackupPath = ResetCorePath + "Core/GameDatas/CoreData/Datas/";
+    //存放核心数据的地址
+    public static readonly string localCoreDataPath = localGameDataSourceRoot + "Core/";
+    //存放核心数据 GameData类的地址
+    public static readonly string localCoreDataClassPath = ResetCorePath + "Core/GameDatas/CoreData/Classes/";
+
     #endregion
 
     #region NetPost
