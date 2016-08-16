@@ -13,6 +13,7 @@ namespace ResetCore.VersionControl
     public class VersionControlWindow : EditorWindow
     {
         private static Dictionary<VERSION_SYMBOL, bool> isImportDict;
+        private SDKManager sdkManager = new SDKManager();
 
         private static bool inited = false;
 
@@ -71,34 +72,63 @@ namespace ResetCore.VersionControl
                 EditorGUILayout.BeginHorizontal();
                 string symbolName = VersionConst.SymbolName[symbol];
 
-                if (!VersionControl.isDevelopMode)
+                if (VersionConst.defaultSymbol.Contains(symbol))
                 {
-                    if (VersionConst.defaultSymbol.Contains(symbol))
-                    {
-                        GUILayout.Label("Core：" + symbolName, GUIHelper.MakeHeader(30), GUILayout.Width(200));
-                    }
-                    else
-                    {
-                        isImportDict[symbol] = EditorGUILayout.Toggle(symbolName, isImportDict[symbol], GUILayout.Width(200));
-                    }
+                    GUILayout.Label("Core：" + symbolName, GUIHelper.MakeHeader(30), GUILayout.Width(200));
                 }
                 else
                 {
-                    if (VersionConst.defaultSymbol.Contains(symbol))
+                    if (!VersionControl.isDevelopMode)
                     {
-                        GUILayout.Label("Core：" + symbolName, GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                        isImportDict[symbol] = EditorGUILayout.Toggle(symbolName, isImportDict[symbol], GUILayout.Width(200));
                     }
                     else
                     {
                         GUILayout.Label("Other：" + symbolName, GUIHelper.MakeHeader(30), GUILayout.Width(200));
                     }
                 }
+                ShowSDKSetup(symbol);
 
                 GUILayout.Label(VersionConst.SymbolComments[symbol]);
                 EditorGUILayout.EndHorizontal();
             }
         }
 
+        private void ShowSDKSetup(VERSION_SYMBOL symbol)
+        {
+            if (!VersionConst.NeedSDKDict.ContainsKey(symbol) || isImportDict[symbol] == false)
+                return;
+
+            SDKType sdkType = VersionConst.NeedSDKDict[symbol];
+            bool hasSetup = sdkManager.HasSetuped(sdkType);
+            if (hasSetup)
+            {
+                GUILayout.Label("SDK：" + sdkType.ToString() +
+                    " has setuped", GUIHelper.MakeHeader(30), GUILayout.Width(200));
+            }
+            else
+            {
+                if (!VersionControl.isDevelopMode)
+                {
+                    if (GUILayout.Button("Need Setup", GUILayout.Width(100)))
+                    {
+                        if (EditorUtility.DisplayDialog("Setup SDK",
+                            "Do you want to setup " + sdkType.ToString() + " ?"
+                            , "OK", "NO"))
+                        {
+                            sdkManager.SetupSDK(sdkType);
+
+                        }
+                    }
+                }
+                else
+                {
+                    GUILayout.Label("SDK：" + sdkType.ToString() +
+                        " no setuped", GUIHelper.MakeHeader(30), GUILayout.Width(200));
+                }
+               
+            }
+        }
 
         private void ShowFunctionButton()
         {

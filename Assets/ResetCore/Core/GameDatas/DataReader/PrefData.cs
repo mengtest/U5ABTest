@@ -73,7 +73,7 @@ namespace ResetCore.Data.GameDatas.Xml
                 if (!MyXMLParser.LoadInstance(fileName, out dictionary))
                 {
                     //加载失败
-                    Debug.logger.LogError("GameData", "数据加载失败！");
+                    Debug.logger.LogError("GameData", "Load Failed！");
                     return result;
                 }
                 //Debug.logger.Log("dictionary.count" + dictionary.Count);

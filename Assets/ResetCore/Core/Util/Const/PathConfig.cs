@@ -7,6 +7,9 @@ public class PathConfig
 {
 
     #region 全局
+    //插件统一文件夹名
+    public static string PluginsFolderName = "Plugins";
+
     //ResetCore根目录
     public static string ResetCorePath = Application.dataPath + "/ResetCore/";
     public static string ResetCoreTempPath = Path.Combine(projectPath, "ResetCoreTemp");
@@ -26,7 +29,7 @@ public class PathConfig
     public static string SDKPath = Path.Combine(Application.dataPath, "SDK");
 
     //Plugins目录
-    public static readonly string pluginPath = Path.Combine(Application.dataPath, "Plugins"); 
+    public static readonly string pluginPath = Path.Combine(Application.dataPath, PluginsFolderName); 
 
     //工程目录
     public static string projectPath

@@ -75,13 +75,13 @@ namespace ResetCore.VersionControl
             List<string> symbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup).ParseList(';');
             bool needRestart = false;
 
-            for (int i = 1; i <= symbolArr.Length; i++)
+            for (int i = 0; i < symbolArr.Length; i++)
             {
                 VERSION_SYMBOL symbol = (VERSION_SYMBOL)symbolArr.GetValue(i);
                 string tempPath = VersionConst.GetSymbolTempPath(symbol);
                 string modulePath = VersionConst.GetSymbolPath(symbol);
 
-                EditorUtility.DisplayProgressBar("Check Modules", "Checking Modules " + symbol.ToString() + " " + i + "/" + symbolArr.Length, (float)i / (float)symbolArr.Length);
+                EditorUtility.DisplayProgressBar("Check Modules", "Checking Modules " + symbol.ToString() + " " + (i+1) + "/" + symbolArr.Length, (float)i+1 / (float)symbolArr.Length);
                 //检查模块备份
                 if (!Directory.Exists(tempPath))
                 {
@@ -93,9 +93,9 @@ namespace ResetCore.VersionControl
                     {
                         PathEx.MakeDirectoryExist(tempPath);
                         DirectoryEx.DirectoryCopy(modulePath, tempPath, true);
-                        EditorUtility.DisplayProgressBar("Check Modules", "Copy Module " + 
-                            symbol.ToString() + "to backup " + i + "/" + 
-                            symbolArr.Length, (float)i / (float)symbolArr.Length);
+                        EditorUtility.DisplayProgressBar("Check Modules", "Copy Module " +
+                            symbol.ToString() + "to backup " + (i + 1) + "/" +
+                            symbolArr.Length, (float)(i + 1) / (float)symbolArr.Length);
                     }
                 }
                 //存在宏定义 但是不存在实际模块
@@ -105,8 +105,8 @@ namespace ResetCore.VersionControl
                 {
                     AddModule(symbol);
                     EditorUtility.DisplayProgressBar("Check Modules", "Add Module " + 
-                        symbol.ToString() + "to ResetCore " + i + "/" + 
-                        symbolArr.Length, (float)i / (float)symbolArr.Length);
+                        symbol.ToString() + "to ResetCore " + (i + 1) + "/" + 
+                        symbolArr.Length, (float)(i + 1) / (float)symbolArr.Length);
                     needRestart = true;
                 }
                 //不存在宏定义 但是存在实际模块 移除模块
@@ -116,8 +116,8 @@ namespace ResetCore.VersionControl
                 {
                     RemoveModule(symbol);
                     EditorUtility.DisplayProgressBar("Check Modules", "Remove Module " + 
-                        symbol.ToString() + "from ResetCore " + i + "/" + 
-                        symbolArr.Length, (float)i / (float)symbolArr.Length);
+                        symbol.ToString() + "from ResetCore " + (i + 1) + "/" + 
+                        symbolArr.Length, (float)(i + 1) / (float)symbolArr.Length);
                     needRestart = true;
                 }
 
