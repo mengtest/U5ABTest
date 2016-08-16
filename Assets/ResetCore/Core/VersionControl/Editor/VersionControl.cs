@@ -49,9 +49,9 @@ namespace ResetCore.VersionControl
                     foreach (VERSION_SYMBOL symbol in VersionConst.defaultSymbol)
                     {
                         AddModule(symbol);
-                        //将额外工具移至工程目录
-                        MoveToolsToProject();
                     }
+                    //将额外工具移至工程目录
+                    MoveToolsToProject();
                 }
 
                 CheckAllSymbol();
@@ -286,7 +286,7 @@ namespace ResetCore.VersionControl
         //将额外工具解压到工程目录下
         private static void MoveToolsToProject()
         {
-            if (Directory.Exists(PathConfig.ExtraToolPathInPackage))
+            if (File.Exists(PathConfig.ExtraToolPathInPackage))
             {
                 PathEx.MakeDirectoryExist(PathConfig.ExtraToolPath);
                 CompressHelper.DecompressToDirectory(PathConfig.ExtraToolPath, PathConfig.ExtraToolPathInPackage);
