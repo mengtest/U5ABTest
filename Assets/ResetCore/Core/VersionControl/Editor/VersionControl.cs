@@ -52,6 +52,8 @@ namespace ResetCore.VersionControl
                     }
                     //将额外工具移至工程目录
                     MoveToolsToProject();
+                    //将SDK移至工程目录备份
+                    MoveSDKToTemp();
                 }
 
                 CheckAllSymbol();
@@ -256,15 +258,19 @@ namespace ResetCore.VersionControl
 
                 if(Directory.Exists(PathConfig.ResetCorePath))
                     Directory.Delete(PathConfig.ResetCorePath, true);
-                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Backup Finder", 0.5f);
 
-                if (Directory.Exists(PathConfig.ResetCoreBackUpPath))
-                    Directory.Delete(PathConfig.ResetCoreBackUpPath, true);
-                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Backup Finder", 0.7f);
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Temp Finder", 0.5f);
+
+                if (Directory.Exists(PathConfig.ResetCoreTempPath))
+                    Directory.Delete(PathConfig.ResetCoreTempPath, true);
+
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove SDK Finder", 0.7f);
 
                 //移除额外工具
-                DeleteTools();
-                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Extra Tools", 0.9f);
+                if (Directory.Exists(PathConfig.SDKPath))
+                    Directory.Delete(PathConfig.SDKPath, true);
+
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Symbols", 0.9f);
 
                 //移除所有预编译
                 Array symbolArr = Enum.GetValues(typeof(VERSION_SYMBOL));
@@ -272,7 +278,7 @@ namespace ResetCore.VersionControl
                 {
                     RemoveSymbol(symbol);
                 }
-                EditorUtility.DisplayProgressBar("Removing ResetCore", "Remove Symbols Finder", 1f);
+                EditorUtility.DisplayProgressBar("Removing ResetCore", "Finish", 1f);
 
                 if(EditorUtility.DisplayDialog("Need Restart Project",
                     "You may need to Restart the project to apply your setting", "Ok", "No"))
@@ -293,11 +299,14 @@ namespace ResetCore.VersionControl
             }
         }
 
-        //删除额外工具
-        private static void DeleteTools()
+        //将额外工具解压到工程目录下
+        private static void MoveSDKToTemp()
         {
-            if (Directory.Exists(PathConfig.ExtraToolPath))
-                Directory.Delete(PathConfig.ExtraToolPath, true);
+            if (File.Exists(PathConfig.SDKPathInPackage))
+            {
+                PathEx.MakeDirectoryExist(PathConfig.SDKBackupPath);
+                CompressHelper.DecompressToDirectory(PathConfig.SDKBackupPath, PathConfig.SDKPathInPackage);
+            }
         }
 
     }

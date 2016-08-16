@@ -9,12 +9,24 @@ public class PathConfig
     #region 全局
     //ResetCore根目录
     public static string ResetCorePath = Application.dataPath + "/ResetCore/";
+    public static string ResetCoreTempPath = Path.Combine(projectPath, "ResetCoreTemp");
     //ResetCore备份根目录
-    public static string ResetCoreBackUpPath = Path.Combine(projectPath, "ResetCoreTemp");
+    public static string ResetCoreBackUpPath = Path.Combine(ResetCoreTempPath, "Backup");
+
     //Extra工具包内目录
     public static string ExtraToolPathInPackage = Path.Combine(ResetCorePath, "ExtraTool.zip");
     //Extra工具根目录
-    public static string ExtraToolPath = Path.Combine(projectPath, "ExtraTool");
+    public static string ExtraToolPath = Path.Combine(ResetCoreTempPath, "ExtraTool");
+
+    //SDK工具包内目录
+    public static string SDKPathInPackage = Path.Combine(ResetCorePath, "SDK.zip");
+    //SDK工具备份目录
+    public static string SDKBackupPath = Path.Combine(ResetCoreTempPath, "SDK");
+    //SDK工具安装目录
+    public static string SDKPath = Path.Combine(Application.dataPath, "SDK");
+
+    //Plugins目录
+    public static readonly string pluginPath = Path.Combine(Application.dataPath, "Plugins"); 
 
     //工程目录
     public static string projectPath
