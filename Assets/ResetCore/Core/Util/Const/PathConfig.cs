@@ -93,7 +93,7 @@ public class PathConfig
     //游戏数据根目录
     public static readonly string localGameDataSourceRoot = resourcePath + "Data/GameData/";
     //游戏数据类文件根目录
-    public static readonly string localGameDataClassRoot = ResetCorePath + "Core/DataGener/GameDatas/DataClasses/";
+    public static readonly string localGameDataClassRoot = ResetCorePath + "Core/GameDatas/DataClasses/";
 
     //存放Xml的地址
     public static readonly string localGameDataXmlPath = localGameDataSourceRoot + "Xml/";

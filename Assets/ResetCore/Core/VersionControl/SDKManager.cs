@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SDKManager : MonoBehaviour {
+public class SDKManager {
 
 	// Use this for initialization
 	void Start () {
