@@ -52,6 +52,7 @@ namespace ResetCore.VersionControl
             ShowSymbols();
             EditorGUILayout.Space();
             ShowFunctionButton();
+            ShowWhenStart();
         }
 
         private void ShowDeveloperMode()
@@ -59,6 +60,21 @@ namespace ResetCore.VersionControl
             GUILayout.Label("Do you want to open develop mode", GUIHelper.MakeHeader(30));
             EditorGUILayout.Space();
             VersionControl.isDevelopMode = EditorGUILayout.Toggle("Open Develop Mode", VersionControl.isDevelopMode, GUILayout.Width(200));
+        }
+
+        bool ifShowWhenStart;
+        private void ShowWhenStart()
+        {
+            ifShowWhenStart = PlayerPrefs.GetInt("ShowResetVersionController", 1) == 1;
+            ifShowWhenStart = GUILayout.Toggle(ifShowWhenStart, "Show when start");
+            if (ifShowWhenStart)
+            {
+                PlayerPrefs.SetInt("ShowResetVersionController", 1);
+            }
+            else
+            {
+                PlayerPrefs.SetInt("ShowResetVersionController", 0);
+            }
         }
 
         private void ShowSymbols()

@@ -39,8 +39,12 @@ namespace ResetCore.VersionControl
 
             static ResetCoreLoad()
             {
-                //检查核心数据
-                CheckCoreData();
+
+                int isShow = PlayerPrefs.GetInt("ShowResetVersionController", 1);
+                if (isShow == 1)
+                {
+                    EditorApplication.update += Update;
+                }
 
                 //如果为开发者模式则关闭自动检查模块功能
                 if (isDevelopMode) return;
@@ -49,8 +53,6 @@ namespace ResetCore.VersionControl
 
                 if (inited == false)
                 {
-                    //将核心数据拷贝至Resources下
-                    CheckCoreData();
                     //初始化模块
                     Array symbolArr = Enum.GetValues(typeof(VERSION_SYMBOL));
                     foreach (VERSION_SYMBOL symbol in VersionConst.defaultSymbol)
@@ -65,7 +67,16 @@ namespace ResetCore.VersionControl
                 }
 
                 CheckAllSymbol();
-               
+
+                //检查核心数据
+                CheckCoreData();
+
+            }
+
+            static void Update()
+            {
+                bool isSuccess = EditorApplication.ExecuteMenuItem("Tools/ResetCore Module Controller");
+                if (isSuccess) EditorApplication.update -= Update;
             }
         }
 
@@ -301,6 +312,8 @@ namespace ResetCore.VersionControl
         //将核心数据拷贝至Resources下
         private static void CheckCoreData()
         {
+            PathEx.MakeDirectoryExist(PathConfig.localCoreDataBackupPath);
+            PathEx.MakeDirectoryExist(PathConfig.localCoreDataPath);
             if (!Directory.Exists(PathConfig.localCoreDataPath) && 
                 Directory.GetFiles(PathConfig.localCoreDataBackupPath).Length > 0)
             {
